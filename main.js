@@ -385,3 +385,25 @@ const data = {
         }
     ]
 };
+
+const div = d3.select(".karobau_viz");
+
+var tempdata = [4, 8, 15, 16, 23, 42, 1, 2, 3];
+
+width = 420;
+x = d3.scaleLinear().domain([0, d3.max(tempdata)]).range([0, width]);
+y = d3.scaleBand().domain(d3.range(tempdata.length)).range([0, 20 * tempdata.length]);
+
+// select chart svg
+const svg = d3.select("#karobau_viz");
+// set basic attributes
+svg.attr("width", width).attr("height", y.range()[1]).attr("font-size", "10").attr("text-anchor", "end");
+
+// create origin for each bar
+const bar = svg.selectAll("g").data(tempdata).join("g").attr("transform", (d, i) => `translate(0, ${y(i)})`);
+
+// create the actual bars
+bar.append("rect").attr("fill", "steelblue").attr("width", x).attr("height", y.bandwidth() - 1);
+
+// create the labels
+bar.append("text").attr("fill", "white").attr("x", d => x(d) - 3).attr("y", y.bandwidth() / 2).attr("dy", "0.35em").text(d => d);
