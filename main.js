@@ -386,24 +386,20 @@ const data = {
     ]
 };
 
-const div = d3.select(".karobau_viz");
+const size_bigcircle = 200;
 
-var tempdata = [4, 8, 15, 16, 23, 42, 1, 2, 3];
+const svg_width = 700;
 
-width = 420;
-x = d3.scaleLinear().domain([0, d3.max(tempdata)]).range([0, width]);
-y = d3.scaleBand().domain(d3.range(tempdata.length)).range([0, 20 * tempdata.length]);
+scale_bigcircle = d3.scaleBand().domain(d3.range(data.categories.length)).range([0, size_bigcircle * data.categories.length]);
 
 // select chart svg
 const svg = d3.select("#karobau_viz");
 // set basic attributes
-svg.attr("width", width).attr("height", y.range()[1]).attr("font-size", "10").attr("text-anchor", "end");
+svg.attr("width", svg_width).attr("height", scale_bigcircle.range()[1]);
 
-// create origin for each bar
-const bar = svg.selectAll("g").data(tempdata).join("g").attr("transform", (d, i) => `translate(0, ${y(i)})`);
+// create origin for big circles
+const bigcircle = svg.selectAll("g").data(data.categories).join("g")
+    .attr("transform", (d, i) => `translate(0, ${scale_bigcircle(i)})`);
 
-// create the actual bars
-bar.append("rect").attr("fill", "steelblue").attr("width", x).attr("height", y.bandwidth() - 1);
-
-// create the labels
-bar.append("text").attr("fill", "white").attr("x", d => x(d) - 3).attr("y", y.bandwidth() / 2).attr("dy", "0.35em").text(d => d);
+// create big circles
+bigcircle.append("circle").attr("cx", size_bigcircle / 2).attr("cy", size_bigcircle / 2).attr("r", size_bigcircle / 2);
