@@ -402,4 +402,6 @@ const bigcircle = svg.selectAll("g").data(data.categories).join("g")
     .attr("transform", (d, i) => `translate(0, ${scale_bigcircle(i)})`);
 
 // create big circles
-bigcircle.append("circle").attr("cx", size_bigcircle / 2).attr("cy", size_bigcircle / 2).attr("r", size_bigcircle / 2);
+bigcircle.append("circle").attr("cx", size_bigcircle / 2).attr("cy", size_bigcircle / 2).attr("r", size_bigcircle / 2).attr("class", "bigcircle");
+// add label
+bigcircle.append("text").text(d => d.category).attr("y", size_bigcircle / 2);
