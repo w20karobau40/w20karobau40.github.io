@@ -2,3 +2,12 @@ circle.bigcircle {
     stroke: black;
     fill: none;
 }
+
+circle.smallcircle {
+    stroke: black;
+    fill: none;
+}
+
+svg text {
+    user-select: none;
+}

@@ -390,27 +390,46 @@ const size_bigcircle = 200;
 
 const svg_width = 700;
 
-scale_bigcircle = d3.scaleBand().domain(d3.range(data.categories.length)).range([0, size_bigcircle * data.categories.length]);
+const scale_bigcircle = d3.scaleBand()
+    .domain(d3.range(data.categories.length))
+    .range([0, size_bigcircle * data.categories.length])
+    .padding(0.1);
 
-// select chart svg
-const svg = d3.select("#karobau_viz");
-// set basic attributes
-svg.attr("width", svg_width).attr("height", scale_bigcircle.range()[1]);
+// select chart svg and set basic attributes
+const svg = d3.select("svg#karobau_viz")
+    .attr("width", svg_width)
+    .attr("height", scale_bigcircle.range()[1]);
 
 // create origin for big circles
 const bigcircle = svg.selectAll("g").data(data.categories).join("g")
-    .attr("transform", (d, i) => `translate(0, ${scale_bigcircle(i)})`);
+    .attr("transform", (d, i) => `translate(${scale_bigcircle.paddingOuter() * scale_bigcircle.step()}, ${scale_bigcircle(i)})`);
 
 // create big circles
-bigcircle.append("circle").attr("cx", size_bigcircle / 2).attr("cy", size_bigcircle / 2).attr("r", size_bigcircle / 2).attr("class", "bigcircle");
+let radius_bigcircle = scale_bigcircle.bandwidth() / 2;
+bigcircle.append("circle")
+    .attr("cx", radius_bigcircle)
+    .attr("cy", radius_bigcircle)
+    .attr("r", radius_bigcircle)
+    .attr("class", "bigcircle");
+
 // add label
-bigcircle.append("text").text(d => d.category).attr("y", size_bigcircle / 2);
+bigcircle.append("text")
+    .text(d => d.category)
+    .attr("x", radius_bigcircle)
+    .attr("text-anchor", "middle");
 
 // create origins for small circles
 // TODO: actually move origins
-const smallcircle = bigcircle.selectAll("g.smallcircle").data(d => d.values).join("g").attr("class", "smallcircle");
+const smallcircle = bigcircle.selectAll("g.smallcircle").data(d => d.values).join("g")
+    .attr("transform", (d, i) => `translate(0, -50) rotate(0) translate(${radius_bigcircle}, ${radius_bigcircle})`)
+    .attr("class", "smallcircle");
 
 // create small circles
-smallcircle.append("circle").attr("cx", 20).attr("cy", 20).attr("r", "20").attr("class", "smallcircle");
+smallcircle.append("circle")
+    .attr("r", "20")
+    .attr("class", "smallcircle");
 // add label
-smallcircle.append("text").text(d => d);
+smallcircle.append("text")
+    .text(d => d)
+    .attr("y", -10)
+    .attr("text-anchor", "middle");
