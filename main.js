@@ -405,3 +405,12 @@ const bigcircle = svg.selectAll("g").data(data.categories).join("g")
 bigcircle.append("circle").attr("cx", size_bigcircle / 2).attr("cy", size_bigcircle / 2).attr("r", size_bigcircle / 2).attr("class", "bigcircle");
 // add label
 bigcircle.append("text").text(d => d.category).attr("y", size_bigcircle / 2);
+
+// create origins for small circles
+// TODO: actually move origins
+const smallcircle = bigcircle.selectAll("g.smallcircle").data(d => d.values).join("g").attr("class", "smallcircle");
+
+// create small circles
+smallcircle.append("circle").attr("cx", 20).attr("cy", 20).attr("r", "20").attr("class", "smallcircle");
+// add label
+smallcircle.append("text").text(d => d);
