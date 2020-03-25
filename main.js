@@ -386,9 +386,9 @@ const data = {
     ]
 };
 
-const size_bigcircle = 200;
-
 const svg_width = 700;
+
+const size_bigcircle = 200;
 
 const scale_bigcircle = d3.scaleBand()
     .domain(d3.range(data.categories.length))
@@ -418,16 +418,18 @@ bigcircle.append("text")
     .attr("x", radius_bigcircle)
     .attr("text-anchor", "middle");
 
+let radius_smallcircle = radius_bigcircle / 3;
+
 // create origins for small circles
-// TODO: actually move origins
 const smallcircle = bigcircle.selectAll("g.smallcircle").data(d => d.values).join("g")
-    .attr("transform", (d, i) => `translate(0, -50) rotate(0) translate(${radius_bigcircle}, ${radius_bigcircle})`)
+    .attr("transform", (d, i, a) => `translate(${radius_bigcircle + Math.cos(2 * Math.PI * i / a.length) * radius_bigcircle * 0.6}, ${radius_bigcircle + Math.sin(2 * Math.PI * i / a.length) * radius_bigcircle * 0.6})`)
     .attr("class", "smallcircle");
 
 // create small circles
 smallcircle.append("circle")
-    .attr("r", "20")
-    .attr("class", "smallcircle");
+    .attr("r", radius_smallcircle)
+    .attr("class", "smallcircle enabled");
+
 // add label
 smallcircle.append("text")
     .text(d => d)
