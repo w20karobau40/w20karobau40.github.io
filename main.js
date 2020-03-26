@@ -386,52 +386,62 @@ const data = {
     ]
 };
 
-const svg_width = 700;
+// select div to fill with visualization
+const main_div = d3.select("div#karobau_viz");
 
-const size_bigcircle = 200;
+// create circles for selecting categories
+main_div.append(create_category_selection);
 
-const scale_bigcircle = d3.scaleBand()
-    .domain(d3.range(data.categories.length))
-    .range([0, size_bigcircle * data.categories.length])
-    .padding(0.1);
 
-// select chart svg and set basic attributes
-const svg = d3.select("svg#karobau_viz")
-    .attr("width", svg_width)
-    .attr("height", scale_bigcircle.range()[1]);
+function create_category_selection() {
+    const size_bigcircle = 200;
+    const scale_bigcircle = d3.scaleBand()
+        .domain(d3.range(data.categories.length))
+        .range([0, size_bigcircle * data.categories.length])
+        .padding(0.1);
 
-// create origin for big circles
-const bigcircle = svg.selectAll("g").data(data.categories).join("g")
-    .attr("transform", (d, i) => `translate(${scale_bigcircle.paddingOuter() * scale_bigcircle.step()}, ${scale_bigcircle(i)})`);
+    // create svg container. width is set after all elements are created
+    const svg = d3.create("svg")
+        .attr("width", scale_bigcircle.step() * (1 + 2 * scale_bigcircle.paddingOuter() - scale_bigcircle.paddingInner()))
+        .attr("height", scale_bigcircle.range()[1])
+        // TODO: remove, just for debugging purposes
+        .style("border", "black 1px solid");
 
-// create big circles
-let radius_bigcircle = scale_bigcircle.bandwidth() / 2;
-bigcircle.append("circle")
-    .attr("cx", radius_bigcircle)
-    .attr("cy", radius_bigcircle)
-    .attr("r", radius_bigcircle)
-    .attr("class", "bigcircle");
+    // create origin for big circles
+    const bigcircle = svg.selectAll("g").data(data.categories).join("g")
+        .attr("transform", (d, i) => `translate(${scale_bigcircle.paddingOuter() * scale_bigcircle.step()}, ${scale_bigcircle(i)})`);
 
-// add label
-bigcircle.append("text")
-    .text(d => d.category)
-    .attr("x", radius_bigcircle)
-    .attr("text-anchor", "middle");
+    // create big circles
+    let radius_bigcircle = scale_bigcircle.bandwidth() / 2;
+    bigcircle.append("circle")
+        .attr("cx", radius_bigcircle)
+        .attr("cy", radius_bigcircle)
+        .attr("r", radius_bigcircle)
+        .attr("class", "bigcircle");
 
-let radius_smallcircle = radius_bigcircle / 3;
+    // add label
+    bigcircle.append("text")
+        .text(d => d.category)
+        .attr("x", radius_bigcircle)
+        .attr("text-anchor", "middle");
 
-// create origins for small circles
-const smallcircle = bigcircle.selectAll("g.smallcircle").data(d => d.values).join("g")
-    .attr("transform", (d, i, a) => `translate(${radius_bigcircle + Math.cos(2 * Math.PI * i / a.length) * radius_bigcircle * 0.6}, ${radius_bigcircle + Math.sin(2 * Math.PI * i / a.length) * radius_bigcircle * 0.6})`)
-    .attr("class", "smallcircle");
+    const radius_smallcircle = radius_bigcircle / 3;
 
-// create small circles
-smallcircle.append("circle")
-    .attr("r", radius_smallcircle)
-    .attr("class", "smallcircle enabled");
+    // create origins for small circles
+    const smallcircle = bigcircle.selectAll("g.smallcircle").data(d => d.values).join("g")
+        .attr("transform", (d, i, a) => `translate(${radius_bigcircle + Math.cos(2 * Math.PI * i / a.length) * radius_bigcircle * 0.6}, ${radius_bigcircle + Math.sin(2 * Math.PI * i / a.length) * radius_bigcircle * 0.6})`)
+        .attr("class", "smallcircle");
 
-// add label
-smallcircle.append("text")
-    .text(d => d)
-    .attr("y", -10)
-    .attr("text-anchor", "middle");
+    // create small circles
+    smallcircle.append("circle")
+        .attr("r", radius_smallcircle)
+        .attr("class", "smallcircle enabled");
+
+    // add label
+    smallcircle.append("text")
+        .text(d => d)
+        .attr("y", -10)
+        .attr("text-anchor", "middle");
+
+    return svg.node();
+}
