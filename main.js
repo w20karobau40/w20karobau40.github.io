@@ -445,6 +445,17 @@ function create_category_selection(pos_x = 0, pos_y = 0) {
 }
 
 function create_sentiment_scale(question, answers, pos_x = 0, pos_y = 0) {
+    const height_bar = 40, width_bar = 300;
+    const local_data = d3.zip(question.subquestions, answers);
+    const num_questions = local_data.length, num_answers = d3.sum(answers[0]);
+
+    const scale_bar = d3.scaleBand()
+        .domain(d3.range(num_questions))
+        .range([0, height_bar * num_questions]);
+    const scale_color = d3.scaleLinear()
+        .domain([0, local_data[0][1].length - 1])
+        .range(["blue", "red"])
+        .interpolate(d3.interpolateRgb);
     // create root group
     const root = d3.create("svg:g")
         .attr("transform", `translate(${pos_x}, ${pos_y})`);
@@ -458,13 +469,31 @@ function create_sentiment_scale(question, answers, pos_x = 0, pos_y = 0) {
     const root_bars = root.append("g")
         .attr("transform", "translate(0, 40)");
 
-    const bar = root_bars.selectAll("g").data(d3.zip(question.subquestions, answers)).join("g")
-        .attr("transform", `transform(0, 0)`);
+    // create origins for bars
+    const bars = root_bars.selectAll("g").data(local_data).join("g")
+        .attr("transform", (d, i) => `translate(0, ${scale_bar(i)})`);
 
     // text label
-    bar.append("text")
-        .text(d => d[0]);
+    bars.append("text")
+        .text(d => d[0])
+        .attr("dy", "1.5em");
 
+    // create single bar with multiple colored rectangles
+    const bar = bars.append("g")
+        .attr("transform", "translate(200,0)");
+    bar.selectAll("rect").data(function (d) {
+        let values = d[1];
+        let start_x = d3.cumsum(values.map(v => v * width_bar / num_answers)).map(Math.round);
+        // Float64Array to Array and prepend 0
+        start_x = [].slice.call(start_x);
+        start_x.unshift(0);
+        let bar_width = d3.range(values.length).map(i => start_x[i + 1] - start_x[i]);
+        return d3.zip(values, start_x.slice(0, -1), bar_width);
+    }).join("rect")
+        .attr("height", height_bar)
+        .attr("width", d => d[2])
+        .attr("x", d => d[1])
+        .style("fill", (d, i) => scale_color(i));
 
     // create root for legend
     const root_legend = root.append("g")
