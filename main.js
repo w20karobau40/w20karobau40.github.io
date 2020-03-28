@@ -387,28 +387,25 @@ const data = {
 };
 
 // select div to fill with visualization
-const main_div = d3.select("div#karobau_viz");
+const main_svg = d3.select("svg#karobau_viz");
 
 // create circles for selecting categories
-main_div.append(create_category_selection);
+main_svg.append(() => create_category_selection());
 
 
-function create_category_selection() {
+function create_category_selection(pos_x = 0, pos_y = 0) {
     const size_bigcircle = 200;
     const scale_bigcircle = d3.scaleBand()
         .domain(d3.range(data.categories.length))
         .range([0, size_bigcircle * data.categories.length])
         .padding(0.1);
 
-    // create svg container. width is set after all elements are created
-    const svg = d3.create("svg")
-        .attr("width", scale_bigcircle.step() * (1 + 2 * scale_bigcircle.paddingOuter() - scale_bigcircle.paddingInner()))
-        .attr("height", scale_bigcircle.range()[1])
-        // TODO: remove, just for debugging purposes
-        .style("border", "black 1px solid");
+    // create root group
+    const root = d3.create("svg:g")
+        .attr("transform", `translate(${pos_x}, ${pos_y})`);
 
     // create origin for big circles
-    const bigcircle = svg.selectAll("g").data(data.categories).join("g")
+    const bigcircle = root.selectAll("g").data(data.categories).join("g")
         .attr("transform", (d, i) => `translate(${scale_bigcircle.paddingOuter() * scale_bigcircle.step()}, ${scale_bigcircle(i)})`);
 
     // create big circles
@@ -443,5 +440,5 @@ function create_category_selection() {
         .attr("y", -10)
         .attr("text-anchor", "middle");
 
-    return svg.node();
+    return root.node();
 }
