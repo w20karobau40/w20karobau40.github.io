@@ -391,7 +391,8 @@ const main_svg = d3.select("svg#karobau_viz");
 
 // create circles for selecting categories
 main_svg.append(() => create_category_selection());
-
+// question 1
+main_svg.append(() => create_sentiment_scale(data.questions[0], accumulate_answers(0), 300, 0));
 
 function create_category_selection(pos_x = 0, pos_y = 0) {
     const size_bigcircle = 200;
@@ -441,4 +442,43 @@ function create_category_selection(pos_x = 0, pos_y = 0) {
         .attr("text-anchor", "middle");
 
     return root.node();
+}
+
+function create_sentiment_scale(question, answers, pos_x = 0, pos_y = 0) {
+    // create root group
+    const root = d3.create("svg:g")
+        .attr("transform", `translate(${pos_x}, ${pos_y})`);
+
+    // text label for question
+    root.append("text")
+        .text(question.question)
+        .attr("dy", "1em");
+
+    // create root for bars
+    const root_bars = root.append("g")
+        .attr("transform", "translate(0, 40)");
+
+    const bar = root_bars.selectAll("g").data(d3.zip(question.subquestions, answers)).join("g")
+        .attr("transform", `transform(0, 0)`);
+
+    // text label
+    bar.append("text")
+        .text(d => d[0]);
+
+
+    // create root for legend
+    const root_legend = root.append("g")
+        .attr("transform", "translate(400,0)");
+    return root.node();
+}
+
+function accumulate_answers(i) {
+    // get answers of question i
+    let answers = data.answers.map(d => d.questions[i]);
+    // transpose, list of answers per person => list of answers per subquestion
+    let answers_transposed = d3.transpose(answers);
+    // array [0, 1, ..., length - 1]
+    let values = d3.range(data.questions[i].values.length);
+    // count answers
+    return answers_transposed.map(subquestion => values.map(v => subquestion.filter(i => i === v).length));
 }
