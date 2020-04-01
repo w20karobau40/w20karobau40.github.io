@@ -451,11 +451,15 @@ function create_sentiment_scale(question, answers, pos_x = 0, pos_y = 0) {
 
     const scale_bar = d3.scaleBand()
         .domain(d3.range(num_questions))
-        .range([0, height_bar * num_questions]);
+        .rangeRound([0, height_bar * num_questions])
+        .paddingInner(0.08);
     const scale_color = d3.scaleLinear()
         .domain([0, local_data[0][1].length - 1])
         .range(["blue", "red"])
         .interpolate(d3.interpolateRgb);
+    const scale_legend = d3.scaleBand()
+        .domain(d3.range(question.values.length))
+        .range([0, 30 * question.values.length]);
     // create root group
     const root = d3.create("svg:g")
         .attr("transform", `translate(${pos_x}, ${pos_y})`);
@@ -490,14 +494,28 @@ function create_sentiment_scale(question, answers, pos_x = 0, pos_y = 0) {
         let bar_width = d3.range(values.length).map(i => start_x[i + 1] - start_x[i]);
         return d3.zip(values, start_x.slice(0, -1), bar_width);
     }).join("rect")
-        .attr("height", height_bar)
+        .attr("height", scale_bar.bandwidth())
         .attr("width", d => d[2])
         .attr("x", d => d[1])
         .style("fill", (d, i) => scale_color(i));
 
     // create root for legend
     const root_legend = root.append("g")
-        .attr("transform", "translate(400,0)");
+        .attr("transform", "translate(600, 40)");
+
+    // create labels for each answer
+    const label_legend = root_legend.selectAll("g").data(question.values).join("g")
+        .attr("transform", (d, i) => `translate(0, ${scale_legend(i)})`);
+    // small square for color reference
+    label_legend.append("rect")
+        .attr("width", 10)
+        .attr("height", 10)
+        .style("fill", (d, i) => scale_color(i));
+    // text with answer value
+    label_legend.append("text")
+        .text(d => d)
+        .attr("x", 15)
+        .attr("y", "0.6em");
     return root.node();
 }
 
