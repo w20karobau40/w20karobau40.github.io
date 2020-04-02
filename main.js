@@ -431,9 +431,11 @@ function create_category_selection(pos_x = 0, pos_y = 0) {
         .attr("class", "smallcircle");
 
     // create small circles
+    // note: schemeCategory10 has only 10 different colors, there should never be more than 10 subcategories per category
     smallcircle.append("circle")
         .attr("r", radius_smallcircle)
-        .attr("class", "smallcircle enabled");
+        .attr("class", "smallcircle enabled")
+        .style("fill", (d, i) => d3.schemeCategory10[i]);
 
     // add label
     smallcircle.append("text")

@@ -8,14 +8,6 @@ circle.smallcircle {
     fill: none;
 }
 
-circle.smallcircle.enabled {
-    fill: green;
-}
-
-circle.smallcircle.disabled {
-    fill: red;
-}
-
 svg text {
     user-select: none;
 }
