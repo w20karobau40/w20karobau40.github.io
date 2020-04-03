@@ -1,3 +1,6 @@
+/**
+ * data structure containing survey questions and their answers
+ */
 const data = {
     categories: [
         {
@@ -394,6 +397,12 @@ main_svg.append(() => create_category_selection());
 // question 1
 main_svg.append(() => create_sentiment_scale(data.questions[0], accumulate_answers(0), 300, 0));
 
+/**
+ * @summary This function creates circles for selecting the categories of survey participants.
+ * @param pos_x{number}
+ * @param pos_y{number}
+ * @returns {SVGGElement} a svg group element containing the circles
+ */
 function create_category_selection(pos_x = 0, pos_y = 0) {
     const size_bigcircle = 200;
     const scale_bigcircle = d3.scaleBand()
@@ -446,6 +455,14 @@ function create_category_selection(pos_x = 0, pos_y = 0) {
     return root.node();
 }
 
+/**
+ * @summary This function creates a stacked bar chart to visualize sentiment across different subquestions.
+ * @param question
+ * @param answers
+ * @param pos_x
+ * @param pos_y
+ * @returns {SVGGElement}
+ */
 function create_sentiment_scale(question, answers, pos_x = 0, pos_y = 0) {
     const height_bar = 40, width_bar = 300;
     const local_data = d3.zip(question.subquestions, answers);
@@ -521,6 +538,11 @@ function create_sentiment_scale(question, answers, pos_x = 0, pos_y = 0) {
     return root.node();
 }
 
+/**
+ * @summary This function accumulates and counts the answers per question
+ * @param i index of question in {@link data}
+ * @returns {number[][]} two-dimensional array, for each subquestion an array with the number of answers per answer option
+ */
 function accumulate_answers(i) {
     // get answers of question i
     let answers = data.answers.map(d => d.questions[i]);

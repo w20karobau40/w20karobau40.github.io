@@ -1,0 +1,11 @@
+{
+  "source": {
+    "include": [
+      "main.js"
+    ]
+  },
+  "opts": {
+    "encoding": "utf8",
+    "destination": "./docs/"
+  }
+}
