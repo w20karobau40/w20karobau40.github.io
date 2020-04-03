@@ -8,13 +8,13 @@ const data = {
             values: ["11 - 50 Mitarbeiter", "51 - 250 Mitarbeiter", "251 - 500 Mitarbeiter", "> 500 Mitarbeiter"]
         }, {
             category: "Wertschöpfungsebene",
-            values: ["Engineering-Dienstleister", "Komponenten- und Anlagenlieferant", "Produzierendes Unternehmen (Automobilhersteller + Zulieferer)"]
+            values: ["Engineering-Dienstleister", "Komponenten- und Anlagenlieferant", "Produzierendes Unternehmen"]
         }, {
             category: "Zuliefererebene",
             values: ["(First) Tier-1", "(Second) Tier-2", "(Third) Tier-3", "OEM"]
         }, {
             category: "Stellung innerhalb des Unternehmens",
-            values: ["Fertigungsleitung", "Geschäftsführung", "Ingenieur ( Konstruktion, Planung, Realisierung)", "Management"]
+            values: ["Fertigungsleitung", "Geschäftsführung", "Ingenieur", "Management"]
         }
     ],
     questions: [
@@ -395,7 +395,7 @@ const main_svg = d3.select("svg#karobau_viz");
 // create circles for selecting categories
 main_svg.append(() => create_category_selection());
 // question 1
-main_svg.append(() => create_sentiment_scale(data.questions[0], accumulate_answers(0), 300, 0));
+main_svg.append(() => create_sentiment_scale(data.questions[0], accumulate_answers(0), 475, 0));
 
 /**
  * @summary This function creates circles for selecting the categories of survey participants.
@@ -430,6 +430,7 @@ function create_category_selection(pos_x = 0, pos_y = 0) {
     bigcircle.append("text")
         .text(d => d.category)
         .attr("x", radius_bigcircle)
+        .attr("y", -3)
         .attr("text-anchor", "middle");
 
     const radius_smallcircle = radius_bigcircle / 3;
@@ -446,11 +447,24 @@ function create_category_selection(pos_x = 0, pos_y = 0) {
         .attr("class", "smallcircle enabled")
         .style("fill", (d, i) => d3.schemeCategory10[i]);
 
+    // create origins for legend
+    const legend = bigcircle.selectAll("g.legend").data(d => d.values).join("g")
+        .attr("class", "legend");
+
+    // add small colored square
+    legend.append("rect")
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 2 * radius_bigcircle + 10)
+        .attr("y", (d, i) => 30 * i + 30)
+        .style("fill", (d, i) => d3.schemeCategory10[i]);
+
     // add label
-    smallcircle.append("text")
+    legend.append("text")
         .text(d => d)
-        .attr("y", -10)
-        .attr("text-anchor", "middle");
+        .attr("x", 2 * radius_bigcircle + 25)
+        .attr("y", (d, i) => 30 * i + 35)
+        .attr("dominant-baseline", "central");
 
     return root.node();
 }
