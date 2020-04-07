@@ -22,7 +22,7 @@ const data = {
             question: "Inwieweit sehen Sie den Karosseriebau von folgenden Megatrends beeinflusst?",
             type: "sentiment",
             values: ["Nicht betroffen", "Wenig", "Stark", "Sehr stark"],
-            subquestions: ["Demografischer Wandel", "Fachkräftemangel", "Wissensverlust durch Mitarbeiterwechsel", "Arbeitsplatzergonomie", "IT-Sicherheit (Cyber Security)", "Automatisierte Datenverarbeitung", "Verkauf eigener Produktionsdaten", "Ankauf relevanter Daten für eigene Produkte und Anlagen", "Kostendruck durch internationale Wettbewerber", "Internationale Zulieferketten", "Auftragsfertigung von Baugruppen und Karossen", "Steigende Produktvielfalt erfordert Anlagenflexibilität (Geometrie, Technologien, etc.)", "Verkürzung der Produktionszyklen (Verkürzte Dauer zum nächsten Generationenwechsel)", "Volumenflexibilität aufgrund schwankender Nachfrage", "Energieeffizienz", "Rohstoffverknappung", "Abfallvermeidung"]
+            subquestions: ["Demografischer Wandel", "Fachkräftemangel", "Wissensverlust durch\nMitarbeiterwechsel", "Arbeitsplatzergonomie", "IT-Sicherheit (Cyber Security)", "Automatisierte Datenverarbeitung", "Verkauf eigener Produktionsdaten", "Ankauf relevanter Daten für\neigene Produkte und Anlagen", "Kostendruck durch\ninternationale Wettbewerber", "Internationale Zulieferketten", "Auftragsfertigung von\nBaugruppen und Karossen", "Steigende Produktvielfalt erfordert\nAnlagenflexibilität", "Verkürzung der Produktionszyklen", "Volumenflexibilität aufgrund\nschwankender Nachfrage", "Energieeffizienz", "Rohstoffverknappung", "Abfallvermeidung"]
         }, {
             question: "Wie weit sehen Sie folgende Technologien bereits heute im Karosseriebau (ihres Unternehmens oder Kundens) implementiert?",
             type: "sentiment",
@@ -500,7 +500,7 @@ function create_sentiment_scale(question, answers, pos_x = 0, pos_y = 0) {
     // text label for question
     root.append("text")
         .text(question.question)
-        .attr("dy", "1em");
+        .attr("dominant-baseline", "hanging");
 
     // create root for bars
     const root_bars = root.append("g")
@@ -511,13 +511,12 @@ function create_sentiment_scale(question, answers, pos_x = 0, pos_y = 0) {
         .attr("transform", (d, i) => `translate(0, ${scale_bar(i)})`);
 
     // text label
-    bars.append("text")
-        .text(d => d[0])
-        .attr("dy", "1.5em");
+    bars.append(d => create_text(d[0]))
+        .attr("dominant-baseline", "hanging");
 
     // create single bar with multiple colored rectangles
     const bar = bars.append("g")
-        .attr("transform", "translate(200,0)");
+        .attr("transform", "translate(250,0)");
     bar.selectAll("rect").data(function (d) {
         let values = d[1];
         let start_x = d3.cumsum(values.map(v => v * width_bar / num_answers)).map(Math.round);
@@ -566,4 +565,26 @@ function accumulate_answers(i) {
     let values = d3.range(data.questions[i].values.length);
     // count answers
     return answers_transposed.map(subquestion => values.map(v => subquestion.filter(i => i === v).length));
+}
+
+/**
+ * @summary This function creates a svg text element, splitting the given text at newline characters.
+ * @param str{string}
+ * @returns {SVGTextElement}
+ */
+function create_text(str) {
+    if (str.indexOf('\n') === -1) {
+        // text contains no newline chars, therefore return only a single text element
+        return d3.create("svg:text")
+            .text(str)
+            .node();
+    }
+    // text contains newline chars, return text with tspan for each separate line
+    const text = d3.create("svg:text");
+    // create tspan
+    text.selectAll("tspan").data(str.split("\n")).join("tspan")
+        .text(d => d)
+        .attr("dy", (d, i) => i > 0 ? "1.2em" : null)
+        .attr("x", 0);
+    return text.node();
 }
