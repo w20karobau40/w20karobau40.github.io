@@ -389,13 +389,17 @@ const data = {
     ]
 };
 
+let active_question = 0;
+
 // select div to fill with visualization
 const main_svg = d3.select("svg#karobau_viz");
 
 // create circles for selecting categories
 main_svg.append(() => create_category_selection());
 // question 1
-main_svg.append(() => create_sentiment_scale(data.questions[0], accumulate_answers(0), 475, 0));
+main_svg.append(() => create_sentiment_scale(data.questions[active_question], accumulate_answers(active_question), 475, 50));
+// tabs to switch between questions
+main_svg.append(() => create_tabs(475, 0));
 
 /**
  * @summary This function creates circles for selecting the categories of survey participants.
@@ -587,4 +591,31 @@ function create_text(str) {
         .attr("dy", (d, i) => i > 0 ? "1.2em" : null)
         .attr("x", 0);
     return text.node();
+}
+
+function create_tabs(pos_x = 0, pos_y = 0) {
+    const width_tabs = 600, height_tab = 40;
+    const num_questions = data.questions.length;
+    const scale_tab = d3.scaleBand()
+        .domain(d3.range(num_questions))
+        .rangeRound([0, width_tabs]);
+    // create root element
+    const root = d3.create("svg:g")
+        .attr("transform", `translate(${pos_x}, ${pos_y})`);
+    // create tab
+    const tab = root.selectAll("g").data(d3.range(num_questions).map(i => `Frage ${i + 1}`)).join("g");
+    // create a colored rectangle
+    tab.append("rect")
+        .attr("x", (d, i) => scale_tab(i))
+        .attr("width", scale_tab.bandwidth())
+        .attr("height", height_tab)
+        .attr("class", (d, i) => i === active_question ? "tab active" : "tab inactive");
+    // add text
+    tab.append("text")
+        .text(d => d)
+        .attr("x", (d, i) => scale_tab.bandwidth() / 2 + scale_tab(i))
+        .attr("y", height_tab / 2)
+        .attr("dominant-baseline", "middle")
+        .attr("text-anchor", "middle");
+    return root.node();
 }
