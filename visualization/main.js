@@ -603,9 +603,18 @@ function create_tabs(pos_x = 0, pos_y = 0) {
     const root = d3.create("svg:g")
         .attr("transform", `translate(${pos_x}, ${pos_y})`);
     // create tab
-    const tab = root.selectAll("g").data(d3.range(num_questions).map(i => `Frage ${i + 1}`)).join("g");
+    const tab = root.selectAll("g").data(d3.range(num_questions).map(i => `Frage ${i + 1}`)).join("g")
+        .on("click", function (d, i) {
+            // don't do anything if click on active tab
+            if (i === active_question)
+                return;
+            active_question = i;
+            // redraw tabs with new colors
+            d3.select(this.parentNode).selectAll("g rect")
+                .attr("class", (d, i) => i === active_question ? "tab active" : "tab inactive");
+        });
     // create a colored rectangle
-    tab.append("rect")
+    const rect = tab.append("rect")
         .attr("x", (d, i) => scale_tab(i))
         .attr("width", scale_tab.bandwidth())
         .attr("height", height_tab)
