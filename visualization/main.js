@@ -429,11 +429,11 @@ main_svg.attr("height", main_svg.node().getBBox().height);
  * @returns {SVGGElement} a svg group element containing the circles
  */
 function create_category_selection(pos_x = 0, pos_y = 0) {
-    const size_bigcircle = 200;
+    const size_bigcircle = 220;
     const scale_bigcircle = d3.scaleBand()
         .domain(d3.range(data.categories.length))
         .range([0, size_bigcircle * data.categories.length])
-        .padding(0.1);
+        .padding(0.15);
 
     // create root group
     const root = d3.create("svg:g")
@@ -455,11 +455,12 @@ function create_category_selection(pos_x = 0, pos_y = 0) {
     category_hierarchies.forEach(pack_layout);
 
     const bigcircle = root.selectAll("g").data(category_hierarchies).join("g")
-        .attr("transform", (d, i) => `translate(${scale_bigcircle.paddingOuter() * scale_bigcircle.step()}, ${scale_bigcircle(i)})`);
+        .attr("transform", (d, i) => `translate(0, ${scale_bigcircle(i)})`);
     // add category label
     bigcircle.append("text")
         .text(d => d.data.name)
-        .attr("dominant-baseline", "ideographic");
+        .attr("x", 20)
+        .attr("y", "-0.4em");
     // draw the big circle
     bigcircle.selectAll("circle.bigcircle").data(d => [d]).join("circle")
         .attr("class", "bigcircle")
@@ -479,21 +480,20 @@ function create_category_selection(pos_x = 0, pos_y = 0) {
     // create origins for legend, using the same data as for the smaller circles
     const legend = bigcircle.selectAll("g.legend").data(d => d.descendants().filter(x => x.depth === 1)).join("g")
         .attr("class", "legend")
-        .attr("transform", `translate(${scale_bigcircle.step()},0)`);
+        .attr("transform", (d, i, a) => `translate(${scale_bigcircle.bandwidth() + 25}, ${scale_bigcircle.bandwidth() / 2 - 15 * a.length + 10})`);
 
     // add small colored square
     legend.append("rect")
         .attr("width", 10)
         .attr("height", 10)
-        .attr("x", 10)
-        .attr("y", (d, i) => 30 * i + 30)
+        .attr("y", (d, i) => 30 * i)
         .style("fill", (d, i) => d3.schemeCategory10[i]);
 
     // add label
     legend.append("text")
         .text(d => d.data.name)
-        .attr("x", 25)
-        .attr("y", (d, i) => 30 * i + 35)
+        .attr("x", 15)
+        .attr("y", (d, i) => 30 * i + 5)
         .attr("dominant-baseline", "central");
 
     return root.node();
