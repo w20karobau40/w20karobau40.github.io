@@ -419,6 +419,9 @@ main_svg.append(() => create_sentiment_scale(data.questions[4], accumulate_answe
 // tabs to switch between questions
 main_svg.append(() => create_tabs(475, 0));
 
+// set correct height
+main_svg.attr("height", main_svg.node().getBBox().height);
+
 /**
  * @summary This function creates circles for selecting the categories of survey participants.
  * @param pos_x{number}
@@ -632,6 +635,8 @@ function create_tabs(pos_x = 0, pos_y = 0) {
             // redraw question
             main_svg.selectAll("g.question")
                 .attr("display", (d, i) => i === active_question ? null : "none");
+            // set correct height
+            main_svg.attr("height", main_svg.node().getBBox().height);
         });
     // create a colored rectangle
     tab.append("rect")
