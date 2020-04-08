@@ -24,10 +24,10 @@ const data = {
             values: ["Nicht betroffen", "Wenig", "Stark", "Sehr stark"],
             subquestions: ["Demografischer Wandel", "Fachkräftemangel", "Wissensverlust durch\nMitarbeiterwechsel", "Arbeitsplatzergonomie", "IT-Sicherheit (Cyber Security)", "Automatisierte Datenverarbeitung", "Verkauf eigener Produktionsdaten", "Ankauf relevanter Daten für\neigene Produkte und Anlagen", "Kostendruck durch\ninternationale Wettbewerber", "Internationale Zulieferketten", "Auftragsfertigung von\nBaugruppen und Karossen", "Steigende Produktvielfalt erfordert\nAnlagenflexibilität", "Verkürzung der Produktionszyklen", "Volumenflexibilität aufgrund\nschwankender Nachfrage", "Energieeffizienz", "Rohstoffverknappung", "Abfallvermeidung"]
         }, {
-            question: "Wie weit sehen Sie folgende Technologien bereits heute im Karosseriebau (ihres Unternehmens oder Kundens) implementiert?",
+            question: "Wie weit sehen Sie folgende Technologien bereits heute\nim Karosseriebau (ihres Unternehmens oder Kundens) implementiert?",
             type: "sentiment",
             values: ["Nicht bekannt", "Nicht relevant", "Nicht vorhanden", "Teilweise vorhanden", "Vollständig vorhanden"],
-            subquestions: ["Fahrerlose Transportsysteme", "Produktnachverfolgbarkeit durch eindeutige digitale Kennzeichnung jedes Bauteils", "Produktlokalisierung", "Schutzzaunloser Robotereinsatz", "Ortsflexible Roboter", "Intuitive (Roboter-)Programmierung und standardisierte Schnittstellen", "Mensch-Roboter-Kooperation", "Griff in die (ungeordnete) Kiste", "Inbetriebnahme auf Basis von offline Bahnplanung", "Flexible Greifer", "Flexible Spannvorrichtungen", "Flexible Behälter", "Skalierbare Produktionsanlagen", "Rekonfigurierbare Produktionsanlagen zur Anpassung bestehender Anlagen auf neue Varianten/Materialien", "Autonome Maschine-Maschine-Interaktion", "Lokale Auswertung von Maschinendaten", "Auswertung in übergeordneten Netzwerken/Systemen (u.a. Cloud)", "Datenauswertung durch externe Dienstleister/Dritte", "Condition Monitoring", "Predictive Maintenance", "Echtzeit-Simulation von Prozessen", "Digitaler Zwilling (Abbildung von Daten und Beeinflussung von Prozessen in Echtzeit)", "Einsatz von Wearables zur Instandhaltung (Tragbare Sensor- und Endgeräte)", "Einsatz von AR/VR", "Mustererkennung von Maschinendaten", "Mustererkennung in der Bildverarbeitung (für Griff in die Kiste, oder zur Qualitätssicherung)", "Autonome Produktionssteuerung durch KI"]
+            subquestions: ["Fahrerlose Transportsysteme", "Produktnachverfolgbarkeit durch eind.\ndigitale Kennzeichnung jedes Bauteils", "Produktlokalisierung", "Schutzzaunloser Robotereinsatz", "Ortsflexible Roboter", "Intuitive (Roboter-)Programmierung\nund standardisierte Schnittstellen", "Mensch-Roboter-Kooperation", "Griff in die (ungeordnete) Kiste", "Inbetriebnahme auf Basis\nvon offline Bahnplanung", "Flexible Greifer", "Flexible Spannvorrichtungen", "Flexible Behälter", "Skalierbare Produktionsanlagen", "Rekonfigurierbare Produktionsanlagen\nzur Anpassung auf neue Varianten", "Autonome\nMaschine-Maschine-Interaktion", "Lokale Auswertung\nvon Maschinendaten", "Auswertung in übergeordneten\nNetzwerken/Systemen (u.a. Cloud)", "Datenauswertung durch\nexterne Dienstleister/Dritte", "Condition Monitoring", "Predictive Maintenance", "Echtzeit-Simulation von Prozessen", "Digitaler Zwilling", "Einsatz von Wearables\nzur Instandhaltung", "Einsatz von AR/VR", "Mustererkennung von Maschinendaten", "Mustererkennung in der\nBildverarbeitung", "Autonome Produktionssteuerung\ndurch KI"]
         }, {
             question: "Technologien und Zukunftstrends für den Karosseriebau",
             type: "yesno",
@@ -39,10 +39,10 @@ const data = {
             values: ["quoted", "not quoted"],
             subquestions: ["Forschungskooperationen", "Branchenübergreifender Erfahrungsaustausch", "Öffentliche Förderung von F&E Aufwänden", "Austausch mit Branchenmitgliedern auf Konferenzen und Workshops", "Regelmäßige Weiterbildungen", "Unterstützung durch externes Beratungsunternehmen", "Software-Dienstleister zur Datenauswertung"]
         }, {
-            question: "Welche weitere Unterstützung benötigt Ihr Unternehmen, um den Zukunftsthemen des Karosseriebaus erfolgreich begegnen zu können?",
+            question: "Welche weitere Unterstützung benötigt Ihr Unternehmen,\num den Zukunftsthemen des Karosseriebaus erfolgreich begegnen zu können?",
             type: "sentiment",
             values: ["Nicht bekannt", "Nicht relevant", "Weniger wichtig", "Wichtig", "Sehr wichtig"],
-            subquestions: ["Änderung gesetzlicher Rahmenbedingungen", "Mehr IT-Fachkräfte", "Mehr sonstige Fachkräfte", "Kundenübergreifende Standardisierung", "Marktübersicht durch Benchmarking vorhandener Technologien", "Nutzenübersicht unterschiedlicher Technologien", "Mehr F&E im eigenen Unternehmen", "Forschungskooperationen", "Wissens-/Erfahrungsaustausch mit Branchenmitgliedern", "Änderung im Führungsverhalten", "Weiterbildungsangebote von Technologieanbietern"]
+            subquestions: ["Änderung gesetzlicher\nRahmenbedingungen", "Mehr IT-Fachkräfte", "Mehr sonstige Fachkräfte", "Kundenübergreifende\nStandardisierung", "Marktübersicht durch Benchmarking\nvorhandener Technologien", "Nutzenübersicht unterschiedlicher\nTechnologien", "Mehr F&E im eigenen Unternehmen", "Forschungskooperationen", "Wissens-/Erfahrungsaustausch\nmit Branchenmitgliedern", "Änderung im Führungsverhalten", "Weiterbildungsangebote von\nTechnologieanbietern"]
         }
     ],
     answers: [
@@ -520,8 +520,7 @@ function create_sentiment_scale(question, answers, pos_x = 0, pos_y = 0) {
         .attr("transform", `translate(${pos_x}, ${pos_y})`);
 
     // text label for question
-    root.append("text")
-        .text(question.question)
+    root.append(() => create_text(question.question))
         .attr("dominant-baseline", "hanging");
 
     // create root for bars
