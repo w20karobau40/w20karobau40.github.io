@@ -439,55 +439,60 @@ function create_category_selection(pos_x = 0, pos_y = 0) {
     const root = d3.create("svg:g")
         .attr("transform", `translate(${pos_x}, ${pos_y})`);
 
-    // create origin for big circles
-    const bigcircle = root.selectAll("g").data(data.categories).join("g")
+    // create a d3 hierarchy for each category
+    const category_hierarchies = data.categories.map((c, i) => d3.hierarchy({
+            name: c.category,
+            children: d3.zip(c.values, accumulate_categories(i)).map(d => ({name: d[0], value: d[1]}))
+        })
+            .sum(d => d.value)
+            .sort((a, b) => b.value - a.value)
+    );
+    // create pack layout (general settings)
+    const pack_layout = d3.pack()
+        .size([scale_bigcircle.bandwidth(), scale_bigcircle.bandwidth()])
+        .padding(5);
+    // calculate circle positions and radii
+    category_hierarchies.forEach(pack_layout);
+
+    const bigcircle = root.selectAll("g").data(category_hierarchies).join("g")
         .attr("transform", (d, i) => `translate(${scale_bigcircle.paddingOuter() * scale_bigcircle.step()}, ${scale_bigcircle(i)})`);
-
-    // create big circles
-    let radius_bigcircle = scale_bigcircle.bandwidth() / 2;
-    bigcircle.append("circle")
-        .attr("cx", radius_bigcircle)
-        .attr("cy", radius_bigcircle)
-        .attr("r", radius_bigcircle)
-        .attr("class", "bigcircle");
-
-    // add label
+    // add category label
     bigcircle.append("text")
-        .text(d => d.category)
-        .attr("x", radius_bigcircle)
-        .attr("y", -3)
-        .attr("text-anchor", "middle");
+        .text(d => d.data.name)
+        .attr("dominant-baseline", "ideographic");
+    // draw the big circle
+    bigcircle.selectAll("circle.bigcircle").data(d => [d]).join("circle")
+        .attr("class", "bigcircle")
+        .attr("cx", d => d.x)
+        .attr("cy", d => d.y)
+        .attr("r", d => d.r);
 
-    const radius_smallcircle = radius_bigcircle / 3;
+    // draw the smaller circles
+    // the big circle has depth 0, each child (and therefore the smaller ones) has depth 1 in the hierarchy
+    bigcircle.selectAll("circle.smallcircle").data(d => d.descendants().filter(x => x.depth === 1)).join("circle")
+        .attr("class", "smallcircle")
+        .attr("cx", d => d.x)
+        .attr("cy", d => d.y)
+        .attr("r", d => d.r)
+        .attr("fill", (d, i) => d3.schemeCategory10[i]);
 
-    // create origins for small circles
-    const smallcircle = bigcircle.selectAll("g.smallcircle").data(d => d.values).join("g")
-        .attr("transform", (d, i, a) => `translate(${radius_bigcircle + Math.cos(2 * Math.PI * i / a.length) * radius_bigcircle * 0.6}, ${radius_bigcircle + Math.sin(2 * Math.PI * i / a.length) * radius_bigcircle * 0.6})`)
-        .attr("class", "smallcircle");
-
-    // create small circles
-    // note: schemeCategory10 has only 10 different colors, there should never be more than 10 subcategories per category
-    smallcircle.append("circle")
-        .attr("r", radius_smallcircle)
-        .attr("class", "smallcircle enabled")
-        .style("fill", (d, i) => d3.schemeCategory10[i]);
-
-    // create origins for legend
-    const legend = bigcircle.selectAll("g.legend").data(d => d.values).join("g")
-        .attr("class", "legend");
+    // create origins for legend, using the same data as for the smaller circles
+    const legend = bigcircle.selectAll("g.legend").data(d => d.descendants().filter(x => x.depth === 1)).join("g")
+        .attr("class", "legend")
+        .attr("transform", `translate(${scale_bigcircle.step()},0)`);
 
     // add small colored square
     legend.append("rect")
         .attr("width", 10)
         .attr("height", 10)
-        .attr("x", 2 * radius_bigcircle + 10)
+        .attr("x", 10)
         .attr("y", (d, i) => 30 * i + 30)
         .style("fill", (d, i) => d3.schemeCategory10[i]);
 
     // add label
     legend.append("text")
-        .text(d => d)
-        .attr("x", 2 * radius_bigcircle + 25)
+        .text(d => d.data.name)
+        .attr("x", 25)
         .attr("y", (d, i) => 30 * i + 35)
         .attr("dominant-baseline", "central");
 
@@ -589,6 +594,15 @@ function accumulate_answers(i) {
     let values = d3.range(data.questions[i].values.length);
     // count answers
     return answers_transposed.map(subquestion => values.map(v => subquestion.filter(i => i === v).length));
+}
+
+function accumulate_categories(i) {
+    // get list of subcategory answers for category i
+    let answers = data.answers.map(d => d.categories[i]);
+    // array [0, 1, ..., length - 1]
+    let values = d3.range(data.categories[i].values.length);
+    // count subcategories
+    return values.map(v => answers.filter(i => i === v).length);
 }
 
 /**

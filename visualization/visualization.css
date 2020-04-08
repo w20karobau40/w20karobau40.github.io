@@ -5,7 +5,6 @@ circle.bigcircle {
 
 circle.smallcircle {
     stroke: none;
-    fill: none;
 }
 
 svg text {
