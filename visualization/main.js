@@ -395,9 +395,27 @@ let active_question = 0;
 const main_svg = d3.select("svg#karobau_viz");
 
 // create circles for selecting categories
+// TODO: use either a loop or d3.js
 main_svg.append(() => create_category_selection());
 // question 1
-main_svg.append(() => create_sentiment_scale(data.questions[active_question], accumulate_answers(active_question), 475, 50));
+main_svg.append(() => create_sentiment_scale(data.questions[0], accumulate_answers(0), 475, 50))
+    .attr("class", "question");
+// question 2, but invisible
+main_svg.append(() => create_sentiment_scale(data.questions[1], accumulate_answers(1), 475, 50))
+    .attr("class", "question")
+    .attr("display", "none");
+// question 3, but invisible and empty
+main_svg.append("g")
+    .attr("class", "question")
+    .attr("display", "none");
+// question 4, but invisible and empty
+main_svg.append("g")
+    .attr("class", "question")
+    .attr("display", "none");
+// question 5, but invisible
+main_svg.append(() => create_sentiment_scale(data.questions[4], accumulate_answers(4), 475, 50))
+    .attr("class", "question")
+    .attr("display", "none");
 // tabs to switch between questions
 main_svg.append(() => create_tabs(475, 0));
 
@@ -612,9 +630,12 @@ function create_tabs(pos_x = 0, pos_y = 0) {
             // redraw tabs with new colors
             d3.select(this.parentNode).selectAll("g rect")
                 .attr("class", (d, i) => i === active_question ? "tab active" : "tab inactive");
+            // redraw question
+            main_svg.selectAll("g.question")
+                .attr("display", (d, i) => i === active_question ? null : "none");
         });
     // create a colored rectangle
-    const rect = tab.append("rect")
+    tab.append("rect")
         .attr("x", (d, i) => scale_tab(i))
         .attr("width", scale_tab.bandwidth())
         .attr("height", height_tab)
