@@ -398,27 +398,11 @@ const main_svg = d3.select("svg#karobau_viz");
 // TODO: use either a loop or d3.js
 main_svg.append(() => create_category_selection());
 // question 1
-main_svg.append(() => create_sentiment_scale(data.questions[0], accumulate_answers(0), 475, 50))
-    .attr("class", "question");
-// question 2, but invisible
-main_svg.append(() => create_sentiment_scale(data.questions[1], accumulate_answers(1), 475, 50))
-    .attr("class", "question")
-    .attr("display", "none");
-// question 3, but invisible and empty
-main_svg.append("g")
-    .attr("class", "question")
-    .attr("display", "none");
-// question 4, but invisible and empty
-main_svg.append("g")
-    .attr("class", "question")
-    .attr("display", "none");
-// question 5, but invisible
-main_svg.append(() => create_sentiment_scale(data.questions[4], accumulate_answers(4), 475, 50))
-    .attr("class", "question")
-    .attr("display", "none");
+main_svg.append(() => create_sentiment_scale(475, 50));
 // tabs to switch between questions
 main_svg.append(() => create_tabs(475, 0));
 
+update_question();
 // set correct height
 main_svg.attr("height", main_svg.node().getBBox().height);
 
@@ -501,82 +485,31 @@ function create_category_selection(pos_x = 0, pos_y = 0) {
 
 /**
  * @summary This function creates a stacked bar chart to visualize sentiment across different subquestions.
- * @param question
- * @param answers
  * @param pos_x
  * @param pos_y
  * @returns {SVGGElement}
  */
-function create_sentiment_scale(question, answers, pos_x = 0, pos_y = 0) {
-    const height_bar = 40, width_bar = 300;
-    const local_data = d3.zip(question.subquestions, answers);
-    const num_questions = local_data.length, num_answers = d3.sum(answers[0]);
-
-    const scale_bar = d3.scaleBand()
-        .domain(d3.range(num_questions))
-        .rangeRound([0, height_bar * num_questions])
-        .paddingInner(0.08);
-    const scale_color = d3.scaleLinear()
-        .domain([0, local_data[0][1].length - 1])
-        .range(["blue", "red"])
-        .interpolate(d3.interpolateRgb);
-    const scale_legend = d3.scaleBand()
-        .domain(d3.range(question.values.length))
-        .range([0, 30 * question.values.length]);
+function create_sentiment_scale(pos_x = 0, pos_y = 0) {
     // create root group
     const root = d3.create("svg:g")
-        .attr("transform", `translate(${pos_x}, ${pos_y})`);
+        .attr("transform", `translate(${pos_x}, ${pos_y})`)
+        .attr("id", "question");
 
     // text label for question
-    root.append(() => create_text(question.question))
-        .attr("dominant-baseline", "hanging");
+    root.append("text")
+        .attr("dominant-baseline", "hanging")
+        .attr("id", "question_label");
 
     // create root for bars
-    const root_bars = root.append("g")
-        .attr("transform", "translate(0, 40)");
-
-    // create origins for bars
-    const bars = root_bars.selectAll("g").data(local_data).join("g")
-        .attr("transform", (d, i) => `translate(0, ${scale_bar(i)})`);
-
-    // text label
-    bars.append(d => create_text(d[0]))
-        .attr("dominant-baseline", "hanging");
-
-    // create single bar with multiple colored rectangles
-    const bar = bars.append("g")
-        .attr("transform", "translate(250,0)");
-    bar.selectAll("rect").data(function (d) {
-        let values = d[1];
-        let start_x = d3.cumsum(values.map(v => v * width_bar / num_answers)).map(Math.round);
-        // Float64Array to Array and prepend 0
-        start_x = [].slice.call(start_x);
-        start_x.unshift(0);
-        let bar_width = d3.range(values.length).map(i => start_x[i + 1] - start_x[i]);
-        return d3.zip(values, start_x.slice(0, -1), bar_width);
-    }).join("rect")
-        .attr("height", scale_bar.bandwidth())
-        .attr("width", d => d[2])
-        .attr("x", d => d[1])
-        .style("fill", (d, i) => scale_color(i));
+    root.append("g")
+        .attr("transform", "translate(0, 40)")
+        .attr("id", "bar_root");
 
     // create root for legend
-    const root_legend = root.append("g")
-        .attr("transform", "translate(600, 40)");
+    root.append("g")
+        .attr("transform", "translate(600, 40)")
+        .attr("id", "legend_root");
 
-    // create labels for each answer
-    const label_legend = root_legend.selectAll("g").data(question.values).join("g")
-        .attr("transform", (d, i) => `translate(0, ${scale_legend(i)})`);
-    // small square for color reference
-    label_legend.append("rect")
-        .attr("width", 10)
-        .attr("height", 10)
-        .style("fill", (d, i) => scale_color(i));
-    // text with answer value
-    label_legend.append("text")
-        .text(d => d)
-        .attr("x", 15)
-        .attr("y", "0.6em");
     return root.node();
 }
 
@@ -611,12 +544,6 @@ function accumulate_categories(i) {
  * @returns {SVGTextElement}
  */
 function create_text(str) {
-    if (str.indexOf('\n') === -1) {
-        // text contains no newline chars, therefore return only a single text element
-        return d3.create("svg:text")
-            .text(str)
-            .node();
-    }
     // text contains newline chars, return text with tspan for each separate line
     const text = d3.create("svg:text");
     // create tspan
@@ -627,6 +554,14 @@ function create_text(str) {
     return text.node();
 }
 
+function update_text(selection, new_str) {
+    // update text
+    selection.selectAll("tspan").data(new_str.split("\n")).join("tspan")
+        .text(d => d)
+        .attr("dy", (d, i) => i > 0 ? "1.2em" : null)
+        .attr("x", 0);
+}
+
 function create_tabs(pos_x = 0, pos_y = 0) {
     const width_tabs = 600, height_tab = 40;
     const num_questions = data.questions.length;
@@ -635,7 +570,8 @@ function create_tabs(pos_x = 0, pos_y = 0) {
         .rangeRound([0, width_tabs]);
     // create root element
     const root = d3.create("svg:g")
-        .attr("transform", `translate(${pos_x}, ${pos_y})`);
+        .attr("transform", `translate(${pos_x}, ${pos_y})`)
+        .attr("id", "tabs");
     // create tab
     const tab = root.selectAll("g").data(d3.range(num_questions).map(i => `Frage ${i + 1}`)).join("g")
         .on("click", function (d, i) {
@@ -644,11 +580,10 @@ function create_tabs(pos_x = 0, pos_y = 0) {
                 return;
             active_question = i;
             // redraw tabs with new colors
-            d3.select(this.parentNode).selectAll("g rect")
-                .attr("class", (d, i) => i === active_question ? "tab active" : "tab inactive");
+            update_tabs();
             // redraw question
-            main_svg.selectAll("g.question")
-                .attr("display", (d, i) => i === active_question ? null : "none");
+            if (active_question === 0 || active_question === 1 || active_question === 4)
+                update_question();
             // set correct height
             main_svg.attr("height", main_svg.node().getBBox().height);
         });
@@ -666,4 +601,112 @@ function create_tabs(pos_x = 0, pos_y = 0) {
         .attr("dominant-baseline", "middle")
         .attr("text-anchor", "middle");
     return root.node();
+}
+
+function update_tabs() {
+    const root = main_svg.select("g#tabs");
+    // recolor rectangles
+    root.selectAll("rect.tab")
+        .attr("class", (d, i) => i === active_question ? "tab active" : "tab inactive");
+}
+
+function update_categories() {
+
+}
+
+function update_question() {
+    const height_bar = 40, width_bar = 300;
+
+    const question = data.questions[active_question], answers = accumulate_answers(active_question);
+    const local_data = d3.zip(question.subquestions, answers);
+    const num_questions = local_data.length, num_values = question.values.length;
+
+    const scale_bar = d3.scaleBand()
+        .domain(d3.range(num_questions))
+        .rangeRound([0, height_bar * num_questions])
+        .paddingInner(0.08);
+    const scale_color = d3.scaleLinear()
+        .domain([0, num_values - 1])
+        .range(["blue", "red"])
+        .interpolate(d3.interpolateRgb);
+    const scale_legend = d3.scaleBand()
+        .domain(d3.range(num_values))
+        .range([0, 30 * num_values]);
+
+    // select root group
+    const root = main_svg.select("g#question");
+
+    // update text label for question
+    update_text(root.select("text#question_label"), question.question);
+
+    // select root for bars
+    const root_bars = root.select("g#bar_root");
+    // update bars
+    root_bars.selectAll("g.bar_origin").data(local_data, d => `${active_question}_${d[0]}`).join(
+        function (enter) {
+            // the enter selection contains all new elements
+            // first create the origins
+            const bars = enter.append("g")
+                .attr("transform", (d, i) => `translate(0, ${scale_bar(i)})`)
+                .attr("class", "bar_origin");
+
+            // text label
+            bars.append(d => create_text(d[0]))
+                .attr("dominant-baseline", "hanging");
+
+            // create single bar with multiple colored rectangles
+            const bar = bars.append("g")
+                .attr("transform", "translate(250,0)");
+            bar.selectAll("rect").data(function (d) {
+                let values = d[1];
+                let num_answers = d3.sum(values);
+                let start_x = d3.cumsum(values.map(v => v * width_bar / num_answers)).map(Math.round);
+                // Float64Array to Array and prepend 0
+                start_x = [].slice.call(start_x);
+                start_x.unshift(0);
+                let bar_width = d3.range(values.length).map(i => start_x[i + 1] - start_x[i]);
+                return d3.zip(values, start_x.slice(0, -1), bar_width);
+            }).join("rect")
+                .attr("height", scale_bar.bandwidth())
+                .attr("width", d => d[2])
+                .attr("x", d => d[1])
+                .style("fill", (d, i) => scale_color(i));
+            return bars;
+        }
+    );
+
+    // select root for legend
+    const root_legend = root.select("g#legend_root");
+    // update legend
+    root_legend.selectAll("g.legend_origin").data(question.values).join(
+        function (enter) {
+            // the enter selection contains all new elements
+            // first create origins
+            const labels = enter.append("g")
+                .attr("transform", (d, i) => `translate(0, ${scale_legend(i)})`)
+                .attr("class", "legend_origin");
+
+            // small square for color reference
+            labels.append("rect")
+                .attr("width", 10)
+                .attr("height", 10)
+                .style("fill", (d, i) => scale_color(i));
+
+            // text with answer value
+            labels.append("text")
+                .text(d => d)
+                .attr("x", 15)
+                .attr("y", "0.6em");
+            return labels;
+        },
+        function (update) {
+            // update color of square
+            update.select("rect")
+                .style("fill", (d, i) => scale_color(i));
+            // update label text
+            update.select("text")
+                .text(d => d);
+            return update;
+        }
+    )
 }
