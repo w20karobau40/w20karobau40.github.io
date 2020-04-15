@@ -389,19 +389,24 @@ const data = {
     ]
 };
 
+// global variable keeping track which question should be displayed
 let active_question = 0;
+
+// global array keeping track which categories of participants are currently active
+// for each category there is an array of active incides, an empty array shall be equivalent to an array containing all possible indices
+let active_categories = data.categories.map(() => []);
 
 // select div to fill with visualization
 const main_svg = d3.select("svg#karobau_viz");
 
 // create circles for selecting categories
-// TODO: use either a loop or d3.js
 main_svg.append(() => create_category_selection());
 // question 1
 main_svg.append(() => create_sentiment_scale(475, 50));
 // tabs to switch between questions
 main_svg.append(() => create_tabs(475, 0));
 
+update_categories();
 update_question();
 // set correct height
 main_svg.attr("height", main_svg.node().getBBox().height);
@@ -413,72 +418,10 @@ main_svg.attr("height", main_svg.node().getBBox().height);
  * @returns {SVGGElement} a svg group element containing the circles
  */
 function create_category_selection(pos_x = 0, pos_y = 0) {
-    const size_bigcircle = 220;
-    const scale_bigcircle = d3.scaleBand()
-        .domain(d3.range(data.categories.length))
-        .range([0, size_bigcircle * data.categories.length])
-        .padding(0.15);
-
     // create root group
     const root = d3.create("svg:g")
-        .attr("transform", `translate(${pos_x}, ${pos_y})`);
-
-    // create a d3 hierarchy for each category
-    const category_hierarchies = data.categories.map((c, i) => d3.hierarchy({
-            name: c.category,
-            children: d3.zip(c.values, accumulate_categories(i)).map(d => ({name: d[0], value: d[1]}))
-        })
-            .sum(d => d.value)
-            .sort((a, b) => b.value - a.value)
-    );
-    // create pack layout (general settings)
-    const pack_layout = d3.pack()
-        .size([scale_bigcircle.bandwidth(), scale_bigcircle.bandwidth()])
-        .padding(5);
-    // calculate circle positions and radii
-    category_hierarchies.forEach(pack_layout);
-
-    const bigcircle = root.selectAll("g").data(category_hierarchies).join("g")
-        .attr("transform", (d, i) => `translate(0, ${scale_bigcircle(i)})`);
-    // add category label
-    bigcircle.append("text")
-        .text(d => d.data.name)
-        .attr("x", 20)
-        .attr("y", "-0.4em");
-    // draw the big circle
-    bigcircle.selectAll("circle.bigcircle").data(d => [d]).join("circle")
-        .attr("class", "bigcircle")
-        .attr("cx", d => d.x)
-        .attr("cy", d => d.y)
-        .attr("r", d => d.r);
-
-    // draw the smaller circles
-    // the big circle has depth 0, each child (and therefore the smaller ones) has depth 1 in the hierarchy
-    bigcircle.selectAll("circle.smallcircle").data(d => d.descendants().filter(x => x.depth === 1)).join("circle")
-        .attr("class", "smallcircle")
-        .attr("cx", d => d.x)
-        .attr("cy", d => d.y)
-        .attr("r", d => d.r)
-        .attr("fill", (d, i) => d3.schemeCategory10[i]);
-
-    // create origins for legend, using the same data as for the smaller circles
-    const legend = bigcircle.selectAll("g.legend").data(d => d.descendants().filter(x => x.depth === 1)).join("g")
-        .attr("class", "legend")
-        .attr("transform", (d, i, a) => `translate(${scale_bigcircle.bandwidth() + 25}, ${scale_bigcircle.bandwidth() / 2 - 15 * a.length + 10})`);
-
-    // add small colored square
-    legend.append("rect")
-        .attr("width", 10)
-        .attr("height", 10)
-        .attr("y", (d, i) => 30 * i)
-        .style("fill", (d, i) => d3.schemeCategory10[i]);
-
-    // add label
-    legend.append("text")
-        .text(d => d.data.name)
-        .attr("x", 15)
-        .attr("y", (d, i) => 30 * i + 5)
-        .attr("dominant-baseline", "central");
+        .attr("transform", `translate(${pos_x}, ${pos_y})`)
+        .attr("id", "category_selection");
 
     return root.node();
 }
@@ -611,7 +554,108 @@ function update_tabs() {
 }
 
 function update_categories() {
+    const size_bigcircle = 220;
+    const scale_bigcircle = d3.scaleBand()
+        .domain(d3.range(data.categories.length))
+        .range([0, size_bigcircle * data.categories.length])
+        .padding(0.15);
 
+    // select root group
+    const root = main_svg.select("g#category_selection");
+
+    // create a d3 hierarchy for each category
+    const category_hierarchies = data.categories.map((c, i) => d3.hierarchy({
+            name: c.category,
+            children: d3.zip(c.values, accumulate_categories(i)).map((d, j) => ({
+                name: d[0],
+                value: d[1],
+                category: i,
+                subcategory: j
+            })),
+            category: i
+        })
+            .sum(d => d.value)
+            .sort((a, b) => b.value - a.value)
+    );
+    // create pack layout (general settings)
+    const pack_layout = d3.pack()
+        .size([scale_bigcircle.bandwidth(), scale_bigcircle.bandwidth()])
+        .padding(5);
+    // calculate circle positions and radii
+    category_hierarchies.forEach(pack_layout);
+
+    root.selectAll("g.bigcircle_origin").data(category_hierarchies).join(function (enter) {
+        // the enter selection contains all new elements
+        const bigcircle = enter.append("g")
+            .attr("transform", (d, i) => `translate(0, ${scale_bigcircle(i)})`)
+            .attr("class", "bigcircle_origin");
+
+        // add category label
+        bigcircle.append("text")
+            .text(d => d.data.name)
+            .attr("x", 20)
+            .attr("y", "-0.4em");
+
+        // draw the big circle
+        bigcircle.selectAll("circle.bigcircle").data(d => [d]).join("circle")
+            .attr("class", "bigcircle")
+            .attr("cx", d => d.x)
+            .attr("cy", d => d.y)
+            .attr("r", d => d.r)
+            .on("click", function (d) {
+                // reenable all subcategories
+                active_categories[d.data.category] = [];
+                // redraw category selection
+                update_categories();
+                // redraw question
+                update_question();
+            });
+
+        // draw the smaller circles
+        // the big circle has depth 0, each child (and therefore the smaller ones) has depth 1 in the hierarchy
+        bigcircle.selectAll("circle.smallcircle").data(d => d.descendants().filter(x => x.depth === 1)).join("circle")
+            .attr("class", "smallcircle")
+            .attr("cx", d => d.x)
+            .attr("cy", d => d.y)
+            .attr("r", d => d.r)
+            .attr("fill", (d, i) => d3.schemeCategory10[i])
+            .on("click", function (d) {
+                let category = d.data.category, subcategory = d.data.subcategory;
+                // handling changing categories
+                let index = active_categories[category].indexOf(subcategory);
+                if (index > -1) {
+                    // category.subcategory is currently active, remove from array
+                    active_categories[category].splice(index, 1);
+                } else {
+                    // category.subcategory is currently inactive, add to array
+                    active_categories[category].push(subcategory);
+                }
+                // redraw category selection
+                update_categories();
+                // redraw question
+                update_question();
+            });
+
+        // create origins for legend, using the same data as for the smaller circles
+        const legend = bigcircle.selectAll("g.legend").data(d => d.descendants().filter(x => x.depth === 1)).join("g")
+            .attr("class", "legend")
+            .attr("transform", (d, i, a) => `translate(${scale_bigcircle.bandwidth() + 25}, ${scale_bigcircle.bandwidth() / 2 - 15 * a.length + 10})`);
+
+        // add small colored square
+        legend.append("rect")
+            .attr("width", 10)
+            .attr("height", 10)
+            .attr("y", (d, i) => 30 * i)
+            .style("fill", (d, i) => d3.schemeCategory10[i]);
+
+        // add label
+        legend.append("text")
+            .text(d => d.data.name)
+            .attr("x", 15)
+            .attr("y", (d, i) => 30 * i + 5)
+            .attr("dominant-baseline", "central");
+    });
+    return root.node();
 }
 
 function update_question() {
