@@ -560,14 +560,21 @@ function update_categories() {
         .range([0, size_bigcircle * data.categories.length])
         .padding(0.15);
 
+    const colors_enabled = d3.schemeCategory10, colors_disabled = d3.schemeCategory10.map(c => {
+        const d = d3.hsl(c);
+        d.s = 0.2;
+        return d;
+    });
+
+
     // select root group
     const root = main_svg.select("g#category_selection");
 
     // create a d3 hierarchy for each category
     const category_hierarchies = data.categories.map((c, i) => d3.hierarchy({
-            name: c.category,
-            children: d3.zip(c.values, accumulate_categories(i)).map((d, j) => ({
-                name: d[0],
+        name: c.category,
+        children: d3.zip(c.values, accumulate_categories(i)).map((d, j) => ({
+            name: d[0],
                 value: d[1],
                 category: i,
                 subcategory: j
@@ -618,7 +625,7 @@ function update_categories() {
             .attr("cx", d => d.x)
             .attr("cy", d => d.y)
             .attr("r", d => d.r)
-            .attr("fill", (d, i) => d3.schemeCategory10[i])
+            .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[i] : colors_disabled[i])
             .on("click", function (d) {
                 let category = d.data.category, subcategory = d.data.subcategory;
                 // handling changing categories
@@ -654,6 +661,11 @@ function update_categories() {
             .attr("x", 15)
             .attr("y", (d, i) => 30 * i + 5)
             .attr("dominant-baseline", "central");
+    }, function (update) {
+        // For now this function only updates the circle colors representing active subcategories
+        update.selectAll("circle.smallcircle")
+            .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[i] : colors_disabled[i]);
+        return update;
     });
     return root.node();
 }
@@ -753,4 +765,8 @@ function update_question() {
             return update;
         }
     )
+}
+
+function is_active(category, subcategory) {
+    return active_categories[category].length === 0 || active_categories[category].indexOf(subcategory) > -1;
 }
