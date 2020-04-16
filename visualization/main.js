@@ -462,8 +462,12 @@ function create_sentiment_scale(pos_x = 0, pos_y = 0) {
  * @returns {number[][]} two-dimensional array, for each subquestion an array with the number of answers per answer option
  */
 function accumulate_answers(i) {
-    // get answers of question i
-    let answers = data.answers.map(d => d.questions[i]);
+    // select valid answers based on categories and given question index
+    let answers = data.answers
+        // filter answers, only allow those where all subcategories are active
+        .filter(d => d.categories.every((sub_cat, cat) => is_active(cat, sub_cat)))
+        // get answers of question i
+        .map(d => d.questions[i]);
     // transpose, list of answers per person => list of answers per subquestion
     let answers_transposed = d3.transpose(answers);
     // array [0, 1, ..., length - 1]
@@ -572,9 +576,9 @@ function update_categories() {
 
     // create a d3 hierarchy for each category
     const category_hierarchies = data.categories.map((c, i) => d3.hierarchy({
-        name: c.category,
-        children: d3.zip(c.values, accumulate_categories(i)).map((d, j) => ({
-            name: d[0],
+            name: c.category,
+            children: d3.zip(c.values, accumulate_categories(i)).map((d, j) => ({
+                name: d[0],
                 value: d[1],
                 category: i,
                 subcategory: j
@@ -697,39 +701,38 @@ function update_question() {
 
     // select root for bars
     const root_bars = root.select("g#bar_root");
-    // update bars
-    root_bars.selectAll("g.bar_origin").data(local_data, d => `${active_question}_${d[0]}`).join(
-        function (enter) {
-            // the enter selection contains all new elements
-            // first create the origins
-            const bars = enter.append("g")
-                .attr("transform", (d, i) => `translate(0, ${scale_bar(i)})`)
-                .attr("class", "bar_origin");
+    // update bar containers
+    const bar_container = root_bars.selectAll("g.bar_container").data(local_data, d => `${active_question}_${d[0]}`).join("g")
+        .attr("class", "bar_container")
+        .attr("transform", (d, i) => `translate(0, ${scale_bar(i)})`);
 
-            // text label
-            bars.append(d => create_text(d[0]))
-                .attr("dominant-baseline", "hanging");
+    // update individual bars
+    const bar_origin = bar_container.selectAll("g.bar_origin").data(d => [d[1]]).join("g")
+        .attr("class", "bar_origin")
+        .attr("transform", "translate(250,0)");
 
-            // create single bar with multiple colored rectangles
-            const bar = bars.append("g")
-                .attr("transform", "translate(250,0)");
-            bar.selectAll("rect").data(function (d) {
-                let values = d[1];
-                let num_answers = d3.sum(values);
-                let start_x = d3.cumsum(values.map(v => v * width_bar / num_answers)).map(Math.round);
-                // Float64Array to Array and prepend 0
-                start_x = [].slice.call(start_x);
-                start_x.unshift(0);
-                let bar_width = d3.range(values.length).map(i => start_x[i + 1] - start_x[i]);
-                return d3.zip(values, start_x.slice(0, -1), bar_width);
-            }).join("rect")
-                .attr("height", scale_bar.bandwidth())
-                .attr("width", d => d[2])
-                .attr("x", d => d[1])
-                .style("fill", (d, i) => scale_color(i));
-            return bars;
-        }
-    );
+    bar_origin.selectAll("rect").data(function (values) {
+        let num_answers = d3.sum(values);
+        let start_x = d3.cumsum(values.map(v => v * width_bar / num_answers)).map(Math.round);
+        // Float64Array to Array and prepend 0
+        start_x = [].slice.call(start_x);
+        start_x.unshift(0);
+        let bar_width = d3.range(values.length).map(i => start_x[i + 1] - start_x[i]);
+        return d3.zip(values, start_x.slice(0, -1), bar_width);
+    }).join("rect")
+        .attr("height", scale_bar.bandwidth())
+        .attr("width", d => d[2])
+        .attr("x", d => d[1])
+        .style("fill", (d, i) => scale_color(i));
+
+    // update text label
+    bar_container.selectAll("text").data(d => [d[0]]).join("text")
+        .attr("dominant-baseline", "hanging")
+        .selectAll("tspan").data(d => d.split("\n")).join("tspan")
+        .text(d => d)
+        .attr("dy", (d, i) => i > 0 ? "1.2em" : null)
+        .attr("x", 0);
+
 
     // select root for legend
     const root_legend = root.select("g#legend_root");
