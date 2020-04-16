@@ -719,11 +719,15 @@ function update_question() {
         start_x.unshift(0);
         let bar_width = d3.range(values.length).map(i => start_x[i + 1] - start_x[i]);
         return d3.zip(values, start_x.slice(0, -1), bar_width);
-    }).join("rect")
-        .attr("height", scale_bar.bandwidth())
-        .attr("width", d => d[2])
-        .attr("x", d => d[1])
-        .style("fill", (d, i) => scale_color(i));
+    }).join(enter => enter.append("rect")
+            .attr("height", scale_bar.bandwidth())
+            .attr("width", d => d[2])
+            .attr("x", d => d[1])
+            .style("fill", (d, i) => scale_color(i))
+        , update => update.transition()
+            .attr("width", d => d[2])
+            .attr("x", d => d[1])
+    );
 
     // update text label
     bar_container.selectAll("text").data(d => [d[0]]).join("text")
