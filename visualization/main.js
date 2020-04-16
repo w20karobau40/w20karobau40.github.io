@@ -396,8 +396,13 @@ let active_question = 0;
 // for each category there is an array of active incides, an empty array shall be equivalent to an array containing all possible indices
 let active_categories = data.categories.map(() => []);
 
-// select div to fill with visualization
-const main_svg = d3.select("svg#karobau_viz");
+// create svg to fill with visualization
+const main_svg = d3.select("div#karobau_viz").append("svg")
+    .attr("height", 850)
+    .attr("width", "100%")
+    .attr("id", "karobau_viz_svg")
+    // TODO: remove border, just for debugging purposes
+    .style("border", "black 1px solid");
 
 // create circles for selecting categories
 main_svg.append(() => create_category_selection());
