@@ -574,13 +574,6 @@ function update_categories() {
         .range([0, size_bigcircle * data.categories.length])
         .padding(0.15);
 
-    const colors_enabled = d3.schemeCategory10, colors_disabled = d3.schemeCategory10.map(c => {
-        const d = d3.hsl(c);
-        d.s = 0.2;
-        return d;
-    });
-
-
     // select root group
     const root = main_svg.select("g#category_selection");
 
@@ -598,6 +591,25 @@ function update_categories() {
             .sum(d => d.value)
             .sort((a, b) => b.value - a.value)
     );
+
+    // create list of color scales
+    const num_subcategories = category_hierarchies.map(d => d.children.length);
+    console.log(num_subcategories);
+    const colors_enabled = num_subcategories.map((d, i) => {
+        const c1 = d3.schemeCategory10[i];
+        let c2 = d3.hsl(c1);
+        c2.l = 0.9;
+        return d3.scaleLinear().domain([0, d - 0.99]).range([c1, c2]);
+    });
+    const colors_disabled = num_subcategories.map((d, i) => {
+        let c1 = d3.hsl(d3.schemeCategory10[i]);
+        c1.s = 0.2;
+        let c2 = d3.hsl(d3.schemeCategory10[i]);
+        c2.s = 0.2;
+        c2.l = 0.9;
+        return d3.scaleLinear().domain([0, d - 1]).range([c1, c2]);
+    });
+
     // create pack layout (general settings)
     const pack_layout = d3.pack()
         .size([scale_bigcircle.bandwidth(), scale_bigcircle.bandwidth()])
@@ -640,7 +652,7 @@ function update_categories() {
                 .attr("class", "smallcircle")
                 .attr("cx", d => d.x)
                 .attr("cy", d => d.y)
-                .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[i] : colors_disabled[i])
+                .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[d.data.category](i) : colors_disabled[d.data.category](i))
                 .on("click", function (d) {
                     let category = d.data.category, subcategory = d.data.subcategory;
                     // handling changing categories
@@ -664,7 +676,7 @@ function update_categories() {
                     .attr("r", d => d.r)
                     .attr("cx", d => d.x)
                     .attr("cy", d => d.y)
-                    .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[i] : colors_disabled[i])
+                    .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[d.data.category](i) : colors_disabled[d.data.category](i))
                 ),
             exit => exit.call(e => e.transition().attr("r", 0).remove())
         );
@@ -680,7 +692,7 @@ function update_categories() {
             origin.append("rect")
                 .attr("width", 10)
                 .attr("height", 10)
-                .style("fill", (d, i) => colors_enabled[i]);
+                .style("fill", (d, i) => colors_enabled[d.data.category](i));
 
             // add label
             origin.append("text")
@@ -693,7 +705,7 @@ function update_categories() {
             // all data is sorted by size of subcategory
             // therefore position and color is subject to change
             // update color immediately
-            update.select("rect").style("fill", (d, i) => colors_enabled[i]);
+            update.select("rect").style("fill", (d, i) => colors_enabled[d.data.category](i));
             // animate label to new position
             update.transition()
                 .attr("transform", (d, i, a) => `translate(${scale_bigcircle.bandwidth() + 25}, ${scale_bigcircle.bandwidth() / 2 - 15 * a.length + 10 + 30 * i})`);
