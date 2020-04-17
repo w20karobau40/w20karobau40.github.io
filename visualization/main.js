@@ -482,8 +482,13 @@ function accumulate_answers(i) {
 }
 
 function accumulate_categories(i) {
-    // get list of subcategory answers for category i
-    let answers = data.answers.map(d => d.categories[i]);
+    // select subcategory answers based on given category index and other active subcategories
+    let other_categories = d3.range(data.categories.length).filter(j => j !== i);
+    let answers = data.answers
+        // filter by other active subcategories
+        .filter(d => other_categories.every(o => is_active(o, d.categories[o])))
+        // get list of subcategory answers for category i
+        .map(d => d.categories[i]);
     // array [0, 1, ..., length - 1]
     let values = d3.range(data.categories[i].values.length);
     // count subcategories
@@ -587,7 +592,7 @@ function update_categories() {
                 value: d[1],
                 category: i,
                 subcategory: j
-            })),
+            })).filter(d => d.value > 0),
             category: i
         })
             .sum(d => d.value)
@@ -600,82 +605,102 @@ function update_categories() {
     // calculate circle positions and radii
     category_hierarchies.forEach(pack_layout);
 
-    root.selectAll("g.bigcircle_origin").data(category_hierarchies).join(function (enter) {
-        // the enter selection contains all new elements
-        const bigcircle = enter.append("g")
-            .attr("transform", (d, i) => `translate(0, ${scale_bigcircle(i)})`)
-            .attr("class", "bigcircle_origin");
+    const bigcircle_origin = root.selectAll("g.bigcircle_origin").data(category_hierarchies).join("g")
+        .attr("transform", (d, i) => `translate(0, ${scale_bigcircle(i)})`)
+        .attr("class", "bigcircle_origin");
 
-        // add category label
-        bigcircle.append("text")
-            .text(d => d.data.name)
-            .attr("x", 20)
-            .attr("y", "-0.4em");
+    // category label
+    bigcircle_origin.selectAll("text.category_label").data(d => [d.data.name]).join("text")
+        .text(d => d)
+        .attr("x", 20)
+        .attr("y", "-0.4em")
+        .attr("class", "category_label");
 
-        // draw the big circle
-        bigcircle.selectAll("circle.bigcircle").data(d => [d]).join("circle")
-            .attr("class", "bigcircle")
-            .attr("cx", d => d.x)
-            .attr("cy", d => d.y)
-            .attr("r", d => d.r)
-            .on("click", function (d) {
-                // reenable all subcategories
-                active_categories[d.data.category] = [];
-                // redraw category selection
-                update_categories();
-                // redraw question
-                update_question();
-            });
+    // draw the big circle
+    bigcircle_origin.selectAll("circle.bigcircle").data(d => [d]).join("circle")
+        .attr("class", "bigcircle")
+        .attr("cx", d => d.x)
+        .attr("cy", d => d.y)
+        .attr("r", d => d.r)
+        .on("click", function (d) {
+            // reenable all subcategories
+            active_categories[d.data.category] = [];
+            // redraw category selection
+            update_categories();
+            // redraw question
+            update_question();
+        });
 
-        // draw the smaller circles
-        // the big circle has depth 0, each child (and therefore the smaller ones) has depth 1 in the hierarchy
-        bigcircle.selectAll("circle.smallcircle").data(d => d.descendants().filter(x => x.depth === 1)).join("circle")
-            .attr("class", "smallcircle")
-            .attr("cx", d => d.x)
-            .attr("cy", d => d.y)
-            .attr("r", d => d.r)
-            .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[i] : colors_disabled[i])
-            .on("click", function (d) {
-                let category = d.data.category, subcategory = d.data.subcategory;
-                // handling changing categories
-                let index = active_categories[category].indexOf(subcategory);
-                if (index > -1) {
-                    // category.subcategory is currently active, remove from array
-                    active_categories[category].splice(index, 1);
-                } else {
-                    // category.subcategory is currently inactive, add to array
-                    active_categories[category].push(subcategory);
-                }
-                // redraw category selection
-                update_categories();
-                // redraw question
-                update_question();
-            });
+    // draw the smaller circles
+    // the big circle has depth 0, each child (and therefore the smaller ones) has depth 1 in the hierarchy
+    bigcircle_origin
+        .selectAll("circle.smallcircle")
+        .data(d => d.descendants().filter(x => x.depth === 1), d => `${d.data.category}_${d.data.subcategory}`)
+        .join(enter => enter.append("circle")
+                .attr("class", "smallcircle")
+                .attr("cx", d => d.x)
+                .attr("cy", d => d.y)
+                .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[i] : colors_disabled[i])
+                .on("click", function (d) {
+                    let category = d.data.category, subcategory = d.data.subcategory;
+                    // handling changing categories
+                    let index = active_categories[category].indexOf(subcategory);
+                    if (index > -1) {
+                        // category.subcategory is currently active, remove from array
+                        active_categories[category].splice(index, 1);
+                    } else {
+                        // category.subcategory is currently inactive, add to array
+                        active_categories[category].push(subcategory);
+                    }
+                    // redraw category selection
+                    update_categories();
+                    // redraw question
+                    update_question();
+                })
+                .call(e => e.transition().attr("r", d => d.r)
+                ),
+            update => update
+                .call(u => u.transition()
+                    .attr("r", d => d.r)
+                    .attr("cx", d => d.x)
+                    .attr("cy", d => d.y)
+                    .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[i] : colors_disabled[i])
+                ),
+            exit => exit.call(e => e.transition().attr("r", 0).remove())
+        );
 
-        // create origins for legend, using the same data as for the smaller circles
-        const legend = bigcircle.selectAll("g.legend").data(d => d.descendants().filter(x => x.depth === 1)).join("g")
-            .attr("class", "legend")
-            .attr("transform", (d, i, a) => `translate(${scale_bigcircle.bandwidth() + 25}, ${scale_bigcircle.bandwidth() / 2 - 15 * a.length + 10})`);
+    // origins for legend, using the same data as for the smaller circles
+    bigcircle_origin.selectAll("g.legend").data(d => d.descendants().filter(x => x.depth === 1), d => `${d.data.category}_${d.data.subcategory}`).join(
+        function (enter) {
+            const origin = enter.append("g")
+                .attr("class", "legend")
+                .attr("transform", (d, i, a) => `translate(${scale_bigcircle.bandwidth() + 25}, ${scale_bigcircle.bandwidth() / 2 - 15 * a.length + 10 + 30 * i})`);
 
-        // add small colored square
-        legend.append("rect")
-            .attr("width", 10)
-            .attr("height", 10)
-            .attr("y", (d, i) => 30 * i)
-            .style("fill", (d, i) => d3.schemeCategory10[i]);
+            // add small colored square
+            origin.append("rect")
+                .attr("width", 10)
+                .attr("height", 10)
+                .style("fill", (d, i) => colors_enabled[i]);
 
-        // add label
-        legend.append("text")
-            .text(d => d.data.name)
-            .attr("x", 15)
-            .attr("y", (d, i) => 30 * i + 5)
-            .attr("dominant-baseline", "central");
-    }, function (update) {
-        // For now this function only updates the circle colors representing active subcategories
-        update.selectAll("circle.smallcircle")
-            .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[i] : colors_disabled[i]);
-        return update;
-    });
+            // add label
+            origin.append("text")
+                .text(d => d.data.name)
+                .attr("x", 15)
+                .attr("y", 5)
+                .attr("dominant-baseline", "central");
+            return origin;
+        }, function (update) {
+            // all data is sorted by size of subcategory
+            // therefore position and color is subject to change
+            // update color immediately
+            update.select("rect").style("fill", (d, i) => colors_enabled[i]);
+            // animate label to new position
+            update.transition()
+                .attr("transform", (d, i, a) => `translate(${scale_bigcircle.bandwidth() + 25}, ${scale_bigcircle.bandwidth() / 2 - 15 * a.length + 10 + 30 * i})`);
+            return update;
+        }
+    );
+
     return root.node();
 }
 
