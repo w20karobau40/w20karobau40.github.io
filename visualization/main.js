@@ -38,12 +38,12 @@ const data = {
             question: "Technologien und Zukunftstrends für den Karosseriebau",
             type: "yesno",
             values: ["quoted", "not quoted"],
-            subquestions: ["Künstliche Intelligenz für autonome Prozessregelung", "Digitaler Zwilling der Anlage (Abbildung von Daten und Beeinflussung von Prozessen in Echtzeit)", "AR / VR (Einsatz in Instandhaltung / Montagefolge)", "Einsatz von Wearables (Tragbare Sensor- und Endgeräte)", "Durchgängige Nachverfolgung jedes Bauteils (z. B. RFID)", "Fahrerlose Transportsysteme für Bauteile", "Big Data Speicherung und Auswertung", "Intuitive (Roboter-)Programmierung und standardisierte Schnittstellen", "Predictive Maintenance", "Automatisierte Produktionsplanung", "Cloud Technologien"]
+            subquestions: ["Künstliche Intelligenz für\nautonome Prozessregelung", "Digitaler Zwilling der Anlage", "AR / VR (Einsatz in\nInstandhaltung / Montagefolge)", "Einsatz von Wearables\n(Tragbare Sensor- und Endgeräte)", "Durchgängige Nachverfolgung\njedes Bauteils (z. B. RFID)", "Fahrerlose Transportsysteme\nfür Bauteile", "Big Data Speicherung und Auswertung", "Intuitive (Roboter-)Programmierung\nund standardisierte Schnittstellen", "Predictive Maintenance", "Automatisierte Produktionsplanung", "Cloud Technologien"]
         }, {
             question: "Welche Unterstützungsangebote nutzen Sie bereits, um Technologien für den Karosserie der Zukunft erfolgreich zu meistern?",
             type: "yesno",
             values: ["quoted", "not quoted"],
-            subquestions: ["Forschungskooperationen", "Branchenübergreifender Erfahrungsaustausch", "Öffentliche Förderung von F&E Aufwänden", "Austausch mit Branchenmitgliedern auf Konferenzen und Workshops", "Regelmäßige Weiterbildungen", "Unterstützung durch externes Beratungsunternehmen", "Software-Dienstleister zur Datenauswertung"]
+            subquestions: ["Forschungskooperationen", "Branchenübergreifender\nErfahrungsaustausch", "Öffentliche Förderung\nvon F&E Aufwänden", "Austausch mit Branchenmitgliedern\nauf Konferenzen und Workshops", "Regelmäßige Weiterbildungen", "Unterstützung durch\nexternes Beratungsunternehmen", "Software-Dienstleister\nzur Datenauswertung"]
         }, {
             question: "Welche weitere Unterstützung benötigt Ihr Unternehmen,\num den Zukunftsthemen des Karosseriebaus erfolgreich begegnen zu können?",
             type: "sentiment",
@@ -415,8 +415,10 @@ const main_svg = d3.select("div#karobau_viz").append("svg")
 
 // create circles for selecting categories
 main_svg.append(() => create_category_selection());
-// question 1
-main_svg.append(() => create_sentiment_scale(475, 50));
+// basic structure for sentiment questions
+const structure_sentiment = main_svg.append(() => create_sentiment_scale(475, 50)).attr("display", "none");
+// basic structure for yes/no questions
+const structure_yesno = main_svg.append(() => create_yesno_scale(475, 50)).attr("display", "none");
 // tabs to switch between questions
 main_svg.append(() => create_tabs(475, 0));
 
@@ -450,22 +452,52 @@ function create_sentiment_scale(pos_x = 0, pos_y = 0) {
     // create root group
     const root = d3.create("svg:g")
         .attr("transform", `translate(${pos_x}, ${pos_y})`)
-        .attr("id", "question");
+        .attr("id", "question_sentiment");
 
     // text label for question
     root.append("text")
         .attr("dominant-baseline", "hanging")
-        .attr("id", "question_label");
+        .attr("class", "question_label");
 
     // create root for bars
     root.append("g")
         .attr("transform", "translate(0, 40)")
-        .attr("id", "bar_root");
+        .attr("class", "bar_root");
 
     // create root for legend
     root.append("g")
         .attr("transform", "translate(600, 40)")
-        .attr("id", "legend_root");
+        .attr("class", "legend_root");
+
+    return root.node();
+}
+
+function create_yesno_scale(pos_x = 0, pos_y = 0) {
+    // create root group
+    const root = d3.create("svg:g")
+        .attr("transform", `translate(${pos_x}, ${pos_y})`)
+        .attr("id", "question_yesno");
+
+    // text label for question
+    root.append("text")
+        .attr("dominant-baseline", "hanging")
+        .attr("class", "question_label");
+
+    // create root for bars
+    const root_bars = root.append("g")
+        .attr("transform", "translate(0, 40)")
+        .attr("class", "bar_root");
+
+    // create axis
+    root_bars.append("g")
+        .attr("class", "axis");
+
+    // create axis label
+    root_bars.append("text")
+        .text("Zustimmung in Prozent")
+        .attr("class", "axis_label")
+        .attr("dominant-baseline", "hanging")
+        .attr("text-anchor", "middle");
 
     return root.node();
 }
@@ -562,8 +594,7 @@ function create_tabs(pos_x = 0, pos_y = 0) {
             // redraw tabs with new colors
             update_tabs();
             // redraw question
-            if (active_question === 0 || active_question === 1 || active_question === 4)
-                update_question();
+            update_question();
             // set correct height
             main_svg.attr("height", main_svg.node().getBBox().height);
         });
@@ -728,6 +759,18 @@ function update_categories() {
 }
 
 function update_question() {
+    if (data.questions[active_question].type === "sentiment") {
+        structure_sentiment.attr("display", null);
+        structure_yesno.attr("display", "none");
+        update_sentiment_scale();
+    } else {
+        structure_sentiment.attr("display", "none");
+        structure_yesno.attr("display", null);
+        update_yesno_scale();
+    }
+}
+
+function update_sentiment_scale() {
     const height_bar = 40, width_bar = 300;
 
     const question = data.questions[active_question], answers = accumulate_answers(active_question);
@@ -743,7 +786,6 @@ function update_question() {
     const colors_positive = question.positive.length === 1 ? [color_interpolator_positive(2 / 3)]
         : question.positive.map((d, i, a) => color_interpolator_positive(i / a.length));
     const colors = colors_negative.concat(question.neutral.map(() => color_neutral)).concat(colors_positive);
-    console.log(colors);
 
     // calculation for centering the bars on the neutral subbars
     const num_left = d3.max(answers, a => a.sum_negative + a.sum_neutral / 2),
@@ -757,22 +799,15 @@ function update_question() {
         .domain(d3.range(num_questions))
         .rangeRound([0, height_bar * num_questions])
         .paddingInner(0.08);
-    const scale_color = d3.scaleLinear()
-        .domain([0, num_values - 1])
-        .range(["blue", "red"])
-        .interpolate(d3.interpolateRgb);
     const scale_legend = d3.scaleBand()
         .domain(d3.range(num_values))
         .range([0, 30 * num_values]);
 
-    // select root group
-    const root = main_svg.select("g#question");
-
     // update text label for question
-    update_text(root.select("text#question_label"), question.question);
+    update_text(structure_sentiment.select("text.question_label"), question.question);
 
     // select root for bars
-    const root_bars = root.select("g#bar_root");
+    const root_bars = structure_sentiment.select("g.bar_root");
     // update bar containers
     const bar_container = root_bars.selectAll("g.bar_container").data(local_data, d => `${active_question}_${d[0]}`).join("g")
         .attr("class", "bar_container")
@@ -796,9 +831,9 @@ function update_question() {
             .attr("width", d => d[1])
             .attr("x", d => d[0])
             .style("fill", d => d[2])
-        , update => update.transition()
+        , update => update.call(u => u.transition()
             .attr("width", d => d[1])
-            .attr("x", d => d[0])
+            .attr("x", d => d[0]))
     );
 
     // update text label
@@ -811,7 +846,7 @@ function update_question() {
 
 
     // select root for legend
-    const root_legend = root.select("g#legend_root");
+    const root_legend = structure_sentiment.select("g.legend_root");
     // update legend
     root_legend.selectAll("g.legend_origin").data(
         question.negative.concat(question.neutral).concat(question.positive).map(i => question.values[i])
@@ -846,6 +881,78 @@ function update_question() {
             return update;
         }
     )
+}
+
+function update_yesno_scale() {
+    const height_bar = 40, width_bar = 300;
+
+    const question = data.questions[active_question], answers = accumulate_answers(active_question);
+    const local_data = d3.zip(question.subquestions, answers);
+    const num_questions = local_data.length, num_answers = d3.max(answers, d => d[0] + d[1]);
+
+    const scale_bar_horizontal = d3.scaleLinear()
+        .domain([0, d3.max(answers, d => d[0]) * 100 / num_answers])
+        .rangeRound([0, width_bar]);
+
+    const scale_bar_vertical = d3.scaleBand()
+        .domain(d3.range(num_questions))
+        .rangeRound([0, height_bar * num_questions])
+        .paddingInner(0.08);
+
+    // update text label for question
+    update_text(structure_yesno.select("text.question_label"), question.question);
+
+    // select root for bars
+    const root_bars = structure_yesno.select("g.bar_root");
+    // update bar containers
+    const bar_container = root_bars.selectAll("g.bar_container").data(local_data, d => `${active_question}_${d[0]}`).join("g")
+        .attr("class", "bar_container")
+        .attr("transform", (d, i) => `translate(0, ${scale_bar_vertical(i)})`);
+
+    // update individual bars
+    bar_container.selectAll("rect.bar_yesno").data(d => [d[1][0] * 100 / num_answers]).join(enter => enter.append("rect")
+            .attr("height", scale_bar_vertical.bandwidth())
+            .attr("width", d => scale_bar_horizontal(d))
+            .attr("x", 250)
+            .attr("class", "bar_yesno")
+        , update => update.transition()
+            .attr("width", d => scale_bar_horizontal(d))
+    );
+
+    // update bar label
+    bar_container.selectAll("text.bar_yesno_label").data(d => [d[1][0] * 100 / num_answers]).join(enter => enter.append("text")
+            .attr("x", d => 250 + scale_bar_horizontal(d) - 10)
+            .attr("y", scale_bar_vertical.bandwidth() / 2)
+            .attr("class", "bar_yesno_label")
+            .attr("dominant-baseline", "central")
+            .attr("text-anchor", "end")
+            .attr("display", d => scale_bar_horizontal(d) >= 50 ? null : "none")
+            .text(d => `${Math.round(d)} %`)
+        , update => update.transition()
+            .attr("x", d => 250 + scale_bar_horizontal(d) - 10)
+            .attr("display", d => scale_bar_horizontal(d) >= 50 ? null : "none")
+            .text(d => `${Math.round(d)} %`)
+    );
+
+    // update text label
+    bar_container.selectAll("text.subquestion").data(d => [d[0]]).join("text")
+        .attr("dominant-baseline", "hanging")
+        .attr("class", "subquestion")
+        .selectAll("tspan").data(d => d.split("\n")).join("tspan")
+        .text(d => d)
+        .attr("dy", (d, i) => i > 0 ? "1.2em" : null)
+        .attr("x", 0);
+
+    // update axis
+    root_bars.select("g.axis")
+        .attr("transform", `translate(250, ${scale_bar_vertical.range()[1]})`)
+        .transition()
+        .call(d3.axisBottom(scale_bar_horizontal));
+
+    // update axis label
+    root_bars.select("text.axis_label")
+        .attr("x", 250 + width_bar / 2)
+        .attr("y", scale_bar_vertical.range()[1] + 30);
 }
 
 function is_active(category, subcategory) {

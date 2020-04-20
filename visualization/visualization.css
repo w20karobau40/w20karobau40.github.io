@@ -24,3 +24,11 @@ rect.tab.active {
 rect.tab.inactive {
     fill: lightgray;
 }
+
+rect.bar_yesno {
+    fill: limegreen;
+}
+
+text.bar_yesno_label {
+    fill: blue;
+}
