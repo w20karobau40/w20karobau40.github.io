@@ -492,14 +492,12 @@ function accumulate_answers(i) {
         return answers_transposed
             .map(subquestion => values.map(v => subquestion.filter(i => i === v).length))
             .map(a => ({
-                answers: a,
-                // TODO: optimization potential: either get rid of sum_... , or add to object in a second step, since right now we map positive, ... twice
-                positive: question.positive.map(j => a[j]),
-                neutral: question.neutral.map(j => a[j]),
-                negative: question.negative.map(j => a[j]),
-                sum_positive: d3.sum(question.positive, j => a[j]),
+                answers: question.negative.map((d, i) => ({value: a[d], index: i, type: -1}))
+                    .concat(question.neutral.map((d, i) => ({value: a[d], index: i, type: 0})))
+                    .concat(question.positive.map((d, i) => ({value: a[d], index: i, type: 1}))),
+                sum_negative: d3.sum(question.negative, j => a[j]),
                 sum_neutral: d3.sum(question.neutral, j => a[j]),
-                sum_negative: d3.sum(question.negative, j => a[j])
+                sum_positive: d3.sum(question.positive, j => a[j])
             }));
     else
         // count answers
@@ -736,6 +734,17 @@ function update_question() {
     const local_data = d3.zip(question.subquestions, answers);
     const num_questions = local_data.length, num_values = question.values.length;
 
+    // colors
+    const color_very_negative = "#ff800e", color_slightly_negative = "#ffbc79", color_neutral = "#cfcfcf",
+        color_slightly_positive = "#a2c8ec", color_very_positive = "#5f9ed1";
+    const color_interpolator_negative = d3.interpolateRgb(color_very_negative, color_slightly_negative);
+    const colors_negative = question.negative.length === 1 ? [color_interpolator_negative(1 / 3)] : question.negative.map((d, i, a) => color_interpolator_negative(i / a.length));
+    const color_interpolator_positive = d3.interpolateRgb(color_slightly_positive, color_very_positive);
+    const colors_positive = question.positive.length === 1 ? [color_interpolator_positive(2 / 3)]
+        : question.positive.map((d, i, a) => color_interpolator_positive(i / a.length));
+    const colors = colors_negative.concat(question.neutral.map(() => color_neutral)).concat(colors_positive);
+    console.log(colors);
+
     // calculation for centering the bars on the neutral subbars
     const num_left = d3.max(answers, a => a.sum_negative + a.sum_neutral / 2),
         num_right = d3.max(answers, a => a.sum_positive + a.sum_neutral / 2);
@@ -774,73 +783,23 @@ function update_question() {
         .attr("class", "bar_origin")
         .attr("transform", "translate(250,0)");
 
-    if (bar_origin === 3)
-        bar_origin.selectAll("rect").data(function (answ) {
-            let values = answ.answers;
-            let num_answers = d3.sum(values);
-            let start_x = d3.cumsum(values.map(v => v * width_bar / num_answers)).map(Math.round);
-            // Float64Array to Array and prepend 0
-            start_x = [].slice.call(start_x);
-            start_x.unshift(0);
-            let bar_width = d3.range(values.length).map(i => start_x[i + 1] - start_x[i]);
-            return d3.zip(values, start_x.slice(0, -1), bar_width);
-        }).join(enter => enter.append("rect")
-                .attr("height", scale_bar_vertical.bandwidth())
-                .attr("width", d => d[2])
-                .attr("x", d => d[1])
-                .style("fill", (d, i) => scale_color(i))
-            , update => update.transition()
-                .attr("width", d => d[2])
-                .attr("x", d => d[1])
-        );
-
-    // extracted calculation to save on duplicated code
-    function calculate_question_data(answers, offset) {
+    bar_origin.selectAll("rect").data(function (answ) {
+        let offset = num_left - answ.sum_negative - answ.sum_neutral / 2;
         // calculate position of left edge of rect
-        let start_x = answers.slice();
-        start_x.unshift(offset);
-        start_x = d3.cumsum(start_x).map(scale_bar_horizontal);
-        // calculate width
-        let width = start_x.map((d, i, a) => a[i + 1] - d).slice(0, -1);
-        return d3.zip(start_x, width);
-    }
-
-    // create negative, neutral and positive rectangles separately
-    bar_origin.selectAll("rect.negative").data(function (answers) {
-        // calculate offset
-        let offset = num_left - answers.sum_negative - answers.sum_neutral / 2;
-        return calculate_question_data(answers.negative, offset);
-    }).join("rect")
-        .attr("class", "negative")
-        .attr("height", scale_bar_vertical.bandwidth())
-        .attr("width", d => d[1])
-        .attr("x", d => d[0])
-        .style("fill", "red")
-        .style("stroke", "black");
-
-    bar_origin.selectAll("rect.neutral").data(function (answers) {
-        // calculate offset
-        let offset = num_left - answers.sum_neutral / 2;
-        return calculate_question_data(answers.neutral, offset);
-    }).join("rect")
-        .attr("class", "neutral")
-        .attr("height", scale_bar_vertical.bandwidth())
-        .attr("width", d => d[1])
-        .attr("x", d => d[0])
-        .style("fill", "grey")
-        .style("stroke", "black");
-
-    bar_origin.selectAll("rect.positive").data(function (answers) {
-        // calculate offset
-        let offset = num_left + answers.sum_neutral / 2;
-        return calculate_question_data(answers.positive, offset);
-    }).join("rect")
-        .attr("class", "positive")
-        .attr("height", scale_bar_vertical.bandwidth())
-        .attr("width", d => d[1])
-        .attr("x", d => d[0])
-        .style("fill", "blue")
-        .style("stroke", "black");
+        // the first bar should start at the calculated offset value
+        let start_x = d3.cumsum([offset].concat(answ.answers.map(d => d.value))).map(scale_bar_horizontal);
+        let bar_width = [].slice.call(start_x)
+            .map((d, i, a) => a[i + 1] - d).slice(0, -1);
+        return d3.zip(start_x, bar_width, colors);
+    }).join(enter => enter.append("rect")
+            .attr("height", scale_bar_vertical.bandwidth())
+            .attr("width", d => d[1])
+            .attr("x", d => d[0])
+            .style("fill", d => d[2])
+        , update => update.transition()
+            .attr("width", d => d[1])
+            .attr("x", d => d[0])
+    );
 
     // update text label
     bar_container.selectAll("text").data(d => [d[0]]).join("text")
@@ -854,7 +813,9 @@ function update_question() {
     // select root for legend
     const root_legend = root.select("g#legend_root");
     // update legend
-    root_legend.selectAll("g.legend_origin").data(question.values).join(
+    root_legend.selectAll("g.legend_origin").data(
+        question.negative.concat(question.neutral).concat(question.positive).map(i => question.values[i])
+    ).join(
         function (enter) {
             // the enter selection contains all new elements
             // first create origins
@@ -866,7 +827,7 @@ function update_question() {
             labels.append("rect")
                 .attr("width", 10)
                 .attr("height", 10)
-                .style("fill", (d, i) => scale_color(i));
+                .style("fill", (d, i) => colors[i]);
 
             // text with answer value
             labels.append("text")
@@ -878,7 +839,7 @@ function update_question() {
         function (update) {
             // update color of square
             update.select("rect")
-                .style("fill", (d, i) => scale_color(i));
+                .style("fill", (d, i) => colors[i]);
             // update label text
             update.select("text")
                 .text(d => d);
