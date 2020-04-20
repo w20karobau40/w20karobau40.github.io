@@ -22,12 +22,18 @@ const data = {
             question: "Inwieweit sehen Sie den Karosseriebau von folgenden Megatrends beeinflusst?",
             type: "sentiment",
             values: ["Nicht betroffen", "Wenig", "Stark", "Sehr stark"],
-            subquestions: ["Demografischer Wandel", "Fachkräftemangel", "Wissensverlust durch\nMitarbeiterwechsel", "Arbeitsplatzergonomie", "IT-Sicherheit (Cyber Security)", "Automatisierte Datenverarbeitung", "Verkauf eigener Produktionsdaten", "Ankauf relevanter Daten für\neigene Produkte und Anlagen", "Kostendruck durch\ninternationale Wettbewerber", "Internationale Zulieferketten", "Auftragsfertigung von\nBaugruppen und Karossen", "Steigende Produktvielfalt erfordert\nAnlagenflexibilität", "Verkürzung der Produktionszyklen", "Volumenflexibilität aufgrund\nschwankender Nachfrage", "Energieeffizienz", "Rohstoffverknappung", "Abfallvermeidung"]
+            subquestions: ["Demografischer Wandel", "Fachkräftemangel", "Wissensverlust durch\nMitarbeiterwechsel", "Arbeitsplatzergonomie", "IT-Sicherheit (Cyber Security)", "Automatisierte Datenverarbeitung", "Verkauf eigener Produktionsdaten", "Ankauf relevanter Daten für\neigene Produkte und Anlagen", "Kostendruck durch\ninternationale Wettbewerber", "Internationale Zulieferketten", "Auftragsfertigung von\nBaugruppen und Karossen", "Steigende Produktvielfalt erfordert\nAnlagenflexibilität", "Verkürzung der Produktionszyklen", "Volumenflexibilität aufgrund\nschwankender Nachfrage", "Energieeffizienz", "Rohstoffverknappung", "Abfallvermeidung"],
+            positive: [2, 3],
+            neutral: [],
+            negative: [0, 1]
         }, {
             question: "Wie weit sehen Sie folgende Technologien bereits heute\nim Karosseriebau (ihres Unternehmens oder Kundens) implementiert?",
             type: "sentiment",
             values: ["Nicht bekannt", "Nicht relevant", "Nicht vorhanden", "Teilweise vorhanden", "Vollständig vorhanden"],
-            subquestions: ["Fahrerlose Transportsysteme", "Produktnachverfolgbarkeit durch eind.\ndigitale Kennzeichnung jedes Bauteils", "Produktlokalisierung", "Schutzzaunloser Robotereinsatz", "Ortsflexible Roboter", "Intuitive (Roboter-)Programmierung\nund standardisierte Schnittstellen", "Mensch-Roboter-Kooperation", "Griff in die (ungeordnete) Kiste", "Inbetriebnahme auf Basis\nvon offline Bahnplanung", "Flexible Greifer", "Flexible Spannvorrichtungen", "Flexible Behälter", "Skalierbare Produktionsanlagen", "Rekonfigurierbare Produktionsanlagen\nzur Anpassung auf neue Varianten", "Autonome\nMaschine-Maschine-Interaktion", "Lokale Auswertung\nvon Maschinendaten", "Auswertung in übergeordneten\nNetzwerken/Systemen (u.a. Cloud)", "Datenauswertung durch\nexterne Dienstleister/Dritte", "Condition Monitoring", "Predictive Maintenance", "Echtzeit-Simulation von Prozessen", "Digitaler Zwilling", "Einsatz von Wearables\nzur Instandhaltung", "Einsatz von AR/VR", "Mustererkennung von Maschinendaten", "Mustererkennung in der\nBildverarbeitung", "Autonome Produktionssteuerung\ndurch KI"]
+            subquestions: ["Fahrerlose Transportsysteme", "Produktnachverfolgbarkeit durch eind.\ndigitale Kennzeichnung jedes Bauteils", "Produktlokalisierung", "Schutzzaunloser Robotereinsatz", "Ortsflexible Roboter", "Intuitive (Roboter-)Programmierung\nund standardisierte Schnittstellen", "Mensch-Roboter-Kooperation", "Griff in die (ungeordnete) Kiste", "Inbetriebnahme auf Basis\nvon offline Bahnplanung", "Flexible Greifer", "Flexible Spannvorrichtungen", "Flexible Behälter", "Skalierbare Produktionsanlagen", "Rekonfigurierbare Produktionsanlagen\nzur Anpassung auf neue Varianten", "Autonome\nMaschine-Maschine-Interaktion", "Lokale Auswertung\nvon Maschinendaten", "Auswertung in übergeordneten\nNetzwerken/Systemen (u.a. Cloud)", "Datenauswertung durch\nexterne Dienstleister/Dritte", "Condition Monitoring", "Predictive Maintenance", "Echtzeit-Simulation von Prozessen", "Digitaler Zwilling", "Einsatz von Wearables\nzur Instandhaltung", "Einsatz von AR/VR", "Mustererkennung von Maschinendaten", "Mustererkennung in der\nBildverarbeitung", "Autonome Produktionssteuerung\ndurch KI"],
+            positive: [4],
+            neutral: [3],
+            negative: [2]
         }, {
             question: "Technologien und Zukunftstrends für den Karosseriebau",
             type: "yesno",
@@ -42,7 +48,10 @@ const data = {
             question: "Welche weitere Unterstützung benötigt Ihr Unternehmen,\num den Zukunftsthemen des Karosseriebaus erfolgreich begegnen zu können?",
             type: "sentiment",
             values: ["Nicht bekannt", "Nicht relevant", "Weniger wichtig", "Wichtig", "Sehr wichtig"],
-            subquestions: ["Änderung gesetzlicher\nRahmenbedingungen", "Mehr IT-Fachkräfte", "Mehr sonstige Fachkräfte", "Kundenübergreifende\nStandardisierung", "Marktübersicht durch Benchmarking\nvorhandener Technologien", "Nutzenübersicht unterschiedlicher\nTechnologien", "Mehr F&E im eigenen Unternehmen", "Forschungskooperationen", "Wissens-/Erfahrungsaustausch\nmit Branchenmitgliedern", "Änderung im Führungsverhalten", "Weiterbildungsangebote von\nTechnologieanbietern"]
+            subquestions: ["Änderung gesetzlicher\nRahmenbedingungen", "Mehr IT-Fachkräfte", "Mehr sonstige Fachkräfte", "Kundenübergreifende\nStandardisierung", "Marktübersicht durch Benchmarking\nvorhandener Technologien", "Nutzenübersicht unterschiedlicher\nTechnologien", "Mehr F&E im eigenen Unternehmen", "Forschungskooperationen", "Wissens-/Erfahrungsaustausch\nmit Branchenmitgliedern", "Änderung im Führungsverhalten", "Weiterbildungsangebote von\nTechnologieanbietern"],
+            positive: [3, 4],
+            neutral: [],
+            negative: [2]
         }
     ],
     answers: [
@@ -467,6 +476,7 @@ function create_sentiment_scale(pos_x = 0, pos_y = 0) {
  * @returns {number[][]} two-dimensional array, for each subquestion an array with the number of answers per answer option
  */
 function accumulate_answers(i) {
+    const question = data.questions[i];
     // select valid answers based on categories and given question index
     let answers = data.answers
         // filter answers, only allow those where all subcategories are active
@@ -476,9 +486,24 @@ function accumulate_answers(i) {
     // transpose, list of answers per person => list of answers per subquestion
     let answers_transposed = d3.transpose(answers);
     // array [0, 1, ..., length - 1]
-    let values = d3.range(data.questions[i].values.length);
-    // count answers
-    return answers_transposed.map(subquestion => values.map(v => subquestion.filter(i => i === v).length));
+    let values = d3.range(question.values.length);
+    if (question.type === "sentiment")
+        // count answers as well as sum positive, neutral and negative answers
+        return answers_transposed
+            .map(subquestion => values.map(v => subquestion.filter(i => i === v).length))
+            .map(a => ({
+                answers: a,
+                // TODO: optimization potential: either get rid of sum_... , or add to object in a second step, since right now we map positive, ... twice
+                positive: question.positive.map(j => a[j]),
+                neutral: question.neutral.map(j => a[j]),
+                negative: question.negative.map(j => a[j]),
+                sum_positive: d3.sum(question.positive, j => a[j]),
+                sum_neutral: d3.sum(question.neutral, j => a[j]),
+                sum_negative: d3.sum(question.negative, j => a[j])
+            }));
+    else
+        // count answers
+        return answers_transposed.map(subquestion => values.map(v => subquestion.filter(i => i === v).length));
 }
 
 function accumulate_categories(i) {
@@ -711,7 +736,15 @@ function update_question() {
     const local_data = d3.zip(question.subquestions, answers);
     const num_questions = local_data.length, num_values = question.values.length;
 
-    const scale_bar = d3.scaleBand()
+    // calculation for centering the bars on the neutral subbars
+    const num_left = d3.max(answers, a => a.sum_negative + a.sum_neutral / 2),
+        num_right = d3.max(answers, a => a.sum_positive + a.sum_neutral / 2);
+    // assumption for now: all bars have same scale, so they might differ in length based on non-standard answers
+    const scale_bar_horizontal = d3.scaleLinear()
+        .domain([0, num_left + num_right])
+        .rangeRound([0, width_bar]);
+
+    const scale_bar_vertical = d3.scaleBand()
         .domain(d3.range(num_questions))
         .rangeRound([0, height_bar * num_questions])
         .paddingInner(0.08);
@@ -734,30 +767,80 @@ function update_question() {
     // update bar containers
     const bar_container = root_bars.selectAll("g.bar_container").data(local_data, d => `${active_question}_${d[0]}`).join("g")
         .attr("class", "bar_container")
-        .attr("transform", (d, i) => `translate(0, ${scale_bar(i)})`);
+        .attr("transform", (d, i) => `translate(0, ${scale_bar_vertical(i)})`);
 
     // update individual bars
     const bar_origin = bar_container.selectAll("g.bar_origin").data(d => [d[1]]).join("g")
         .attr("class", "bar_origin")
         .attr("transform", "translate(250,0)");
 
-    bar_origin.selectAll("rect").data(function (values) {
-        let num_answers = d3.sum(values);
-        let start_x = d3.cumsum(values.map(v => v * width_bar / num_answers)).map(Math.round);
-        // Float64Array to Array and prepend 0
-        start_x = [].slice.call(start_x);
-        start_x.unshift(0);
-        let bar_width = d3.range(values.length).map(i => start_x[i + 1] - start_x[i]);
-        return d3.zip(values, start_x.slice(0, -1), bar_width);
-    }).join(enter => enter.append("rect")
-            .attr("height", scale_bar.bandwidth())
-            .attr("width", d => d[2])
-            .attr("x", d => d[1])
-            .style("fill", (d, i) => scale_color(i))
-        , update => update.transition()
-            .attr("width", d => d[2])
-            .attr("x", d => d[1])
-    );
+    if (bar_origin === 3)
+        bar_origin.selectAll("rect").data(function (answ) {
+            let values = answ.answers;
+            let num_answers = d3.sum(values);
+            let start_x = d3.cumsum(values.map(v => v * width_bar / num_answers)).map(Math.round);
+            // Float64Array to Array and prepend 0
+            start_x = [].slice.call(start_x);
+            start_x.unshift(0);
+            let bar_width = d3.range(values.length).map(i => start_x[i + 1] - start_x[i]);
+            return d3.zip(values, start_x.slice(0, -1), bar_width);
+        }).join(enter => enter.append("rect")
+                .attr("height", scale_bar_vertical.bandwidth())
+                .attr("width", d => d[2])
+                .attr("x", d => d[1])
+                .style("fill", (d, i) => scale_color(i))
+            , update => update.transition()
+                .attr("width", d => d[2])
+                .attr("x", d => d[1])
+        );
+
+    // extracted calculation to save on duplicated code
+    function calculate_question_data(answers, offset) {
+        // calculate position of left edge of rect
+        let start_x = answers.slice();
+        start_x.unshift(offset);
+        start_x = d3.cumsum(start_x).map(scale_bar_horizontal);
+        // calculate width
+        let width = start_x.map((d, i, a) => a[i + 1] - d).slice(0, -1);
+        return d3.zip(start_x, width);
+    }
+
+    // create negative, neutral and positive rectangles separately
+    bar_origin.selectAll("rect.negative").data(function (answers) {
+        // calculate offset
+        let offset = num_left - answers.sum_negative - answers.sum_neutral / 2;
+        return calculate_question_data(answers.negative, offset);
+    }).join("rect")
+        .attr("class", "negative")
+        .attr("height", scale_bar_vertical.bandwidth())
+        .attr("width", d => d[1])
+        .attr("x", d => d[0])
+        .style("fill", "red")
+        .style("stroke", "black");
+
+    bar_origin.selectAll("rect.neutral").data(function (answers) {
+        // calculate offset
+        let offset = num_left - answers.sum_neutral / 2;
+        return calculate_question_data(answers.neutral, offset);
+    }).join("rect")
+        .attr("class", "neutral")
+        .attr("height", scale_bar_vertical.bandwidth())
+        .attr("width", d => d[1])
+        .attr("x", d => d[0])
+        .style("fill", "grey")
+        .style("stroke", "black");
+
+    bar_origin.selectAll("rect.positive").data(function (answers) {
+        // calculate offset
+        let offset = num_left + answers.sum_neutral / 2;
+        return calculate_question_data(answers.positive, offset);
+    }).join("rect")
+        .attr("class", "positive")
+        .attr("height", scale_bar_vertical.bandwidth())
+        .attr("width", d => d[1])
+        .attr("x", d => d[0])
+        .style("fill", "blue")
+        .style("stroke", "black");
 
     // update text label
     bar_container.selectAll("text").data(d => [d[0]]).join("text")
