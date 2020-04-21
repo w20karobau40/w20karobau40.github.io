@@ -927,11 +927,11 @@ function update_yesno_scale() {
             .attr("dominant-baseline", "central")
             .attr("text-anchor", "end")
             .attr("display", d => scale_bar_horizontal(d) >= 50 ? null : "none")
-            .text(d => `${Math.round(d)} %`)
+            .text(d => Math.round(d))
         , update => update.transition()
             .attr("x", d => 250 + scale_bar_horizontal(d) - 10)
             .attr("display", d => scale_bar_horizontal(d) >= 50 ? null : "none")
-            .text(d => `${Math.round(d)} %`)
+            .text(d => Math.round(d))
     );
 
     // update text label
