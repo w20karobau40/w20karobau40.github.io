@@ -599,7 +599,7 @@ function update_categories() {
         const c1 = d3.schemeCategory10[i];
         let c2 = d3.hsl(c1);
         c2.l = 0.9;
-        return d3.scaleLinear().domain([0, d - 0.99]).range([c1, c2]);
+        return d3.scaleLinear().domain([0, d - 0.6]).range([c1, c2]);
     });
     const colors_disabled = num_subcategories.map((d, i) => {
         let c1 = d3.hsl(d3.schemeCategory10[i]);
