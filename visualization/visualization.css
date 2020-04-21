@@ -1,6 +1,6 @@
 circle.bigcircle {
     stroke: none;
-    fill: BlanchedAlmond;
+    fill: papayawhip;
 }
 
 circle.smallcircle {
@@ -18,17 +18,17 @@ rect.tab {
 }
 
 rect.tab.active {
-    fill: lightgreen;
+    fill: moccasin;
 }
 
 rect.tab.inactive {
-    fill: lightgray;
+    fill: papayawhip;
 }
 
 rect.bar_yesno {
-    fill: limegreen;
+    fill: #B2D732;
 }
 
 text.bar_yesno_label {
-    fill: white;
+    fill: #00663d;
 }
