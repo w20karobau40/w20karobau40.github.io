@@ -838,10 +838,11 @@ function update_sentiment_scale() {
 
     // update text label
     bar_container.selectAll("text").data(d => [d[0]]).join("text")
-        .attr("dominant-baseline", "hanging")
+        .attr("dominant-baseline", "central")
+        .attr("y", scale_bar_vertical.bandwidth() / 2)
         .selectAll("tspan").data(d => d.split("\n")).join("tspan")
         .text(d => d)
-        .attr("dy", (d, i) => i > 0 ? "1.2em" : null)
+        .attr("dy", (d, i, a) => i > 0 ? "1.2em" : a.length > 1 ? `-${(a.length - 1) * 0.6}em` : null)
         .attr("x", 0);
 
 
@@ -938,11 +939,12 @@ function update_yesno_scale() {
 
     // update text label
     bar_container.selectAll("text.subquestion").data(d => [d[0]]).join("text")
-        .attr("dominant-baseline", "hanging")
+        .attr("dominant-baseline", "central")
+        .attr("y", scale_bar_vertical.bandwidth() / 2)
         .attr("class", "subquestion")
         .selectAll("tspan").data(d => d.split("\n")).join("tspan")
         .text(d => d)
-        .attr("dy", (d, i) => i > 0 ? "1.2em" : null)
+        .attr("dy", (d, i, a) => i > 0 ? "1.2em" : a.length > 1 ? `-${(a.length - 1) * 0.6}em` : null)
         .attr("x", 0);
 
     // update axis
