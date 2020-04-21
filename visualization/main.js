@@ -405,27 +405,30 @@ let active_question = 0;
 // for each category there is an array of active incides, an empty array shall be equivalent to an array containing all possible indices
 let active_categories = data.categories.map(() => []);
 
+const viewBox_width = 1240;
+let y_categories = 0, y_question = 50;
+let height_categories = 0, height_question = 0;
 // create svg to fill with visualization
 const main_svg = d3.select("div#karobau_viz").append("svg")
-    .attr("height", 850)
+    // .attr("height", 850)
     .attr("width", "100%")
+    .attr("viewBox", `0 0 ${viewBox_width} 850`)
+    .attr("preserveAspectRatio", "xMidYMin meet")
     .attr("id", "karobau_viz_svg")
     // TODO: remove border, just for debugging purposes
     .style("border", "black 1px solid");
 
 // create circles for selecting categories
-main_svg.append(() => create_category_selection());
+const structure_categories = main_svg.append(() => create_category_selection(0, y_categories));
 // basic structure for sentiment questions
-const structure_sentiment = main_svg.append(() => create_sentiment_scale(475, 50)).attr("display", "none");
+const structure_sentiment = main_svg.append(() => create_sentiment_scale(475, y_question)).attr("display", "none");
 // basic structure for yes/no questions
-const structure_yesno = main_svg.append(() => create_yesno_scale(475, 50)).attr("display", "none");
+const structure_yesno = main_svg.append(() => create_yesno_scale(475, y_question)).attr("display", "none");
 // tabs to switch between questions
 main_svg.append(() => create_tabs(475, 0));
 
 update_categories();
 update_question();
-// set correct height
-main_svg.attr("height", main_svg.node().getBBox().height);
 
 /**
  * @summary This function creates circles for selecting the categories of survey participants.
@@ -595,8 +598,6 @@ function create_tabs(pos_x = 0, pos_y = 0) {
             update_tabs();
             // redraw question
             update_question();
-            // set correct height
-            main_svg.attr("height", main_svg.node().getBBox().height);
         });
     // create a colored rectangle
     tab.append("rect")
@@ -634,16 +635,19 @@ function update_categories() {
         return d;
     });
 
+    // calculate required height for viewBox calculation
+    // this is essentially the y coordinate of the bottom of the last big circle
+    height_categories = scale_bigcircle.range()[1] - scale_bigcircle.step() * scale_bigcircle.paddingOuter();
 
     // select root group
     const root = main_svg.select("g#category_selection");
 
     // create a d3 hierarchy for each category
     const category_hierarchies = data.categories.map((c, i) => d3.hierarchy({
-            name: c.category,
-            children: d3.zip(c.values, accumulate_categories(i)).map((d, j) => ({
-                name: d[0],
-                value: d[1],
+        name: c.category,
+        children: d3.zip(c.values, accumulate_categories(i)).map((d, j) => ({
+            name: d[0],
+            value: d[1],
                 category: i,
                 subcategory: j
             })).filter(d => d.value > 0),
@@ -768,6 +772,7 @@ function update_question() {
         structure_yesno.attr("display", null);
         update_yesno_scale();
     }
+    set_svg_size();
 }
 
 function update_sentiment_scale() {
@@ -802,6 +807,10 @@ function update_sentiment_scale() {
     const scale_legend = d3.scaleBand()
         .domain(d3.range(num_values))
         .range([0, 30 * num_values]);
+
+    // calculate required height for viewBox calculation
+    // this is essentially the y coordinate of the bottom of the last bar
+    height_question = scale_bar_vertical.range()[1] - scale_bar_vertical.step() * scale_bar_vertical.paddingOuter();
 
     // update text label for question
     update_text(structure_sentiment.select("text.question_label"), question.question);
@@ -900,6 +909,10 @@ function update_yesno_scale() {
         .rangeRound([0, height_bar * num_questions])
         .paddingInner(0.08);
 
+    // calculate required height for viewBox calculation
+    // this is the bottom of the axis label
+    height_question = scale_bar_vertical.range()[1] + 30;
+
     // update text label for question
     update_text(structure_yesno.select("text.question_label"), question.question);
 
@@ -961,4 +974,10 @@ function update_yesno_scale() {
 
 function is_active(category, subcategory) {
     return active_categories[category].length === 0 || active_categories[category].indexOf(subcategory) > -1;
+}
+
+function set_svg_size() {
+    const required_height = Math.max(y_question + height_question, y_categories + height_categories);
+    main_svg
+        .attr("viewBox", `0 0 ${viewBox_width} ${required_height}`);
 }
