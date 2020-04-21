@@ -920,18 +920,20 @@ function update_yesno_scale() {
     );
 
     // update bar label
-    bar_container.selectAll("text.bar_yesno_label").data(d => [d[1][0] * 100 / num_answers]).join(enter => enter.append("text")
-            .attr("x", d => 250 + scale_bar_horizontal(d) - 10)
+    bar_container.selectAll("text.bar_yesno_label").data(d => {
+        const p = d[1][0] * 100 / num_answers;
+        return [[p, scale_bar_horizontal(p) >= 30]];
+    }).join(enter => enter.append("text")
+            .attr("x", d => 250 + scale_bar_horizontal(d[0]) + (d[1] ? -10 : 10))
             .attr("y", scale_bar_vertical.bandwidth() / 2)
             .attr("class", "bar_yesno_label")
             .attr("dominant-baseline", "central")
-            .attr("text-anchor", "end")
-            .attr("display", d => scale_bar_horizontal(d) >= 50 ? null : "none")
-            .text(d => Math.round(d))
+            .attr("text-anchor", d => d[1] ? "end" : "start")
+            .text(d => Math.round(d[0]))
         , update => update.transition()
-            .attr("x", d => 250 + scale_bar_horizontal(d) - 10)
-            .attr("display", d => scale_bar_horizontal(d) >= 50 ? null : "none")
-            .text(d => Math.round(d))
+            .attr("x", d => 250 + scale_bar_horizontal(d[0]) + (d[1] ? -10 : 10))
+            .attr("text-anchor", d => d[1] ? "end" : "start")
+            .text(d => Math.round(d[0]))
     );
 
     // update text label
