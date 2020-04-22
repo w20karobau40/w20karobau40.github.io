@@ -6,7 +6,7 @@ pages:
     - asprunner
   script:
     - mkdir public
-    - mv visualization/ public/
+    - mv visualization public/
   artifacts:
     paths:
       - public
