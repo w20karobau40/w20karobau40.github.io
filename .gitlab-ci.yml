@@ -2,6 +2,8 @@ image: alpine:latest
 
 pages:
   stage: deploy
+  tags:
+    - asprunner
   script:
     - mkdir public
     - mv visualization/ public/
