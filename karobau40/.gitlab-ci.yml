@@ -1,0 +1,13 @@
+image: alpine:latest
+
+pages:
+  stage: deploy
+  tags:
+    - asprunner
+  script:
+    - mv visualization public/
+  artifacts:
+    paths:
+      - public
+  only:
+    - master

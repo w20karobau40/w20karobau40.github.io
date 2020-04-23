@@ -1,0 +1,77 @@
+---
+# this is an empty front matter that instruct jekyll
+# to process this file with liquid
+---
+
+.site-logo {
+    margin-top: 0.2em;
+    max-height: 1.6em;
+}
+
+.partner {
+    max-width: 120px;
+    max-height: 90px;
+    margin: 10px;
+}
+
+.logo-carousel {
+    max-width: 80%;
+    width: 300px;
+}
+
+/* Class for when element is above threshold */
+.pin-top {
+  position: relative;
+}
+
+/* Class for when element is below threshold */
+.pin-bottom {
+  position: relative;
+}
+
+/* Class for when element is pinned */
+.pinned {
+  position: fixed !important;
+}
+
+.card .card-title {
+  font-weight: 400;
+}
+.card .card-content {
+  padding: 12px;
+}
+
+pre {
+  margin: 0px;
+  padding: 10px;
+  overflow: auto;
+}
+.row .col.s12 {
+  margin-bottom: 1em;
+}
+
+figure {
+  border: 1px solid;
+  padding: 10px;
+}
+
+/* first banner */
+#carousel-1 {
+  background-image: url("{{ "/assets/img/banner_1.jpg" | relative_url }}");
+}
+
+/* second banner */
+#carousel-2 {
+  background-image: url("{{ "/assets/img/banner_2.jpg" | relative_url }}");
+}
+
+/* third banner */
+#carousel-3 {
+  background-image: url("{{ "/assets/img/banner_3.jpg" | relative_url }}");
+}
+
+.carousel-buttns {
+  position: absolute;
+  right: 2em;
+  bottom: -3em;
+}
