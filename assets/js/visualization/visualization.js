@@ -644,10 +644,10 @@ function update_categories() {
 
     // create a d3 hierarchy for each category
     const category_hierarchies = data.categories.map((c, i) => d3.hierarchy({
-        name: c.category,
-        children: d3.zip(c.values, accumulate_categories(i)).map((d, j) => ({
-            name: d[0],
-            value: d[1],
+            name: c.category,
+            children: d3.zip(c.values, accumulate_categories(i)).map((d, j) => ({
+                name: d[0],
+                value: d[1],
                 category: i,
                 subcategory: j
             })).filter(d => d.value > 0),
