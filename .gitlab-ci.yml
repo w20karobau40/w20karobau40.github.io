@@ -6,13 +6,15 @@ image: ruby:2.3
 variables:
   JEKYLL_ENV: production
 
-before_script:
-  - bundle install
 
 pages:
   stage: deploy
   tags:
     - asprunner
+  before_script:
+    - curl -X POST -s --data-urlencode 'input@assets/js/visualization/visualization.js' https://javascript-minifier.com/raw > assets/js/visualization/visualization.min.js
+    - rm assets/js/visualization/visualization.js
+    - bundle install
   script:
     - bundle exec jekyll build -d public
   artifacts:
