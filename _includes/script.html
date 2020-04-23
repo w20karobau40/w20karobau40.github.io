@@ -6,5 +6,5 @@
 <script src="https://unpkg.com/mermaid@8.2.1/dist/mermaid.min.js"></script>
 
 {% for js in page.jsarr %}
-  <script src="{{ "/assets/js/" | relative_url }}{{ js }}"></script>
+  <script src="{{ '/assets/js/' | relative_url }}{% if jekyll.environment == 'production' %}{{ js | replace: '.js', '.min.js' }}{% else %}{{ js }}{% endif %}"></script>
 {% endfor %}
