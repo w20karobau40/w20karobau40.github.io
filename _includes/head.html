@@ -17,9 +17,23 @@
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | relative_url }}" />
     <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ "/feed.xml" | relative_url }}" />
 
-    {% if jekyll.environment == 'production' and site.google_analytics %}
-    {% include google-analytics.html %}
-    {% endif %}
+  {% if jekyll.environment == 'production' and site.google_analytics %}
+  {% include google-analytics.html %}
+  {% endif %}
 
-    {% seo %}
+  {% seo %}
+  
+  {% if page.jsarr %}
+    {% comment %}
+      <!-- Visualization with d3.js -->
+      <!-- See also http://blog.emmatosch.com/2016/03/09/using-custom-javascript-in-jekyll-blogs.html-->
+    {% endcomment %}
+    {% if jekyll.environment == "production" %}
+      <script src="https://d3js.org/d3.v5.min.js"></script>
+      <script src="https://d3js.org/d3-array.v2.min.js"></script>
+    {% else %}
+      <script src="https://d3js.org/d3.v5.js"></script>
+      <script src="https://d3js.org/d3-array.v2.js"></script>
+    {% endif %}
+  {% endif %}
 </head>
