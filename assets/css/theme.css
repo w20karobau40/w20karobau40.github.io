@@ -68,7 +68,7 @@ span.badge-tag {
 
 /* meramid overrides */
 
-svg {
+svg:not(#karobau_viz_svg) {
     font-family: Verdana, Geneva, Tahoma, sans-serif !important; /* 'Courier New', 'Courier', 'monospace'; */
 }
 div > .label {
@@ -78,12 +78,12 @@ div > .label {
 marker > path {
     fill: #aaa !important;
 }
-rect {
+rect:not(svg#karobau_viz_svg rect) {
     stroke: #aaa !important;
     fill: rgba(200,200,200,0.3) !important;
 }
 
-g.label {
+g.label:not(svg#karobau_viz_svg g) {
     color: #263238 !important;
 }
 
