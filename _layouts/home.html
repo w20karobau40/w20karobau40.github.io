@@ -1,0 +1,102 @@
+---
+layout: default
+---
+
+<div id="home-carousel" class="carousel carousel-slider center">
+
+  <div class="carousel-fixed-item center">
+    <div class="carousel-buttns">
+      <a id="play-btn" class="btn btn-flat white-text waves-effect waves-light"><i class="mdi mdi-play"></i></a>
+      <a id="pause-btn" class="btn btn-flat white-text waves-effect waves-light"><i class="mdi mdi-pause"></i></a>
+    </div>
+    <div class="container">
+      <a class="btn btn-large" href="#get-startet">Get Started</a>
+    </div>
+  </div>
+
+  <div id="carousel-1" class="carousel-item white-text container" href="#one!">
+    <div class="hide-on-small-only">
+      <div class="container claim ">
+        <h2 class="typewriter">Title one</h2>
+      </div>
+    </div>
+  </div>
+  <div id="carousel-2" class="carousel-item amber white-text" href="#two!">
+    <h2>Title two</h2>
+    <p class="white-text">This is your second panel</p>
+  </div>
+  <div id="carousel-3" class="carousel-item green white-text" href="#three!">
+    <h2>Title three</h2>
+    <p class="white-text">This is your third panel</p>
+  </div>
+</div>
+
+<div class="section no-pad-bot" id="index-banner">
+  <div class="container">
+    <h5 class="header center light">{{ content }}</h5>
+  </div>
+</div>
+
+<div class="container">
+  <h6>The static HTML demo content of the <code>index.html</code> goes here...</h6>
+  <div class="section scrollspy" id="get-startet">
+    <!--   Icon Section   -->
+    <div class="row">
+      <div class="col s12 m4">
+        <div class="icon-block">
+          <h2 class="center"><i class="mdi mdi-shield-link-variant-outline medium"></i></h2>
+          <h5 class="center">Your</h5>
+          <p class="light">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+            invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
+            dolores et ea rebum.</p>
+        </div>
+      </div>
+
+      <div class="col s12 m4">
+        <div class="icon-block">
+          <h2 class="center"><i class="mdi mdi-factory medium"></i></h2>
+          <h5 class="center">awesome</h5>
+          <p class="light">Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem
+            ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+            dolore magna aliquyam erat, sed diam voluptua.</p>
+        </div>
+      </div>
+
+      <div class="col s12 m4">
+        <div class="icon-block">
+          <h2 class="center"><i class="mdi mdi-router-wireless medium"></i></h2>
+          <h5 class="center">landing page</h5>
+          <p class="light">At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+            takimata sanctus est Lorem ipsum dolor sit amet.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container last-post">
+  <section>
+    <h5>Letzte Beiträge</h5>
+    <div class="row">
+      {% for post in site.posts limit:3 %}
+      {% assign date_format = site.minima.date_format | default: "%d.%m.%y" %}
+      <div class="col s12 m6">
+        <div class="card small">
+          <div class="card-image">
+            <a class="waves-effect waves-light" href="{{ post.url | relative_url }}">
+              <img src="{{ post.image | relative_url }}" />
+            </a>
+          </div>
+          <div class="card-content">
+            <span class="card-title">{{ post.title | escape }}</span>
+          </div>
+          <div class="card-action">
+            <span class="light">{{ post.date | date: date_format }} • {{ post.categories }}</span>
+            <a class="right" href="{{ post.url | relative_url }}">Weiterlesen</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+</div>

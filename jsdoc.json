@@ -1,7 +1,7 @@
 {
   "source": {
     "include": [
-      "main.js"
+      "assets/js/visualization/visualization.js"
     ]
   },
   "opts": {

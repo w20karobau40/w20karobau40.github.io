@@ -1,11 +1,22 @@
-image: alpine:latest
+# This file is a template, and might need editing before it works on your project.
+# Template project: https://gitlab.com/pages/jekyll
+# Docs: https://docs.gitlab.com/ce/pages/
+image: ruby:2.3
+
+variables:
+  JEKYLL_ENV: production
+
 
 pages:
   stage: deploy
   tags:
     - asprunner
+  before_script:
+    - curl -X POST -s --data-urlencode 'input@assets/js/visualization/visualization.js' https://javascript-minifier.com/raw > assets/js/visualization/visualization.min.js
+    - rm assets/js/visualization/visualization.js
+    - bundle install
   script:
-    - mv visualization public/
+    - bundle exec jekyll build -d public
   artifacts:
     paths:
       - public
