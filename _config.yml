@@ -12,7 +12,10 @@ email: guy.incognito@iwu.fraunhofer.de
 description: > # this means to ignore newlines until "baseurl:"
   A project site and blog.
 
-baseurl: "/programming/jekyll-template"
+# quote from the gitlab documentation:
+# For example, for a Jekyll site, the baseurl is defined in the Jekyll configuration file, _config.yml.
+# If your website URL is https://john.gitlab.io/blog/, you need to add this line to _config.yml: baseurl: "/blog"
+baseurl: "/visualisierung-karobau40"
 
 sass:
     style: compressed
