@@ -648,8 +648,8 @@ function update_categories() {
             })).filter(d => d.value > 0),
             category: i
         })
-        .sum(d => d.value)
-        .sort((a, b) => b.value - a.value)
+            .sum(d => d.value)
+            .sort((a, b) => b.value - a.value)
     );
     // create pack layout (general settings)
     const pack_layout = d3.pack()
@@ -762,7 +762,8 @@ function update_categories() {
                 .text(d => d.data.name)
                 .attr("x", 15)
                 .attr("y", 5)
-                .attr("dominant-baseline", "central");
+                .attr("dominant-baseline", "central")
+                .classed("category_active", d => is_active(d.data.category, d.data.subcategory));
             return origin;
         }, function (update) {
             // all data is sorted by size of subcategory
@@ -772,6 +773,8 @@ function update_categories() {
             // animate label to new position
             update.transition()
                 .attr("transform", (d, i, a) => `translate(${scale_bigcircle.bandwidth() + 25}, ${scale_bigcircle.bandwidth() / 2 - 15 * a.length + 10 + 30 * i})`);
+            // update text emphasis
+            update.select("text").classed("category_active", d => is_active(d.data.category, d.data.subcategory));
             return update;
         }
     );
