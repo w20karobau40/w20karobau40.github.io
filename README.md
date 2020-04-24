@@ -1,5 +1,3 @@
----
-
 http://heinrtob.pages.fraunhofer.de/visualisierung-karobau40
 
 [Learn more about GitLab Pages](https://pages.gitlab.io) or read the the [official GitLab Pages documentation](https://docs.gitlab.com/ce/user/project/pages/).
@@ -15,6 +13,8 @@ http://heinrtob.pages.fraunhofer.de/visualisierung-karobau40
 - [GitLab User or Group Pages](#gitlab-user-or-group-pages)
 - [Other examples](#other-examples)
 - [Troubleshooting](#troubleshooting)
+- [Adding content](#adding-content)
+- [Changing the namespace](#changing-the-namespace)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -74,6 +74,20 @@ Read more about [user/group Pages][userpages] and [project Pages][projpages].
     * Either that you have wrongly set up the CSS URL in your templates, or
     * your static generator has a configuration option that needs to be explicitly
     set in order to serve static assets under a relative URL.
+    
+## Adding content
+
+A demo page is available [here](https://heinrtob.pages.fraunhofer.de/visualisierung-karobau40/demo/)
+with its source code available in the [demo.md](demo.md).
+
+By default, all `*.html` and `*.md` files in the main directory containing [front matter](https://jekyllrb.com/docs/front-matter/) are available at `baseurl/filename`.
+All pages with a set title in the front matter are added to the header, sorted by filename.
+Naming the files `number_filename` and setting `permalink` in the front matter lets you change that sorting to your liking.
+
+## Changing the namespace
+By adding the project to a group or transferring it to another user, you can change the namespace of the url.
+
+Renaming the project also requires a change to the `baseurl` in [_config.yml](_config.yml). 
 
 [ci]: https://about.gitlab.com/gitlab-ci/
 [Jekyll]: http://jekyllrb.com/
