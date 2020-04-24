@@ -32,3 +32,8 @@ rect.bar_yesno {
 text.bar_yesno_label {
     fill: #00663d;
 }
+
+.hover_shadow:hover {
+    -webkit-filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
+}

@@ -460,17 +460,17 @@ function create_sentiment_scale(pos_x = 0, pos_y = 0) {
     // text label for question
     root.append("text")
         .attr("dominant-baseline", "hanging")
-        .attr("class", "question_label");
+        .classed("question_label", true);
 
     // create root for bars
     root.append("g")
         .attr("transform", "translate(0, 40)")
-        .attr("class", "bar_root");
+        .classed("bar_root", true);
 
     // create root for legend
     root.append("g")
         .attr("transform", "translate(600, 40)")
-        .attr("class", "legend_root");
+        .classed("legend_root", true);
 
     return root.node();
 }
@@ -484,21 +484,21 @@ function create_yesno_scale(pos_x = 0, pos_y = 0) {
     // text label for question
     root.append("text")
         .attr("dominant-baseline", "hanging")
-        .attr("class", "question_label");
+        .classed("question_label", true);
 
     // create root for bars
     const root_bars = root.append("g")
         .attr("transform", "translate(0, 40)")
-        .attr("class", "bar_root");
+        .classed("bar_root", true);
 
     // create axis
     root_bars.append("g")
-        .attr("class", "axis");
+        .classed("axis", true);
 
     // create axis label
     root_bars.append("text")
         .text("Zustimmung in Prozent")
-        .attr("class", "axis_label")
+        .classed("axis_label", true)
         .attr("dominant-baseline", "hanging")
         .attr("text-anchor", "middle");
 
@@ -598,7 +598,8 @@ function create_tabs(pos_x = 0, pos_y = 0) {
             update_tabs();
             // redraw question
             update_question();
-        });
+        })
+        .classed("hover_shadow", true);
     // create a colored rectangle
     tab.append("rect")
         .attr("x", (d, i) => scale_tab(i))
@@ -665,18 +666,19 @@ function update_categories() {
 
     const bigcircle_origin = root.selectAll("g.bigcircle_origin").data(category_hierarchies).join("g")
         .attr("transform", (d, i) => `translate(0, ${scale_bigcircle(i)})`)
-        .attr("class", "bigcircle_origin");
+        .classed("bigcircle_origin", true);
 
     // category label
     bigcircle_origin.selectAll("text.category_label").data(d => [d.data.name]).join("text")
         .text(d => d)
         .attr("x", 20)
         .attr("y", "-0.4em")
-        .attr("class", "category_label");
+        .classed("category_label", true);
 
     // draw the big circle
     bigcircle_origin.selectAll("circle.bigcircle").data(d => [d]).join("circle")
-        .attr("class", "bigcircle")
+        .classed("bigcircle", true)
+        .classed("hover_shadow", true)
         .attr("cx", d => d.x)
         .attr("cy", d => d.y)
         .attr("r", d => d.r)
@@ -695,7 +697,8 @@ function update_categories() {
         .selectAll("circle.smallcircle")
         .data(d => d.descendants().filter(x => x.depth === 1), d => `${d.data.category}_${d.data.subcategory}`)
         .join(enter => enter.append("circle")
-                .attr("class", "smallcircle")
+                .classed("smallcircle", true)
+                .classed("hover_shadow", true)
                 .attr("cx", d => d.x)
                 .attr("cy", d => d.y)
                 .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[i] : colors_disabled[i])
@@ -731,7 +734,7 @@ function update_categories() {
     bigcircle_origin.selectAll("g.legend").data(d => d.descendants().filter(x => x.depth === 1), d => `${d.data.category}_${d.data.subcategory}`).join(
         function (enter) {
             const origin = enter.append("g")
-                .attr("class", "legend")
+                .classed("legend", true)
                 .attr("transform", (d, i, a) => `translate(${scale_bigcircle.bandwidth() + 25}, ${scale_bigcircle.bandwidth() / 2 - 15 * a.length + 10 + 30 * i})`);
 
             // add small colored square
@@ -819,12 +822,12 @@ function update_sentiment_scale() {
     const root_bars = structure_sentiment.select("g.bar_root");
     // update bar containers
     const bar_container = root_bars.selectAll("g.bar_container").data(local_data, d => `${active_question}_${d[0]}`).join("g")
-        .attr("class", "bar_container")
+        .classed("bar_container", true)
         .attr("transform", (d, i) => `translate(0, ${scale_bar_vertical(i)})`);
 
     // update individual bars
     const bar_origin = bar_container.selectAll("g.bar_origin").data(d => [d[1]]).join("g")
-        .attr("class", "bar_origin")
+        .classed("bar_origin", true)
         .attr("transform", "translate(250,0)");
 
     bar_origin.selectAll("rect").data(function (answ) {
@@ -866,7 +869,7 @@ function update_sentiment_scale() {
             // first create origins
             const labels = enter.append("g")
                 .attr("transform", (d, i) => `translate(0, ${scale_legend(i)})`)
-                .attr("class", "legend_origin");
+                .classed("legend_origin", true);
 
             // small square for color reference
             labels.append("rect")
@@ -920,7 +923,7 @@ function update_yesno_scale() {
     const root_bars = structure_yesno.select("g.bar_root");
     // update bar containers
     const bar_container = root_bars.selectAll("g.bar_container").data(local_data, d => `${active_question}_${d[0]}`).join("g")
-        .attr("class", "bar_container")
+        .classed("bar_container", true)
         .attr("transform", (d, i) => `translate(0, ${scale_bar_vertical(i)})`);
 
     // update individual bars
@@ -928,7 +931,7 @@ function update_yesno_scale() {
             .attr("height", scale_bar_vertical.bandwidth())
             .attr("width", d => scale_bar_horizontal(d))
             .attr("x", 250)
-            .attr("class", "bar_yesno")
+            .classed("bar_yesno", true)
         , update => update.transition()
             .attr("width", d => scale_bar_horizontal(d))
     );
@@ -940,7 +943,7 @@ function update_yesno_scale() {
     }).join(enter => enter.append("text")
             .attr("x", d => 250 + scale_bar_horizontal(d[0]) + (d[1] ? -10 : 10))
             .attr("y", scale_bar_vertical.bandwidth() / 2)
-            .attr("class", "bar_yesno_label")
+            .classed("bar_yesno_label", true)
             .attr("dominant-baseline", "central")
             .attr("text-anchor", d => d[1] ? "end" : "start")
             .text(d => Math.round(d[0]))
@@ -954,7 +957,7 @@ function update_yesno_scale() {
     bar_container.selectAll("text.subquestion").data(d => [d[0]]).join("text")
         .attr("dominant-baseline", "central")
         .attr("y", scale_bar_vertical.bandwidth() / 2)
-        .attr("class", "subquestion")
+        .classed("subquestion", true)
         .selectAll("tspan").data(d => d.split("\n")).join("tspan")
         .text(d => d)
         .attr("dy", (d, i, a) => i > 0 ? "1.2em" : a.length > 1 ? `-${(a.length - 1) * 0.6}em` : null)
