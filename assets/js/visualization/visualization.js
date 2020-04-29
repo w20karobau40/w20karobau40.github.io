@@ -865,7 +865,7 @@ function update_sentiment_scale() {
         const vertical_offsets = [].slice.call(d3.cumsum([0].concat(visible_height.slice(0, -1).map(d => d + height_bar))));
         // calculate required height for viewBox calculation
         // this is essentially the y coordinate of the bottom of the last visible bar
-        height_question = d3.sum(visible_height) + height_bar * question_categories.length;
+        height_question = d3.sum(visible_height) + height_bar * question_categories.length + 40;
 
         // remove all bars not contained in a category container
         root_bars.selectAll("g.bar_container.no_category").remove();
@@ -955,7 +955,7 @@ function update_sentiment_scale() {
             .paddingInner(0.08);
         // calculate required height for viewBox calculation
         // this is essentially the y coordinate of the bottom of the last bar
-        height_question = scale_bar_vertical.range()[1] - scale_bar_vertical.step() * scale_bar_vertical.paddingOuter();
+        height_question = scale_bar_vertical.range()[1] - scale_bar_vertical.step() * scale_bar_vertical.paddingOuter() + 40;
 
         // remove category selectors
         root_bars.selectAll("g.question_category_container").remove();
@@ -1053,7 +1053,7 @@ function update_yesno_scale() {
 
     // calculate required height for viewBox calculation
     // this is the bottom of the axis label
-    height_question = scale_bar_vertical.range()[1] + 30;
+    height_question = scale_bar_vertical.range()[1] + 30 + 40;
 
     // update text label for question
     update_text(structure_yesno.select("text.question_label"), question.question);
