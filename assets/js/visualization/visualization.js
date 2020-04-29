@@ -25,7 +25,14 @@ const data = {
             subquestions: ["Demografischer Wandel", "Fachkräftemangel", "Wissensverlust durch\nMitarbeiterwechsel", "Arbeitsplatzergonomie", "IT-Sicherheit (Cyber Security)", "Automatisierte Datenverarbeitung", "Verkauf eigener Produktionsdaten", "Ankauf relevanter Daten für\neigene Produkte und Anlagen", "Kostendruck durch\ninternationale Wettbewerber", "Internationale Zulieferketten", "Auftragsfertigung von\nBaugruppen und Karossen", "Steigende Produktvielfalt erfordert\nAnlagenflexibilität", "Verkürzung der Produktionszyklen", "Volumenflexibilität aufgrund\nschwankender Nachfrage", "Energieeffizienz", "Rohstoffverknappung", "Abfallvermeidung"],
             positive: [2, 3],
             neutral: [],
-            negative: [0, 1]
+            negative: [0, 1],
+            categories: [
+                {name: "Arbeit 4.0", values: [0, 1, 2, 3]},
+                {name: "Digitale Transformation", values: [4, 5, 6, 7]},
+                {name: "Globalisierung", values: [8, 9, 10]},
+                {name: "Diversifizierung", values: [11, 12, 13]},
+                {name: "Umwelt und Ressourcen", values: [14, 15, 16]}
+            ]
         }, {
             question: "Wie weit sehen Sie folgende Technologien bereits heute\nim Karosseriebau (ihres Unternehmens oder Kundens) implementiert?",
             type: "sentiment",
@@ -33,7 +40,15 @@ const data = {
             subquestions: ["Fahrerlose Transportsysteme", "Produktnachverfolgbarkeit durch eind.\ndigitale Kennzeichnung jedes Bauteils", "Produktlokalisierung", "Schutzzaunloser Robotereinsatz", "Ortsflexible Roboter", "Intuitive (Roboter-)Programmierung\nund standardisierte Schnittstellen", "Mensch-Roboter-Kooperation", "Griff in die (ungeordnete) Kiste", "Inbetriebnahme auf Basis\nvon offline Bahnplanung", "Flexible Greifer", "Flexible Spannvorrichtungen", "Flexible Behälter", "Skalierbare Produktionsanlagen", "Rekonfigurierbare Produktionsanlagen\nzur Anpassung auf neue Varianten", "Autonome\nMaschine-Maschine-Interaktion", "Lokale Auswertung\nvon Maschinendaten", "Auswertung in übergeordneten\nNetzwerken/Systemen (u.a. Cloud)", "Datenauswertung durch\nexterne Dienstleister/Dritte", "Condition Monitoring", "Predictive Maintenance", "Echtzeit-Simulation von Prozessen", "Digitaler Zwilling", "Einsatz von Wearables\nzur Instandhaltung", "Einsatz von AR/VR", "Mustererkennung von Maschinendaten", "Mustererkennung in der\nBildverarbeitung", "Autonome Produktionssteuerung\ndurch KI"],
             positive: [4],
             neutral: [3],
-            negative: [2]
+            negative: [2],
+            categories: [
+                {name: "Logistik", values: [0, 1, 2]},
+                {name: "Robotik", values: [3, 4, 5, 6, 7, 8]},
+                {name: "Flexibilität (Fertigung mehrerer Derivate auf einer Anlage)", values: [9, 10, 11, 12, 13]},
+                // TODO: typo? IIoT -  IoT ?
+                {name: "Digitalisierung und IIoT", values: [14, 15, 16, 17, 18, 19, 20, 21, 22, 23]},
+                {name: "Künstliche Intelligenz", values: [24, 25, 26]}
+            ]
         }, {
             question: "Technologien und Zukunftstrends für den Karosseriebau",
             type: "yesno",
@@ -797,10 +812,13 @@ function update_question() {
 
 function update_sentiment_scale() {
     const height_bar = 40, width_bar = 300;
+    const height_category = 40;
 
     const question = data.questions[active_question], answers = accumulate_answers(active_question);
     const local_data = d3.zip(question.subquestions, answers);
     const num_questions = local_data.length, num_values = question.values.length;
+    const has_question_categories = question.hasOwnProperty("categories");
+    const question_categories = has_question_categories ? question.categories : [];
 
     // colors
     const color_very_negative = "#ff800e", color_slightly_negative = "#ffbc79", color_neutral = "#cfcfcf",
@@ -837,6 +855,24 @@ function update_sentiment_scale() {
 
     // select root for bars
     const root_bars = structure_sentiment.select("g.bar_root");
+
+    // add category toggle bars
+    const category_container = root_bars.selectAll("g.question_category_container").data(question_categories).join("g")
+        .classed("question_category_container", true)
+        .classed("hover_shadow", true)
+        .attr("transform", (d, i) => `translate(150, ${height_bar * i})`);
+    // update rect
+    category_container.selectAll("rect").data(d => [d]).join("rect")
+        .classed("question_category", true)
+        .attr("height", height_category)
+        .attr("width", width_bar);
+    // update category text
+    category_container.selectAll("text").data(d => [d.name]).join("text")
+        .text(d => d)
+        .attr("dominant-baseline", "central")
+        .attr("y", height_category / 2);
+
+
     // update bar containers
     const bar_container = root_bars.selectAll("g.bar_container").data(local_data, d => `${active_question}_${d[0]}`).join("g")
         .classed("bar_container", true)

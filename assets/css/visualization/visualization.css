@@ -41,3 +41,7 @@ text.bar_yesno_label {
 text.category_active {
     font-weight:bold;
 }
+
+rect.question_category {
+    fill: papayawhip;
+}
