@@ -909,8 +909,32 @@ function update_sentiment_scale() {
             .data((d, i) => is_active_category[i] ? d.values.map(j => [local_data[j], i]) : [], d => `${active_question}_${d[0]}`)
             .join("g")
             .classed("bar_container", true)
-            .attr("transform", (d, i) => `translate(0, ${height_bar + scales_bar_vertical[d[1]](i)})`)
-        ;
+            .attr("transform", (d, i) => `translate(0, ${height_bar + scales_bar_vertical[d[1]](i)})`);
+
+        // update individual bars
+        const bar_origin = bar_container.selectAll("g.bar_origin").data(d => [d[0][1]]).join("g")
+            .classed("bar_origin", true)
+            .attr("transform", `translate(${offset_bars},0)`);
+
+        bar_origin.selectAll("rect").data(function (answ) {
+            let offset = num_left - answ.sum_negative - answ.sum_neutral / 2;
+            // calculate position of left edge of rect
+            // the first bar should start at the calculated offset value
+            let start_x = d3.cumsum([offset].concat(answ.answers.map(d => d.value))).map(scale_bar_horizontal);
+            let bar_width = [].slice.call(start_x)
+                .map((d, i, a) => a[i + 1] - d).slice(0, -1);
+            return d3.zip(start_x, bar_width, colors);
+        }).join(enter => enter.append("rect")
+                // TODO: use correct scale, i. e. replace index 0 with current question category?
+                .attr("height", scales_bar_vertical[0].bandwidth())
+                .attr("width", d => d[1])
+                .attr("x", d => d[0])
+                .style("fill", d => d[2])
+            , update => update.call(u => u.transition()
+                .attr("width", d => d[1])
+                .attr("x", d => d[0]))
+        );
+
         // update text label
         bar_container.selectAll("text").data(d => [d[0][0]]).join("text")
             .attr("dominant-baseline", "central")
