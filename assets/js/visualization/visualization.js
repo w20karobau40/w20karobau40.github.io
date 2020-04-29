@@ -907,9 +907,13 @@ function update_sentiment_scale() {
         // update bar containers
         const bar_container = category_container.selectAll("g.bar_container")
             .data((d, i) => is_active_category[i] ? d.values.map(j => [local_data[j], i]) : [], d => `${active_question}_${d[0]}`)
-            .join("g")
+            .join(enter => enter.append("g")
+                .attr("transform", `translate(0, ${height_bar})`)
+            )
             .classed("bar_container", true)
-            .attr("transform", (d, i) => `translate(0, ${height_bar + scales_bar_vertical[d[1]](i)})`);
+            .call(e => e.transition()
+                .attr("transform", (d, i) => `translate(0, ${height_bar + scales_bar_vertical[d[1]](i)})`)
+            );
 
         // update individual bars
         const bar_origin = bar_container.selectAll("g.bar_origin").data(d => [d[0][1]]).join("g")
