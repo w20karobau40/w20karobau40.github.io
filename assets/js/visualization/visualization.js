@@ -415,6 +415,8 @@ const data = {
 
 // global variable keeping track which question should be displayed
 let active_question = 0;
+// global variable keeping track which question categories are active, per question
+let active_question_categories = data.questions.map(() => []);
 
 // global array keeping track which categories of participants are currently active
 // for each category there is an array of active incides, an empty array shall be equivalent to an array containing all possible indices
@@ -813,6 +815,7 @@ function update_question() {
 function update_sentiment_scale() {
     const height_bar = 40, width_bar = 300;
     const height_category = 40;
+    const offset_bars = 250;
 
     const question = data.questions[active_question], answers = accumulate_answers(active_question);
     const local_data = d3.zip(question.subquestions, answers);
@@ -856,61 +859,79 @@ function update_sentiment_scale() {
     // select root for bars
     const root_bars = structure_sentiment.select("g.bar_root");
 
-    // add category toggle bars
-    const category_container = root_bars.selectAll("g.question_category_container").data(question_categories).join("g")
-        .classed("question_category_container", true)
-        .classed("hover_shadow", true)
-        .attr("transform", (d, i) => `translate(150, ${height_bar * i})`);
-    // update rect
-    category_container.selectAll("rect").data(d => [d]).join("rect")
-        .classed("question_category", true)
-        .attr("height", height_category)
-        .attr("width", width_bar);
-    // update category text
-    category_container.selectAll("text").data(d => [d.name]).join("text")
-        .text(d => d)
-        .attr("dominant-baseline", "central")
-        .attr("y", height_category / 2);
+    // TODO: This causes code duplication for creating the bars, but this is the quickest method to get presentable results
 
+    if (has_question_categories) {
+        // remove all bars not contained in a category container
+        root_bars.selectAll("g.bar_container.no_category").remove();
+        // add category toggle bars
+        const category_container = root_bars.selectAll("g.question_category_container").data(question_categories).join("g")
+            .classed("question_category_container", true)
+            .classed("hover_shadow", true)
+            .attr("transform", (d, i) => `translate(0, ${height_bar * i})`)
+            .on("click", function (d, i) {
+                let index = active_question_categories[active_question].indexOf(i);
+                if (index > -1) {
+                    // clicked question category is currently shown, remove from array
+                    active_question_categories[active_question].splice(index, 1);
+                } else {
+                    // clicked question category is currently hidden, add to array
+                    active_question_categories[active_question].push(i)
+                }
+                // redraw question
+                update_question();
+            });
+        // update rect
+        category_container.selectAll("rect").data(d => [d]).join("rect")
+            .classed("question_category", true)
+            .attr("height", height_category)
+            .attr("width", width_bar + offset_bars);
+        // update category text
+        category_container.selectAll("text").data(d => [d.name]).join("text")
+            .text(d => d)
+            .attr("dominant-baseline", "central")
+            .attr("y", height_category / 2);
+    } else {
+        // remove category selectors
+        root_bars.selectAll("g.question_category_container").remove();
+        // update bar containers
+        const bar_container = root_bars.selectAll("g.bar_container").data(local_data, d => `${active_question}_${d[0]}`).join("g")
+            .classed("bar_container", true)
+            .classed("no_category", true)
+            .attr("transform", (d, i) => `translate(0, ${scale_bar_vertical(i)})`);
 
-    // update bar containers
-    const bar_container = root_bars.selectAll("g.bar_container").data(local_data, d => `${active_question}_${d[0]}`).join("g")
-        .classed("bar_container", true)
-        .attr("transform", (d, i) => `translate(0, ${scale_bar_vertical(i)})`);
+        // update individual bars
+        const bar_origin = bar_container.selectAll("g.bar_origin").data(d => [d[1]]).join("g")
+            .classed("bar_origin", true)
+            .attr("transform", `translate(${offset_bars},0)`);
 
-    // update individual bars
-    const bar_origin = bar_container.selectAll("g.bar_origin").data(d => [d[1]]).join("g")
-        .classed("bar_origin", true)
-        .attr("transform", "translate(250,0)");
+        bar_origin.selectAll("rect").data(function (answ) {
+            let offset = num_left - answ.sum_negative - answ.sum_neutral / 2;
+            // calculate position of left edge of rect
+            // the first bar should start at the calculated offset value
+            let start_x = d3.cumsum([offset].concat(answ.answers.map(d => d.value))).map(scale_bar_horizontal);
+            let bar_width = [].slice.call(start_x)
+                .map((d, i, a) => a[i + 1] - d).slice(0, -1);
+            return d3.zip(start_x, bar_width, colors);
+        }).join(enter => enter.append("rect")
+                .attr("height", scale_bar_vertical.bandwidth())
+                .attr("width", d => d[1])
+                .attr("x", d => d[0])
+                .style("fill", d => d[2])
+            , update => update.call(u => u.transition()
+                .attr("width", d => d[1])
+                .attr("x", d => d[0]))
+        );
 
-    bar_origin.selectAll("rect").data(function (answ) {
-        let offset = num_left - answ.sum_negative - answ.sum_neutral / 2;
-        // calculate position of left edge of rect
-        // the first bar should start at the calculated offset value
-        let start_x = d3.cumsum([offset].concat(answ.answers.map(d => d.value))).map(scale_bar_horizontal);
-        let bar_width = [].slice.call(start_x)
-            .map((d, i, a) => a[i + 1] - d).slice(0, -1);
-        return d3.zip(start_x, bar_width, colors);
-    }).join(enter => enter.append("rect")
-            .attr("height", scale_bar_vertical.bandwidth())
-            .attr("width", d => d[1])
-            .attr("x", d => d[0])
-            .style("fill", d => d[2])
-        , update => update.call(u => u.transition()
-            .attr("width", d => d[1])
-            .attr("x", d => d[0]))
-    );
-
-    // update text label
-    bar_container.selectAll("text").data(d => [d[0]]).join("text")
-        .attr("dominant-baseline", "central")
-        .attr("y", scale_bar_vertical.bandwidth() / 2)
-        .selectAll("tspan").data(d => d.split("\n")).join("tspan")
-        .text(d => d)
-        .attr("dy", (d, i, a) => i > 0 ? "1.2em" : a.length > 1 ? `-${(a.length - 1) * 0.6}em` : null)
-        .attr("x", 0);
-
-
+        // update text label
+        bar_container.selectAll("text").data(d => [d[0]]).join("text")
+            .attr("dominant-baseline", "central")
+            .attr("y", scale_bar_vertical.bandwidth() / 2)
+            .selectAll("tspan").data(d => d.split("\n")).join("tspan")
+            .text(d => d)
+            .attr("dy", (d, i, a) => i > 0 ? "1.2em" : a.length > 1 ? `-${(a.length - 1) * 0.6}em` : null)
+            .attr("x", 0);
+    }
     // select root for legend
     const root_legend = structure_sentiment.select("g.legend_root");
     // update legend
