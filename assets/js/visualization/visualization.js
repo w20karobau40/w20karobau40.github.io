@@ -869,38 +869,57 @@ function update_sentiment_scale() {
 
         // remove all bars not contained in a category container
         root_bars.selectAll("g.bar_container.no_category").remove();
-        // add category toggle bars
+        // add category container
         const category_container = root_bars.selectAll("g.question_category_container").data(question_categories, d => `${active_question}_${d.name}`).join(
             enter => enter.append("g")
                 .classed("question_category_container", true)
-                .classed("hover_shadow", true)
-                .attr("transform", (d, i) => `translate(0, ${vertical_offsets[i]})`)
-                .on("click", function (d, i) {
-                    let index = active_question_categories[active_question].indexOf(i);
-                    if (index > -1) {
-                        // clicked question category is currently shown, remove from array
-                        active_question_categories[active_question].splice(index, 1);
-                    } else {
-                        // clicked question category is currently hidden, add to array
-                        active_question_categories[active_question].push(i)
-                    }
-                    // redraw question
-                    update_question();
-                }),
+                .attr("transform", (d, i) => `translate(0, ${vertical_offsets[i]})`),
             update => update.call(u => u.transition()
                 .attr("transform", (d, i) => `translate(0, ${vertical_offsets[i]})`)
             )
         );
+        // update toggleable bars
+        const category_bar = category_container.selectAll("g.question_category_bar").data((d, i) => [[d, i]]).join("g")
+            .classed("hover_shadow", true)
+            .on("click", function (d) {
+                let index = active_question_categories[active_question].indexOf(d[1]);
+                if (index > -1) {
+                    // clicked question category is currently shown, remove from array
+                    active_question_categories[active_question].splice(index, 1);
+                } else {
+                    // clicked question category is currently hidden, add to array
+                    active_question_categories[active_question].push(d[1])
+                }
+                // redraw question
+                update_question();
+            });
         // update rect
-        category_container.selectAll("rect").data(d => [d]).join("rect")
+        category_bar.selectAll("rect").data(d => [d[0]]).join("rect")
             .classed("question_category", true)
             .attr("height", height_category)
             .attr("width", width_bar + offset_bars);
         // update category text
-        category_container.selectAll("text").data(d => [d.name]).join("text")
+        category_bar.selectAll("text").data(d => [d[0].name]).join("text")
             .text(d => d)
             .attr("dominant-baseline", "central")
             .attr("y", height_category / 2);
+
+        // update bar containers
+        const bar_container = category_container.selectAll("g.bar_container")
+            .data((d, i) => is_active_category[i] ? d.values.map(j => [local_data[j], i]) : [], d => `${active_question}_${d[0]}`)
+            .join("g")
+            .classed("bar_container", true)
+            .attr("transform", (d, i) => `translate(0, ${height_bar + scales_bar_vertical[d[1]](i)})`)
+        ;
+        // update text label
+        bar_container.selectAll("text").data(d => [d[0][0]]).join("text")
+            .attr("dominant-baseline", "central")
+            .attr("y", 40 / 2)
+            .selectAll("tspan").data(d => d.split("\n")).join("tspan")
+            .text(d => d)
+            .attr("dy", (d, i, a) => i > 0 ? "1.2em" : a.length > 1 ? `-${(a.length - 1) * 0.6}em` : null)
+            .attr("x", 0);
+
     } else {
         const scale_bar_vertical = d3.scaleBand()
             .domain(d3.range(num_questions))
