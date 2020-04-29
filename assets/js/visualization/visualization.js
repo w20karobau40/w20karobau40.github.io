@@ -820,8 +820,6 @@ function update_sentiment_scale() {
     const question = data.questions[active_question], answers = accumulate_answers(active_question);
     const local_data = d3.zip(question.subquestions, answers);
     const num_questions = local_data.length, num_values = question.values.length;
-    const has_question_categories = question.hasOwnProperty("categories");
-    const question_categories = has_question_categories ? question.categories : [];
 
     // colors
     const color_very_negative = "#ff800e", color_slightly_negative = "#ffbc79", color_neutral = "#cfcfcf",
@@ -841,17 +839,9 @@ function update_sentiment_scale() {
         .domain([0, num_left + num_right])
         .rangeRound([0, width_bar]);
 
-    const scale_bar_vertical = d3.scaleBand()
-        .domain(d3.range(num_questions))
-        .rangeRound([0, height_bar * num_questions])
-        .paddingInner(0.08);
     const scale_legend = d3.scaleBand()
         .domain(d3.range(num_values))
         .range([0, 30 * num_values]);
-
-    // calculate required height for viewBox calculation
-    // this is essentially the y coordinate of the bottom of the last bar
-    height_question = scale_bar_vertical.range()[1] - scale_bar_vertical.step() * scale_bar_vertical.paddingOuter();
 
     // update text label for question
     update_text(structure_sentiment.select("text.question_label"), question.question);
@@ -860,27 +850,47 @@ function update_sentiment_scale() {
     const root_bars = structure_sentiment.select("g.bar_root");
 
     // TODO: This causes code duplication for creating the bars, but this is the quickest method to get presentable results
+    // check if question has categories
+    if (question.hasOwnProperty("categories")) {
+        const question_categories = question.categories;
+        // array containing true/false whether category is active and should be shown
+        const is_active_category = question_categories.map((d, i) => active_question_categories[active_question].indexOf(i) > -1);
+        const scales_bar_vertical = question_categories.map(d => d3.scaleBand()
+            .domain(d3.range(d.values.length))
+            .rangeRound([0, height_bar * d.values.length])
+            .paddingInner(0.08));
+        const visible_height = is_active_category.map((d, i) => d ? scales_bar_vertical[i].range()[1] : 0);
+        // vertical offsets for category bars, this is height_bar more then the previous offset,
+        // in addition to the height of the visible bars
+        const vertical_offsets = [].slice.call(d3.cumsum([0].concat(visible_height.slice(0, -1).map(d => d + height_bar))));
+        // calculate required height for viewBox calculation
+        // this is essentially the y coordinate of the bottom of the last visible bar
+        height_question = d3.sum(visible_height) + height_bar * question_categories.length;
 
-    if (has_question_categories) {
         // remove all bars not contained in a category container
         root_bars.selectAll("g.bar_container.no_category").remove();
         // add category toggle bars
-        const category_container = root_bars.selectAll("g.question_category_container").data(question_categories).join("g")
-            .classed("question_category_container", true)
-            .classed("hover_shadow", true)
-            .attr("transform", (d, i) => `translate(0, ${height_bar * i})`)
-            .on("click", function (d, i) {
-                let index = active_question_categories[active_question].indexOf(i);
-                if (index > -1) {
-                    // clicked question category is currently shown, remove from array
-                    active_question_categories[active_question].splice(index, 1);
-                } else {
-                    // clicked question category is currently hidden, add to array
-                    active_question_categories[active_question].push(i)
-                }
-                // redraw question
-                update_question();
-            });
+        const category_container = root_bars.selectAll("g.question_category_container").data(question_categories, d => `${active_question}_${d.name}`).join(
+            enter => enter.append("g")
+                .classed("question_category_container", true)
+                .classed("hover_shadow", true)
+                .attr("transform", (d, i) => `translate(0, ${vertical_offsets[i]})`)
+                .on("click", function (d, i) {
+                    let index = active_question_categories[active_question].indexOf(i);
+                    if (index > -1) {
+                        // clicked question category is currently shown, remove from array
+                        active_question_categories[active_question].splice(index, 1);
+                    } else {
+                        // clicked question category is currently hidden, add to array
+                        active_question_categories[active_question].push(i)
+                    }
+                    // redraw question
+                    update_question();
+                }),
+            update => update.call(u => u.transition()
+                .attr("transform", (d, i) => `translate(0, ${vertical_offsets[i]})`)
+            )
+        );
         // update rect
         category_container.selectAll("rect").data(d => [d]).join("rect")
             .classed("question_category", true)
@@ -892,6 +902,14 @@ function update_sentiment_scale() {
             .attr("dominant-baseline", "central")
             .attr("y", height_category / 2);
     } else {
+        const scale_bar_vertical = d3.scaleBand()
+            .domain(d3.range(num_questions))
+            .rangeRound([0, height_bar * num_questions])
+            .paddingInner(0.08);
+        // calculate required height for viewBox calculation
+        // this is essentially the y coordinate of the bottom of the last bar
+        height_question = scale_bar_vertical.range()[1] - scale_bar_vertical.step() * scale_bar_vertical.paddingOuter();
+
         // remove category selectors
         root_bars.selectAll("g.question_category_container").remove();
         // update bar containers
