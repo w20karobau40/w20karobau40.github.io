@@ -413,6 +413,9 @@ const data = {
     ]
 };
 
+// media query, taken from materialize.min.css
+const media_query = window.matchMedia("only screen and (max-width: 992px)");
+
 // global variable keeping track which question should be displayed
 let active_question = 0;
 // global variable keeping track which question categories are active, per question
@@ -455,8 +458,6 @@ let show_categories = false;
 update_categories();
 update_question();
 
-// media query, taken from materialize.min.css
-const media_query = window.matchMedia("only screen and (max-width: 992px)");
 // call listener once, to setup correct layout on page load
 event_listener(media_query);
 // setup event listener, to change layout when media query changes result
@@ -1103,7 +1104,9 @@ function is_active(category, subcategory) {
 }
 
 function set_svg_size() {
-    const required_height = Math.max(y_question + height_question, y_categories + height_categories);
+    let required_height = Math.max(y_question + height_question, y_categories + height_categories);
+    if (media_query.matches)
+        required_height += height_button;
     main_svg
         .attr("viewBox", `0 0 ${viewBox_width} ${required_height}`);
 }
