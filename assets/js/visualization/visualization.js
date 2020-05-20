@@ -523,10 +523,6 @@ function create_yesno_scale(pos_x = 0, pos_y = 0) {
         .attr("transform", "translate(0, 40)")
         .classed("bar_root", true);
 
-    // create axis
-    root_bars.append("g")
-        .classed("axis", true);
-
     // create axis label
     root_bars.append("text")
         .text("Zustimmung in Prozent")
@@ -1096,16 +1092,10 @@ function update_yesno_scale() {
         .attr("dy", (d, i, a) => i > 0 ? "1.2em" : a.length > 1 ? `-${(a.length - 1) * 0.6}em` : null)
         .attr("x", 0);
 
-    // update axis
-    root_bars.select("g.axis")
-        .attr("transform", `translate(250, ${scale_bar_vertical.range()[1]})`)
-        .transition()
-        .call(d3.axisBottom(scale_bar_horizontal));
-
     // update axis label
     root_bars.select("text.axis_label")
         .attr("x", 250 + width_bar / 2)
-        .attr("y", scale_bar_vertical.range()[1] + 30);
+        .attr("y", scale_bar_vertical.range()[1]);
 }
 
 function is_active(category, subcategory) {
