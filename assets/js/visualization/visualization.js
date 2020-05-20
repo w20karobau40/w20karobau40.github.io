@@ -475,6 +475,14 @@ function create_category_selection(pos_x = 0, pos_y = 0) {
         .attr("transform", `translate(${pos_x}, ${pos_y})`)
         .attr("id", "category_selection");
 
+    root.append("text")
+        .classed("header", true)
+        .text("Teilnehmerübersicht")
+        .attr("x", width_categories / 2)
+        .attr("y", 20)
+        .attr("dominant-baseline", "central")
+        .attr("text-anchor", "middle");
+
     return root.node();
 }
 
@@ -637,10 +645,11 @@ function update_tabs() {
 }
 
 function update_categories() {
+    const offset_header = 40;
     const size_bigcircle = 220;
     const scale_bigcircle = d3.scaleBand()
         .domain(d3.range(data.categories.length))
-        .range([0, size_bigcircle * data.categories.length])
+        .range([offset_header, size_bigcircle * data.categories.length + offset_header])
         .padding(0.15);
 
     // calculate required height for viewBox calculation

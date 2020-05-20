@@ -49,3 +49,7 @@ rect.question_category {
 rect.category_toggle {
     fill: papayawhip;
 }
+
+svg text.header {
+    font-size: 18px;
+}
