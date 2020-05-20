@@ -436,9 +436,7 @@ const main_svg = d3.select("div#karobau_viz").append("svg")
     .attr("width", "100%")
     .attr("viewBox", `0 0 ${width_categories + width_questions} 850`)
     .attr("preserveAspectRatio", "xMidYMin meet")
-    .attr("id", "karobau_viz_svg")
-    // TODO: remove border, just for debugging purposes
-    .style("border", "black 1px solid");
+    .attr("id", "karobau_viz_svg");
 
 const main_g = main_svg.append("g")
     .classed("viz_root", true);
