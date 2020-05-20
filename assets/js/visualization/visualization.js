@@ -422,30 +422,41 @@ let active_question_categories = data.questions.map(() => []);
 // for each category there is an array of active incides, an empty array shall be equivalent to an array containing all possible indices
 let active_categories = data.categories.map(() => []);
 
-const viewBox_width = 1240;
+const width_categories = 475, width_questions = 765;
+let viewBox_width = width_categories + width_questions;
 let y_categories = 0, y_question = 50;
 let height_categories = 0, height_question = 0;
 // create svg to fill with visualization
 const main_svg = d3.select("div#karobau_viz").append("svg")
     // .attr("height", 850)
     .attr("width", "100%")
-    .attr("viewBox", `0 0 ${viewBox_width} 850`)
+    .attr("viewBox", `0 0 ${width_categories + width_questions} 850`)
     .attr("preserveAspectRatio", "xMidYMin meet")
     .attr("id", "karobau_viz_svg")
     // TODO: remove border, just for debugging purposes
     .style("border", "black 1px solid");
 
+const main_g = main_svg.append("g")
+    .classed("viz_root", true);
+
 // create circles for selecting categories
-const structure_categories = main_svg.append(() => create_category_selection(0, y_categories));
+const structure_categories = main_g.append(() => create_category_selection(0, y_categories));
 // basic structure for sentiment questions
-const structure_sentiment = main_svg.append(() => create_sentiment_scale(475, y_question)).attr("display", "none");
+const structure_sentiment = main_g.append(() => create_sentiment_scale(width_categories, y_question)).attr("display", "none");
 // basic structure for yes/no questions
-const structure_yesno = main_svg.append(() => create_yesno_scale(475, y_question)).attr("display", "none");
+const structure_yesno = main_g.append(() => create_yesno_scale(width_categories, y_question)).attr("display", "none");
 // tabs to switch between questions
-main_svg.append(() => create_tabs(475, 0));
+main_g.append(() => create_tabs(475, 0));
 
 update_categories();
 update_question();
+
+// media query, taken from materialize.min.css
+const media_query = window.matchMedia("only screen and (max-width: 992px)");
+// call listener once, to setup correct layout on page load
+event_listener(media_query);
+// setup event listener, to change layout when media query changes result
+media_query.addEventListener("change", event_listener);
 
 /**
  * @summary This function creates circles for selecting the categories of survey participants.
@@ -570,22 +581,6 @@ function accumulate_categories(i) {
     return values.map(v => answers.filter(i => i === v).length);
 }
 
-/**
- * @summary This function creates a svg text element, splitting the given text at newline characters.
- * @param str{string}
- * @returns {SVGTextElement}
- */
-function create_text(str) {
-    // text contains newline chars, return text with tspan for each separate line
-    const text = d3.create("svg:text");
-    // create tspan
-    text.selectAll("tspan").data(str.split("\n")).join("tspan")
-        .text(d => d)
-        .attr("dy", (d, i) => i > 0 ? "1.2em" : null)
-        .attr("x", 0);
-    return text.node();
-}
-
 function update_text(selection, new_str) {
     // update text
     selection.selectAll("tspan").data(new_str.split("\n")).join("tspan")
@@ -634,7 +629,7 @@ function create_tabs(pos_x = 0, pos_y = 0) {
 }
 
 function update_tabs() {
-    const root = main_svg.select("g#tabs");
+    const root = main_g.select("g#tabs");
     // recolor rectangles
     root.selectAll("rect.tab")
         .attr("class", (d, i) => i === active_question ? "tab active" : "tab inactive");
@@ -650,9 +645,6 @@ function update_categories() {
     // calculate required height for viewBox calculation
     // this is essentially the y coordinate of the bottom of the last big circle
     height_categories = scale_bigcircle.range()[1] - scale_bigcircle.step() * scale_bigcircle.paddingOuter();
-
-    // select root group
-    const root = main_svg.select("g#category_selection");
 
     // create a d3 hierarchy for each category
     const category_hierarchies = data.categories.map((c, i) => d3.hierarchy({
@@ -695,7 +687,7 @@ function update_categories() {
         return d > 1 ? d3.scaleLinear().domain([0, d - 1]).range([c1, c2]) : d3.scaleLinear().domain([0, 0.01]).range([c1, c2]);
     });
 
-    const bigcircle_origin = root.selectAll("g.bigcircle_origin").data(category_hierarchies).join("g")
+    const bigcircle_origin = structure_categories.selectAll("g.bigcircle_origin").data(category_hierarchies).join("g")
         .attr("transform", (d, i) => `translate(0, ${scale_bigcircle(i)})`)
         .classed("bigcircle_origin", true);
 
@@ -795,8 +787,6 @@ function update_categories() {
             return update;
         }
     );
-
-    return root.node();
 }
 
 function update_question() {
@@ -1122,4 +1112,17 @@ function set_svg_size() {
     const required_height = Math.max(y_question + height_question, y_categories + height_categories);
     main_svg
         .attr("viewBox", `0 0 ${viewBox_width} ${required_height}`);
+}
+
+function event_listener(query) {
+    if (query.matches) {
+        // setup mobile view
+        viewBox_width = width_questions;
+        main_g.attr("transform", `translate(${-width_categories}, 0)`);
+    } else {
+        // setup desktop view
+        viewBox_width = width_categories + width_questions;
+        main_g.attr("transform", "translate(0, 0)");
+    }
+    set_svg_size()
 }
