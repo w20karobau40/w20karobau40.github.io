@@ -825,9 +825,10 @@ function update_sentiment_scale() {
     // calculation for centering the bars on the neutral subbars
     const num_left = d3.max(answers, a => a.sum_negative + a.sum_neutral / 2),
         num_right = d3.max(answers, a => a.sum_positive + a.sum_neutral / 2);
+    const num_max = Math.max(num_left, num_right);
     // assumption for now: all bars have same scale, so they might differ in length based on non-standard answers
     const scale_bar_horizontal = d3.scaleLinear()
-        .domain([0, num_left + num_right])
+        .domain([0, 2 * num_max])
         .rangeRound([0, width_bar]);
 
     const scale_legend = d3.scaleBand()
@@ -912,7 +913,7 @@ function update_sentiment_scale() {
             .attr("transform", `translate(${offset_bars},0)`);
 
         bar_origin.selectAll("rect").data(function (answ) {
-            let offset = num_left - answ.sum_negative - answ.sum_neutral / 2;
+            let offset = num_max - answ.sum_negative - answ.sum_neutral / 2;
             // calculate position of left edge of rect
             // the first bar should start at the calculated offset value
             let start_x = d3.cumsum([offset].concat(answ.answers.map(d => d.value))).map(scale_bar_horizontal);
@@ -962,7 +963,7 @@ function update_sentiment_scale() {
             .attr("transform", `translate(${offset_bars},0)`);
 
         bar_origin.selectAll("rect").data(function (answ) {
-            let offset = num_left - answ.sum_negative - answ.sum_neutral / 2;
+            let offset = num_max - answ.sum_negative - answ.sum_neutral / 2;
             // calculate position of left edge of rect
             // the first bar should start at the calculated offset value
             let start_x = d3.cumsum([offset].concat(answ.answers.map(d => d.value))).map(scale_bar_horizontal);
