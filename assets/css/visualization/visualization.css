@@ -45,3 +45,7 @@ text.category_active {
 rect.question_category {
     fill: papayawhip;
 }
+
+rect.category_toggle {
+    fill: papayawhip;
+}

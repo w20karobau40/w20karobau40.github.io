@@ -426,6 +426,7 @@ const width_categories = 475, width_questions = 765;
 let viewBox_width = width_categories + width_questions;
 let y_categories = 0, y_question = 50;
 let height_categories = 0, height_question = 0;
+const height_button = 40;
 // create svg to fill with visualization
 const main_svg = d3.select("div#karobau_viz").append("svg")
     // .attr("height", 850)
@@ -446,7 +447,10 @@ const structure_sentiment = main_g.append(() => create_sentiment_scale(width_cat
 // basic structure for yes/no questions
 const structure_yesno = main_g.append(() => create_yesno_scale(width_categories, y_question)).attr("display", "none");
 // tabs to switch between questions
-main_g.append(() => create_tabs(475, 0));
+const structure_tabs = main_g.append(() => create_tabs(width_categories, 0));
+// button to toggle category view on mobile
+const category_toggle = main_g.append(() => create_category_toggle(width_categories, 0)).attr("display", "none");
+let show_categories = false;
 
 update_categories();
 update_question();
@@ -1114,15 +1118,54 @@ function set_svg_size() {
         .attr("viewBox", `0 0 ${viewBox_width} ${required_height}`);
 }
 
+function create_category_toggle(pos_x, pos_y) {
+    const width_button = 600 / 5;
+    const root = d3.create("svg:g")
+        .attr("transform", `translate(${pos_x}, ${pos_y})`)
+        .classed("hover_shadow", true)
+        .on("click", function () {
+            show_categories = !show_categories;
+            // trigger layout update
+            event_listener(media_query);
+        });
+    root.append("rect")
+        .attr("width", width_button)
+        .attr("height", height_button)
+        .classed("category_toggle", true);
+    root.append("text")
+        .text("Teilnehmer")
+        .attr("x", width_button / 2)
+        .attr("y", height_button / 2)
+        .attr("dominant-baseline", "central")
+        .attr("text-anchor", "middle");
+    return root.node();
+}
+
 function event_listener(query) {
     if (query.matches) {
         // setup mobile view
         viewBox_width = width_questions;
-        main_g.attr("transform", `translate(${-width_categories}, 0)`);
+        if (show_categories) {
+            main_g.transition().attr("transform", `translate(0, 0)`);
+        } else {
+            main_g.transition().attr("transform", `translate(${-width_categories}, 0)`);
+        }
+        // move to make space for button
+        structure_yesno.attr("transform", `translate(${width_categories}, ${y_question + 40})`);
+        structure_sentiment.attr("transform", `translate(${width_categories}, ${y_question + 40})`);
+        structure_tabs.attr("transform", `translate(${width_categories}, 40)`);
+        // show button
+        category_toggle.attr("display", null);
     } else {
         // setup desktop view
         viewBox_width = width_categories + width_questions;
         main_g.attr("transform", "translate(0, 0)");
+        // move back to top
+        structure_yesno.attr("transform", `translate(${width_categories}, ${y_question})`);
+        structure_sentiment.attr("transform", `translate(${width_categories}, ${y_question})`);
+        structure_tabs.attr("transform", `translate(${width_categories}, 0)`);
+        // hide button
+        category_toggle.attr("display", "none");
     }
     set_svg_size()
 }
