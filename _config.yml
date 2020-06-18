@@ -29,4 +29,4 @@ plugins:
 
 # Build settings
 markdown: kramdown
-exclude: ["README.md", "karobau40"]
+exclude: ["README.md", "karobau40", "venv"]
