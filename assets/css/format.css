@@ -17,6 +17,7 @@
 .logo-carousel {
     max-width: 80%;
     width: 300px;
+	height: 100%;
 }
 
 /* Class for when element is above threshold */

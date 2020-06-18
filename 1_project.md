@@ -6,4 +6,5 @@ permalink: /project/
 
 <h1 class="page-title">{{ page.title | escape }}</h1>
 
-Your awesome project description
+Beschreibung\\
+(edit: 1_project.md)

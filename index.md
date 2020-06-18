@@ -2,4 +2,4 @@
 layout: home
 ---
 
-This is the markdown demo part of `index.md` for the landing page.
+Dieser Text steht in index.md
