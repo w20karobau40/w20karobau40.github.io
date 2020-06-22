@@ -19,7 +19,7 @@ const data = {
     ],
     questions: [
         {
-            question: "Inwieweit sehen Sie den Karosseriebau von folgenden Megatrends beeinflusst?",
+            question: "Der derzeitige Umbruch in der Industrie wird durch allgemeine Megatrends verursacht und beeinflusst,\nwelche unterschiedlich stark auf einzelne Branchen und Gewerke wirken.\nInwieweit sehen Sie den Karosseriebau von folgenden Megatrends beeinflusst?",
             type: "sentiment",
             values: ["Nicht betroffen", "Wenig", "Stark", "Sehr stark"],
             subquestions: ["Demografischer Wandel", "Fachkräftemangel", "Wissensverlust durch\nMitarbeiterwechsel", "Arbeitsplatzergonomie", "IT-Sicherheit (Cyber Security)", "Automatisierte Datenverarbeitung", "Verkauf eigener Produktionsdaten", "Ankauf relevanter Daten für\neigene Produkte und Anlagen", "Kostendruck durch\ninternationale Wettbewerber", "Internationale Zulieferketten", "Auftragsfertigung von\nBaugruppen und Karossen", "Steigende Produktvielfalt erfordert\nAnlagenflexibilität", "Verkürzung der Produktionszyklen", "Volumenflexibilität aufgrund\nschwankender Nachfrage", "Energieeffizienz", "Rohstoffverknappung", "Abfallvermeidung"],
@@ -34,7 +34,7 @@ const data = {
                 {name: "Umwelt und Ressourcen", values: [14, 15, 16]}
             ]
         }, {
-            question: "Wie weit sehen Sie folgende Technologien bereits heute\nim Karosseriebau (ihres Unternehmens oder Kundens) implementiert?",
+            question: "Technologien entwickeln sich kontinuierlich. Technische Neuerungen bieten enorme Chancen\nzur Erhöhungder Wertschöpfung und Verbesserung von Anlagenfähigkeiten.\nBitte bewerten Sie den derzeitigen Implementierungsstatus für\nfolgende Hardware-Technologien im automobilen Karosseriebau Ihres Unternehmens bzw. bei Ihren Kunden.",
             type: "sentiment",
             values: ["Nicht bekannt", "Nicht relevant", "Nicht vorhanden", "Teilweise vorhanden", "Vollständig vorhanden"],
             subquestions: ["Fahrerlose Transportsysteme", "Produktnachverfolgbarkeit durch eind.\ndigitale Kennzeichnung jedes Bauteils", "Produktlokalisierung", "Schutzzaunloser Robotereinsatz", "Ortsflexible Roboter", "Intuitive (Roboter-)Programmierung\nund standardisierte Schnittstellen", "Mensch-Roboter-Kooperation", "Griff in die (ungeordnete) Kiste", "Inbetriebnahme auf Basis\nvon offline Bahnplanung", "Flexible Greifer", "Flexible Spannvorrichtungen", "Flexible Behälter", "Skalierbare Produktionsanlagen", "Rekonfigurierbare Produktionsanlagen\nzur Anpassung auf neue Varianten", "Autonome\nMaschine-Maschine-Interaktion", "Lokale Auswertung\nvon Maschinendaten", "Auswertung in übergeordneten\nNetzwerken/Systemen (u.a. Cloud)", "Datenauswertung durch\nexterne Dienstleister/Dritte", "Condition Monitoring", "Predictive Maintenance", "Echtzeit-Simulation von Prozessen", "Digitaler Zwilling", "Einsatz von Wearables\nzur Instandhaltung", "Einsatz von AR/VR", "Mustererkennung von Maschinendaten", "Mustererkennung in der\nBildverarbeitung", "Autonome Produktionssteuerung\ndurch KI"],
@@ -50,17 +50,17 @@ const data = {
                 {name: "Künstliche Intelligenz", values: [24, 25, 26]}
             ]
         }, {
-            question: "Technologien und Zukunftstrends für den Karosseriebau",
+            question: "Die Vielzahl technologischer Möglichkeiten erfordert Priorisierung.\nWählen Sie aus den unten genannten Technologien bitte die 3 relevantesten für den Karosseriebau der Zukunft.",
             type: "yesno",
             values: ["quoted", "not quoted"],
             subquestions: ["Künstliche Intelligenz für\nautonome Prozessregelung", "Digitaler Zwilling der Anlage", "AR / VR (Einsatz in\nInstandhaltung / Montagefolge)", "Einsatz von Wearables\n(Tragbare Sensor- und Endgeräte)", "Durchgängige Nachverfolgung\njedes Bauteils (z. B. RFID)", "Fahrerlose Transportsysteme\nfür Bauteile", "Big Data Speicherung und Auswertung", "Intuitive (Roboter-)Programmierung\nund standardisierte Schnittstellen", "Predictive Maintenance", "Automatisierte Produktionsplanung", "Cloud Technologien"]
         }, {
-            question: "Welche Unterstützungsangebote nutzen Sie bereits,\num Technologien für den Karosserie der Zukunft erfolgreich zu meistern?",
+            question: "Es bestehen diverse Angebote für Unternehmen,\num sich in der Vielfalt technologischer Möglichkeiten orientieren zu können.\nWelche Unterstützungsangebote nutzen Sie bereits, um Technologien\nfür den Karosseriebau der Zukunft erfolgreich zu meistern?",
             type: "yesno",
             values: ["quoted", "not quoted"],
             subquestions: ["Forschungskooperationen", "Branchenübergreifender\nErfahrungsaustausch", "Öffentliche Förderung\nvon F&E Aufwänden", "Austausch mit Branchenmitgliedern\nauf Konferenzen und Workshops", "Regelmäßige Weiterbildungen", "Unterstützung durch\nexternes Beratungsunternehmen", "Software-Dienstleister\nzur Datenauswertung"]
         }, {
-            question: "Welche weitere Unterstützung benötigt Ihr Unternehmen,\num den Zukunftsthemen des Karosseriebaus erfolgreich begegnen zu können?",
+            question: "Neben den bestehenden Angebote interessieren wir uns für weitere Unterstützungsmöglichkeiten,\ndie Sie benötigen, um den Zukunftsthemen des Karosseriebaus erfolgreich zu begegnen.\nWelche weitere Untersützung benötigt Ihr Unternehmen,\num den Zukunftsthemen des Karosseriebaus erfolgreich begegnen zu können?",
             type: "sentiment",
             values: ["Nicht bekannt", "Nicht relevant", "Weniger wichtig", "Wichtig", "Sehr wichtig"],
             subquestions: ["Änderung gesetzlicher\nRahmenbedingungen", "Mehr IT-Fachkräfte", "Mehr sonstige Fachkräfte", "Kundenübergreifende\nStandardisierung", "Marktübersicht durch Benchmarking\nvorhandener Technologien", "Nutzenübersicht unterschiedlicher\nTechnologien", "Mehr F&E im eigenen Unternehmen", "Forschungskooperationen", "Wissens-/Erfahrungsaustausch\nmit Branchenmitgliedern", "Änderung im Führungsverhalten", "Weiterbildungsangebote von\nTechnologieanbietern"],
@@ -428,7 +428,7 @@ let active_categories = data.categories.map(() => []);
 const width_categories = 475, width_questions = 765;
 let viewBox_width = width_categories + width_questions;
 let y_categories = 0, y_question = 50;
-let height_categories = 0, height_question = 0;
+let height_categories = 0, height_question = 0, height_question_text = 75;
 const height_button = 40;
 // create svg to fill with visualization
 const main_svg = d3.select("div#karobau_viz").append("svg")
@@ -503,12 +503,12 @@ function create_sentiment_scale(pos_x = 0, pos_y = 0) {
 
     // create root for bars
     root.append("g")
-        .attr("transform", "translate(0, 40)")
+        .attr("transform", `translate(0, ${height_question_text})`)
         .classed("bar_root", true);
 
     // create root for legend
     root.append("g")
-        .attr("transform", "translate(600, 40)")
+        .attr("transform", `translate(600, ${height_question_text})`)
         .classed("legend_root", true);
 
     return root.node();
@@ -527,7 +527,7 @@ function create_yesno_scale(pos_x = 0, pos_y = 0) {
 
     // create root for bars
     const root_bars = root.append("g")
-        .attr("transform", "translate(0, 40)")
+        .attr("transform", `translate(0, ${height_question_text})`)
         .classed("bar_root", true);
 
     // create axis label
@@ -864,7 +864,7 @@ function update_sentiment_scale() {
         const vertical_offsets = [].slice.call(d3.cumsum([0].concat(visible_height.slice(0, -1).map(d => d + height_bar))));
         // calculate required height for viewBox calculation
         // this is essentially the y coordinate of the bottom of the last visible bar
-        height_question = d3.sum(visible_height) + height_bar * question_categories.length + 40;
+        height_question = d3.sum(visible_height) + height_bar * question_categories.length + height_question_text;
 
         // remove all bars not contained in a category container
         root_bars.selectAll("g.bar_container.no_category").remove();
@@ -954,7 +954,7 @@ function update_sentiment_scale() {
             .paddingInner(0.08);
         // calculate required height for viewBox calculation
         // this is essentially the y coordinate of the bottom of the last bar
-        height_question = scale_bar_vertical.range()[1] - scale_bar_vertical.step() * scale_bar_vertical.paddingOuter() + 40;
+        height_question = scale_bar_vertical.range()[1] - scale_bar_vertical.step() * scale_bar_vertical.paddingOuter() + height_question_text;
 
         // remove category selectors
         root_bars.selectAll("g.question_category_container").remove();
@@ -1052,7 +1052,7 @@ function update_yesno_scale() {
 
     // calculate required height for viewBox calculation
     // this is the bottom of the axis label
-    height_question = scale_bar_vertical.range()[1] + 30 + 40;
+    height_question = scale_bar_vertical.range()[1] + 30 + height_question_text;
 
     // update text label for question
     update_text(structure_yesno.select("text.question_label"), question.question);
