@@ -18,7 +18,7 @@ description: > # this means to ignore newlines until "baseurl:"
 baseurl: "/visualisierung-karobau40"
 
 sass:
-    style: compressed
+  style: compressed
 
 highlighter: cyan
 #HARA: DID NOT CHANGE SITE
@@ -30,4 +30,4 @@ plugins:
 
 # Build settings
 markdown: kramdown
-exclude: ["README.md", "karobau40", "venv"]
+exclude: ["README.md", "karobau40", "python", "Gemfile", "Gemfile.lock", "jsdoc.json", "LICENSE"]
