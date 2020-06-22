@@ -32,7 +32,8 @@ const data = {
                 {name: "Globalisierung", values: [8, 9, 10]},
                 {name: "Diversifizierung", values: [11, 12, 13]},
                 {name: "Umwelt und Ressourcen", values: [14, 15, 16]}
-            ]
+            ],
+            label: "Megatrends"
         }, {
             question: "Technologien entwickeln sich kontinuierlich. Technische Neuerungen bieten enorme Chancen\nzur Erhöhungder Wertschöpfung und Verbesserung von Anlagenfähigkeiten.\nBitte bewerten Sie den derzeitigen Implementierungsstatus für\nfolgende Hardware-Technologien im automobilen Karosseriebau Ihres Unternehmens bzw. bei Ihren Kunden.",
             type: "sentiment",
@@ -48,17 +49,20 @@ const data = {
                 // TODO: typo? IIoT -  IoT ?
                 {name: "Digitalisierung und IIoT", values: [14, 15, 16, 17, 18, 19, 20, 21, 22, 23]},
                 {name: "Künstliche Intelligenz", values: [24, 25, 26]}
-            ]
+            ],
+            label: "Implementierungs-\nstand"
         }, {
             question: "Die Vielzahl technologischer Möglichkeiten erfordert Priorisierung.\nWählen Sie aus den unten genannten Technologien bitte die 3 relevantesten für den Karosseriebau der Zukunft.",
             type: "yesno",
             values: ["quoted", "not quoted"],
-            subquestions: ["Künstliche Intelligenz für\nautonome Prozessregelung", "Digitaler Zwilling der Anlage", "AR / VR (Einsatz in\nInstandhaltung / Montagefolge)", "Einsatz von Wearables\n(Tragbare Sensor- und Endgeräte)", "Durchgängige Nachverfolgung\njedes Bauteils (z. B. RFID)", "Fahrerlose Transportsysteme\nfür Bauteile", "Big Data Speicherung und Auswertung", "Intuitive (Roboter-)Programmierung\nund standardisierte Schnittstellen", "Predictive Maintenance", "Automatisierte Produktionsplanung", "Cloud Technologien"]
+            subquestions: ["Künstliche Intelligenz für\nautonome Prozessregelung", "Digitaler Zwilling der Anlage", "AR / VR (Einsatz in\nInstandhaltung / Montagefolge)", "Einsatz von Wearables\n(Tragbare Sensor- und Endgeräte)", "Durchgängige Nachverfolgung\njedes Bauteils (z. B. RFID)", "Fahrerlose Transportsysteme\nfür Bauteile", "Big Data Speicherung und Auswertung", "Intuitive (Roboter-)Programmierung\nund standardisierte Schnittstellen", "Predictive Maintenance", "Automatisierte Produktionsplanung", "Cloud Technologien"],
+            label: "Zukünftige\nTechnologien"
         }, {
             question: "Es bestehen diverse Angebote für Unternehmen,\num sich in der Vielfalt technologischer Möglichkeiten orientieren zu können.\nWelche Unterstützungsangebote nutzen Sie bereits, um Technologien\nfür den Karosseriebau der Zukunft erfolgreich zu meistern?",
             type: "yesno",
             values: ["quoted", "not quoted"],
-            subquestions: ["Forschungskooperationen", "Branchenübergreifender\nErfahrungsaustausch", "Öffentliche Förderung\nvon F&E Aufwänden", "Austausch mit Branchenmitgliedern\nauf Konferenzen und Workshops", "Regelmäßige Weiterbildungen", "Unterstützung durch\nexternes Beratungsunternehmen", "Software-Dienstleister\nzur Datenauswertung"]
+            subquestions: ["Forschungskooperationen", "Branchenübergreifender\nErfahrungsaustausch", "Öffentliche Förderung\nvon F&E Aufwänden", "Austausch mit Branchenmitgliedern\nauf Konferenzen und Workshops", "Regelmäßige Weiterbildungen", "Unterstützung durch\nexternes Beratungsunternehmen", "Software-Dienstleister\nzur Datenauswertung"],
+            label: "Verwendete\nUnterstützung"
         }, {
             question: "Neben den bestehenden Angebote interessieren wir uns für weitere Unterstützungsmöglichkeiten,\ndie Sie benötigen, um den Zukunftsthemen des Karosseriebaus erfolgreich zu begegnen.\nWelche weitere Untersützung benötigt Ihr Unternehmen,\num den Zukunftsthemen des Karosseriebaus erfolgreich begegnen zu können?",
             type: "sentiment",
@@ -66,7 +70,8 @@ const data = {
             subquestions: ["Änderung gesetzlicher\nRahmenbedingungen", "Mehr IT-Fachkräfte", "Mehr sonstige Fachkräfte", "Kundenübergreifende\nStandardisierung", "Marktübersicht durch Benchmarking\nvorhandener Technologien", "Nutzenübersicht unterschiedlicher\nTechnologien", "Mehr F&E im eigenen Unternehmen", "Forschungskooperationen", "Wissens-/Erfahrungsaustausch\nmit Branchenmitgliedern", "Änderung im Führungsverhalten", "Weiterbildungsangebote von\nTechnologieanbietern"],
             positive: [3, 4],
             neutral: [],
-            negative: [2]
+            negative: [2],
+            label: "Benötigte\nUnterstützung"
         }
     ],
     answers: [
@@ -597,7 +602,7 @@ function update_text(selection, new_str) {
 }
 
 function create_tabs(pos_x = 0, pos_y = 0) {
-    const width_tabs = 600, height_tab = 40;
+    const width_tabs = width_questions, height_tab = 40;
     const num_questions = data.questions.length;
     const scale_tab = d3.scaleBand()
         .domain(d3.range(num_questions))
@@ -607,7 +612,7 @@ function create_tabs(pos_x = 0, pos_y = 0) {
         .attr("transform", `translate(${pos_x}, ${pos_y})`)
         .attr("id", "tabs");
     // create tab
-    const tab = root.selectAll("g").data(d3.range(num_questions).map(i => `Frage ${i + 1}`)).join("g")
+    const tab = root.selectAll("g").data(data.questions.map(d => d.label)).join("g")
         .on("click", function (d, i) {
             // don't do anything if click on active tab
             if (i === active_question)
@@ -626,12 +631,32 @@ function create_tabs(pos_x = 0, pos_y = 0) {
         .attr("height", height_tab)
         .attr("class", (d, i) => i === active_question ? "tab active" : "tab inactive");
     // add text
-    tab.append("text")
-        .text(d => d)
-        .attr("x", (d, i) => scale_tab.bandwidth() / 2 + scale_tab(i))
+    tab.append("g")
+        .attr("transform", (d, i) => `translate(${scale_tab.bandwidth() / 2 + scale_tab(i)}, 0)`)
+        .append("text")
+        .attr("x", 0)
         .attr("y", height_tab / 2)
         .attr("dominant-baseline", "middle")
-        .attr("text-anchor", "middle");
+        .attr("text-anchor", "middle")
+        .selectAll("tspan").data(d => d.split("\n")).join("tspan")
+        .text(d => d)
+        .attr("dy", (d, i, a) => i > 0 ? "1.2em" : a.length > 1 ? `-${(a.length - 1) * 0.6}em` : null)
+        .attr("x", 0)
+    ;
+
+    if (3 === tab)
+        // update text label
+        bar_container.selectAll("text.subquestion").data(d => [d[0]]).join("text")
+            .attr("dominant-baseline", "central")
+            .attr("y", scale_bar_vertical.bandwidth() / 2)
+            .classed("subquestion", true)
+            .selectAll("tspan").data(d => d.split("\n")).join("tspan")
+            .text(d => d)
+            .attr("dy", (d, i, a) => i > 0 ? "1.2em" : a.length > 1 ? `-${(a.length - 1) * 0.6}em` : null)
+        // .attr("x", 0)
+        ;
+
+
     return root.node();
 }
 
