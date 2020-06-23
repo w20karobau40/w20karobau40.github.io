@@ -322,3 +322,5 @@ $RECYCLE.BIN/
 *.docm
 docs
 karobau40
+config.ini
+SESSION_KEY
