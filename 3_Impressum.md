@@ -1,6 +1,6 @@
 ---
 layout: page
-permalink: /Impressum/
+permalink: /impressum/
 ---
 <h1 class="page-title">Impressum</h1>
 
