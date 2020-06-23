@@ -1,6 +1,5 @@
 ---
 layout: page
-title: demo
 author: Adrian Singer
 permalink: /demo/
 ---
