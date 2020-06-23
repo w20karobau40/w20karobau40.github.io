@@ -20,27 +20,34 @@ def call_method_with_session_key(method: str, *params, id_: int = 1, max_retries
     global SESSION_KEY
     response = call_method(method, [SESSION_KEY] + list(params), id_)
     retry_counter = 0
-    while response.get('result') == {'status': 'Invalid session key'}:
-        logger.error("Invalid session key, getting new session key ({} / {})", retry_counter + 1, max_retries)
-        SESSION_KEY = get_session_key()
+    while response.get('result') == {'status': 'Invalid session key'} and retry_counter < max_retries:
+        retry_counter += 1
+        logger.error("Invalid session key, getting new session key ({} / {})", retry_counter, max_retries)
+        SESSION_KEY = get_session_key(True)
         response = call_method(method, [SESSION_KEY] + list(params), id_)
     return response
 
 
-def get_session_key() -> str:
-    try:
-        with open('SESSION_KEY') as file:
-            key = file.read()
-    except FileNotFoundError:
+def get_session_key(force: bool = False) -> str:
+    if force:
         key = call_method('get_session_key', [USERNAME, PASSWORD]).get('result')
         # TODO: Handle wrong username password combination
         with open('SESSION_KEY', 'w') as file:
             file.write(key)
+        return key
+    try:
+        with open('SESSION_KEY') as file:
+            key = file.read()
+    except FileNotFoundError:
+        key = get_session_key(True)
     return key
 
 
 def list_surveys(username: str = None) -> list:
-    return call_method_with_session_key('list_surveys', username).get('result')
+    if username:
+        return call_method_with_session_key('list_surveys', username).get('result')
+    else:
+        return call_method_with_session_key('list_surveys').get('result')
 
 
 def get_survey_properties(survey_id: int):
@@ -50,6 +57,14 @@ def get_survey_properties(survey_id: int):
 def export_responses(survey_id: int, document_type: str):
     result = call_method_with_session_key('export_responses', survey_id, document_type).get('result')
     return base64.b64decode(result).decode()
+
+
+def list_users():
+    return call_method_with_session_key('list_users').get('result')
+
+
+def release_session_key():
+    return call_method_with_session_key('release_session_key')
 
 
 def main():
