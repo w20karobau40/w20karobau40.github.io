@@ -1,6 +1,6 @@
 // import {data} from "./data.js";
 async function main() {
-    const {data} = await import("./data.js");
+    const {categories, questions, answers} = await import("./data.js");
 
     // media query, taken from materialize.min.css
     const media_query = window.matchMedia("only screen and (max-width: 992px)");
@@ -8,11 +8,11 @@ async function main() {
     // global variable keeping track which question should be displayed
     let active_question = 0;
     // global variable keeping track which question categories are active, per question
-    let active_question_categories = data.questions.map(() => []);
+    let active_question_categories = questions.map(() => []);
 
     // global array keeping track which categories of participants are currently active
     // for each category there is an array of active incides, an empty array shall be equivalent to an array containing all possible indices
-    let active_categories = data.categories.map(() => []);
+    let active_categories = categories.map(() => []);
 
     const width_categories = 475, width_questions = 765;
     let viewBox_width = width_categories + width_questions;
@@ -135,15 +135,15 @@ async function main() {
      * @returns {number[][]} two-dimensional array, for each subquestion an array with the number of answers per answer option
      */
     function accumulate_answers(i) {
-        const question = data.questions[i];
+        const question = questions[i];
         // select valid answers based on categories and given question index
-        let answers = data.answers
+        let filtered_answers = answers
             // filter answers, only allow those where all subcategories are active
             .filter(d => d.categories.every((sub_cat, cat) => is_active(cat, sub_cat)))
             // get answers of question i
             .map(d => d.questions[i]);
         // transpose, list of answers per person => list of answers per subquestion
-        let answers_transposed = d3.transpose(answers);
+        let answers_transposed = d3.transpose(filtered_answers);
         // array [0, 1, ..., length - 1]
         let values = d3.range(question.values.length);
         if (question.type === "sentiment")
@@ -165,16 +165,16 @@ async function main() {
 
     function accumulate_categories(i) {
         // select subcategory answers based on given category index and other active subcategories
-        let other_categories = d3.range(data.categories.length).filter(j => j !== i);
-        let answers = data.answers
+        let other_categories = d3.range(categories.length).filter(j => j !== i);
+        let filtered_answers = answers
             // filter by other active subcategories
             .filter(d => other_categories.every(o => is_active(o, d.categories[o])))
             // get list of subcategory answers for category i
             .map(d => d.categories[i]);
         // array [0, 1, ..., length - 1]
-        let values = d3.range(data.categories[i].values.length);
+        let values = d3.range(categories[i].values.length);
         // count subcategories
-        return values.map(v => answers.filter(i => i === v).length);
+        return values.map(v => filtered_answers.filter(i => i === v).length);
     }
 
     function update_text(selection, new_str) {
@@ -187,7 +187,7 @@ async function main() {
 
     function create_tabs(pos_x = 0, pos_y = 0) {
         const width_tabs = width_questions, height_tab = 40;
-        const num_questions = data.questions.length;
+        const num_questions = questions.length;
         const scale_tab = d3.scaleBand()
             .domain(d3.range(num_questions))
             .rangeRound([0, width_tabs]);
@@ -196,7 +196,7 @@ async function main() {
             .attr("transform", `translate(${pos_x}, ${pos_y})`)
             .attr("id", "tabs");
         // create tab
-        const tab = root.selectAll("g").data(data.questions.map(d => d.label)).join("g")
+        const tab = root.selectAll("g").data(questions.map(d => d.label)).join("g")
             .on("click", function (d, i) {
                 // don't do anything if click on active tab
                 if (i === active_question)
@@ -255,8 +255,8 @@ async function main() {
         const offset_header = 40;
         const size_bigcircle = 220;
         const scale_bigcircle = d3.scaleBand()
-            .domain(d3.range(data.categories.length))
-            .range([offset_header, size_bigcircle * data.categories.length + offset_header])
+            .domain(d3.range(categories.length))
+            .range([offset_header, size_bigcircle * categories.length + offset_header])
             .padding(0.15);
 
         // calculate required height for viewBox calculation
@@ -264,7 +264,7 @@ async function main() {
         height_categories = scale_bigcircle.range()[1] - scale_bigcircle.step() * scale_bigcircle.paddingOuter();
 
         // create a d3 hierarchy for each category
-        const category_hierarchies = data.categories.map((c, i) => d3.hierarchy({
+        const category_hierarchies = categories.map((c, i) => d3.hierarchy({
                 name: c.category,
                 children: d3.zip(c.values, accumulate_categories(i)).map((d, j) => ({
                     name: d[0],
@@ -407,7 +407,7 @@ async function main() {
     }
 
     function update_question() {
-        if (data.questions[active_question].type === "sentiment") {
+        if (questions[active_question].type === "sentiment") {
             structure_sentiment.attr("display", null);
             structure_yesno.attr("display", "none");
             update_sentiment_scale();
@@ -424,7 +424,7 @@ async function main() {
         const height_category = 40;
         const offset_bars = 250;
 
-        const question = data.questions[active_question], answers = accumulate_answers(active_question);
+        const question = questions[active_question], answers = accumulate_answers(active_question);
         const local_data = d3.zip(question.subquestions, answers);
         const num_questions = local_data.length, num_values = question.values.length;
 
@@ -646,7 +646,7 @@ async function main() {
     function update_yesno_scale() {
         const height_bar = 40, width_bar = 300;
 
-        const question = data.questions[active_question], answers = accumulate_answers(active_question);
+        const question = questions[active_question], answers = accumulate_answers(active_question);
         const local_data = d3.zip(question.subquestions, answers);
         const num_questions = local_data.length, num_answers = d3.max(answers, d => d[0] + d[1]);
 
