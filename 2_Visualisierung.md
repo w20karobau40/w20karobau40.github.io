@@ -4,6 +4,7 @@ title: Ergebnisse
 permalink: /visualisierung/
 jsarr:
 - visualization/visualization.js
+- visualization/compatibility.js
 cssarr:
 - visualization/visualization.css
 ---
@@ -20,6 +21,7 @@ Durch Auswahl eines weiteren Kreises/Gruppe, wird die Darstellung weiterhin verf
 Durch Klick auf die umschließenden Kreise wird die Auswahl schließlich aufgehoben.
 
 <div id="karobau_viz"></div>
+<div id="viz_compat"></div>
 
 
 

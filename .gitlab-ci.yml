@@ -13,7 +13,9 @@ pages:
     - asprunner
   before_script:
     - curl -X POST -s --data-urlencode 'input@assets/js/visualization/visualization.js' https://javascript-minifier.com/raw > assets/js/visualization/visualization.min.js
+    - curl -X POST -s --data-urlencode 'input@assets/js/visualization/compatibility.js' https://javascript-minifier.com/raw > assets/js/visualization/compatibility.min.js
     - rm assets/js/visualization/visualization.js
+    - rm assets/js/visualization/compatibility.js
     - bundle install
   script:
     - bundle exec jekyll build -d public
