@@ -1,4 +1,5 @@
 import base64
+import json
 import re
 import time
 from typing import List, Dict, Optional
@@ -69,7 +70,7 @@ def get_survey_properties(survey_id: int):
 
 def export_responses(survey_id: int, document_type: str):
     result = call_method_with_session_key('export_responses', survey_id, document_type)
-    return base64.b64decode(result).decode()
+    return json.loads(base64.b64decode(result).decode())
 
 
 def list_users():
@@ -93,39 +94,45 @@ def get_question_properties(question_id: int, question_settings: Optional[List[s
 
 
 def remove_html(s: str) -> str:
-    return re.sub(r'<[^>]*>', '', s).replace('\r\n', ' ')
+    result = re.sub(r'<[^>]*>', '', s)
+    for old, new in [('\r\n', ' '), ('&amp;', '&'), ('&lt;', '<'), ('&gt;', '>')]:
+        result = result.replace(old, new)
+    return result
 
 
-def print_questions_with_answers(survey_id, filenname):
-    with open(filenname, 'w', encoding='utf8') as output_file:
-        groups = sorted(list_groups(survey_id), key=lambda g: int(g.get('group_order')))
-        for group in groups:
-            group_id = int(group['gid'])
-            if group_id == 52:
-                continue
-            output_file.write(group['group_name'] + '\n')
-            questions = sorted(list_questions(survey_id, group_id), key=lambda q: int(q.get('question_order')))
-            question_properties = {qid: get_question_properties(qid) for qid in (int(q['qid']) for q in questions)}
-            main_qids = sorted(filter(lambda qid: not any(str(qid) in q.get('subquestions', []) for q in question_properties.values() if q.get('subquestions') != 'No available answers')
-                                                  and question_properties[qid].get('type') != 'X', question_properties.keys()), key=lambda qid: int(question_properties[qid]['question_order']))
-            for qid in main_qids:
-                question = question_properties[qid]
-                output_file.write(f"  {question['title']:<9} | {remove_html(question['question'])}\n")
-                answeroptions = question.get('answeroptions')
-                if isinstance(answeroptions, dict):
-                    output_file.write("ANSWEROPTIONS:\n")
-                    for key, value in answeroptions.items():
-                        output_file.write(f"    {key:<7} | {value['answer']}\n")
-                subquestions = question.get('subquestions')
-                if isinstance(subquestions, dict):
-                    output_file.write("SUBQUESTIONS:\n")
-                    sub_qids = sorted(subquestions.keys(), key=lambda sq: int(question_properties[int(sq)].get('question_order')))
-                    for sqid in sub_qids:
-                        output_file.write(f"    {subquestions[sqid]['title']:<7} | {subquestions[sqid]['question']}\n")
-            output_file.write('\n')
+def get_questions_with_answers(survey_id):
+    result = []
+    groups = sorted(list_groups(survey_id), key=lambda g: int(g.get('group_order')))
+    for group in groups:
+        group_id = int(group['gid'])
+        if group_id == 52:
+            continue
+        current_group = {'group_name': group['group_name'], 'questions': []}
+        questions = sorted(list_questions(survey_id, group_id), key=lambda q: int(q.get('question_order')))
+        question_properties = {qid: get_question_properties(qid) for qid in (int(q['qid']) for q in questions)}
+        main_qids = sorted(filter(lambda qid: not any(str(qid) in q.get('subquestions', []) for q in question_properties.values() if q.get('subquestions') != 'No available answers')
+                                              and question_properties[qid].get('type') != 'X', question_properties.keys()), key=lambda qid: int(question_properties[qid]['question_order']))
+        for qid in main_qids:
+            question = question_properties[qid]
+            current_question = {'code': question['title'], 'text': remove_html(question['question'])}
+            answeroptions = question.get('answeroptions')
+            if isinstance(answeroptions, dict):
+                answer_codes = sorted(answeroptions.keys(), key=lambda a: int(answeroptions[a]['order']))
+                current_question['answeroptions'] = []
+                for a in answer_codes:
+                    current_question['answeroptions'].append({'code': a, 'text': remove_html(answeroptions[a]['answer'])})
+            subquestions = question.get('subquestions')
+            if isinstance(subquestions, dict):
+                sub_qids = sorted(subquestions.keys(), key=lambda sq: int(question_properties[int(sq)].get('question_order')))
+                current_question['subquestions'] = []
+                for sqid in sub_qids:
+                    current_question['subquestions'].append({'code': subquestions[sqid]['title'], 'text': remove_html(subquestions[sqid]['question'])})
+            current_group['questions'].append(current_question)
+        result.append(current_group)
+    return result
 
 
-def main():
+def setup_args():
     global SESSION_KEY, URL, USERNAME, PASSWORD
     p = configargparse.ArgumentParser(default_config_files=['config.ini'])
     p.add_argument('--api_url', required=True)
@@ -139,8 +146,12 @@ def main():
     PASSWORD = options.password
     SESSION_KEY = get_session_key()
 
+
+def main():
+    setup_args()
     survey_id = 197925
-    print_questions_with_answers(survey_id, 'question.txt')
+    with open('question_and_answers.json', 'w') as file:
+        json.dump(get_questions_with_answers(survey_id), file)
 
 
 if __name__ == '__main__':

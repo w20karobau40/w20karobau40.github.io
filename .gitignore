@@ -324,3 +324,5 @@ docs
 karobau40
 config.ini
 SESSION_KEY
+python/*.json
+python/*.js
