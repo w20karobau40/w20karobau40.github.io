@@ -51,8 +51,11 @@ def main():
             code = question['code']
         answeroptions = question.get('answeroptions', [{'text': 'not quoted', 'code': ''}, {'text': 'quoted', 'code': 'Y'}])
         for row in range(HEADER_ROW + 1, MAX_ROW + 1):
-            option = min(answeroptions, key=lambda ao: Levenshtein.distance(ao['text'], str(ws.cell(row, col).value)))
-            users[row][code] = option['code']
+            if ws.cell(row, col).value == 0:
+                users[row][code] = ""
+            else:
+                option = min(answeroptions, key=lambda ao: Levenshtein.distance(ao['text'], str(ws.cell(row, col).value)))
+                users[row][code] = option['code']
 
     responses = [{str(key): value} for key, value in users.items()]
     with open('old_responses.json', 'w') as output:
