@@ -651,7 +651,7 @@ async function main() {
         const num_questions = local_data.length, num_answers = d3.max(answers, d => d[0] + d[1]);
 
         const scale_bar_horizontal = d3.scaleLinear()
-            .domain([0, d3.max(answers, d => d[0]) * 100 / num_answers])
+            .domain([0, d3.max(answers, d => d[1]) * 100 / num_answers])
             .rangeRound([0, width_bar]);
 
         const scale_bar_vertical = d3.scaleBand()
@@ -674,7 +674,7 @@ async function main() {
             .attr("transform", (d, i) => `translate(0, ${scale_bar_vertical(i)})`);
 
         // update individual bars
-        bar_container.selectAll("rect.bar_yesno").data(d => [d[1][0] * 100 / num_answers]).join(enter => enter.append("rect")
+        bar_container.selectAll("rect.bar_yesno").data(d => [d[1][1] * 100 / num_answers]).join(enter => enter.append("rect")
                 .attr("height", scale_bar_vertical.bandwidth())
                 .attr("width", d => scale_bar_horizontal(d))
                 .attr("x", 250)
@@ -685,7 +685,7 @@ async function main() {
 
         // update bar label
         bar_container.selectAll("text.bar_yesno_label").data(d => {
-            const p = d[1][0] * 100 / num_answers;
+            const p = d[1][1] * 100 / num_answers;
             return [[p, scale_bar_horizontal(p) >= 30]];
         }).join(enter => enter.append("text")
                 .attr("x", d => 250 + scale_bar_horizontal(d[0]) + (d[1] ? -10 : 10))
