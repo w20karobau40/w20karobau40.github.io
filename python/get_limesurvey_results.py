@@ -4,6 +4,7 @@ import re
 import time
 from typing import List, Dict, Optional
 
+import Levenshtein
 import configargparse
 import requests
 from loguru import logger
@@ -68,6 +69,7 @@ def get_survey_properties(survey_id: int):
     return call_method_with_session_key('get_survey_properties', survey_id)
 
 
+@logger.catch(reraise=True)
 def export_responses(survey_id: int, document_type: str):
     result = call_method_with_session_key('export_responses', survey_id, document_type)
     return json.loads(base64.b64decode(result).decode())
@@ -132,6 +134,67 @@ def get_questions_with_answers(survey_id):
     return result
 
 
+@logger.catch(reraise=True)
+def convert_limesurvey(data: dict, survey_id: int):
+    with open('question_and_answers.json') as input_file:
+        question_and_answers = json.load(input_file)
+    questions = []
+    for qa in question_and_answers:
+        questions.extend(qa['questions'])
+    answeroptions = {}
+    for question in questions:
+        if 'subquestions' in question.keys():
+            for sq in question['subquestions']:
+                answeroptions[f'{question["code"]}[{sq["code"]}]'] = question.get('answeroptions', [{'text': 'not quoted', 'code': ''}, {'text': 'quoted', 'code': 'Y'}])
+        else:
+            answeroptions[question['code']] = question.get('answeroptions', [{'text': 'not quoted', 'code': ''}, {'text': 'quoted', 'code': 'Y'}])
+    result = []
+    with open('javascript_structure.json') as input_file:
+        structure = json.load(input_file)
+    for answer in data['responses']:
+        current_answer = next(a for a in answer.values())
+        current_result = {'categories': [], 'questions': []}
+        for code in structure['categories']:
+            answercode = current_answer[code]
+            index, opt_code = min(enumerate(answeroptions[code]), key=lambda t: Levenshtein.distance(t[1]['code'], answercode))
+            if Levenshtein.distance(opt_code['code'], answercode) < 2:
+                current_result['categories'].append(index)
+            else:
+                current_result['categories'].append(-1)
+        for question in structure['questions']:
+            current_question = []
+            for code in question:
+                answercode = current_answer[code]
+                index, opt_code = min(enumerate(answeroptions[code]), key=lambda t: Levenshtein.distance(t[1]['code'], answercode))
+                if Levenshtein.distance(opt_code['code'], answercode) < 2:
+                    current_question.append(index)
+                else:
+                    current_question.append(-1)
+            current_result['questions'].append(current_question)
+
+        result.append(current_result)
+    return result
+
+
+def print_questions():
+    with open('question_and_answers.json') as input_file:
+        question_and_answers = json.load(input_file)
+    questions = []
+    for qa in question_and_answers:
+        questions.extend(qa['questions'])
+    for question in questions:
+        print(f'"{question["text"]}"')
+        if 'subquestions' in question.keys():
+            print(', '.join(f'"{sq["text"]}"' for sq in question['subquestions']))
+            print(', '.join(f'"{question["code"]}[{sq["code"]}]"' for sq in question['subquestions']))
+        else:
+            print(f'"{question["code"]}"')
+        if 'answeroptions' in question.keys():
+            print(', '.join(f'"{ao["text"]}"' for ao in question['answeroptions']))
+            print(', '.join(f'"{ao["code"]}"' for ao in question['answeroptions']))
+        print()
+
+
 def setup_args():
     global SESSION_KEY, URL, USERNAME, PASSWORD
     p = configargparse.ArgumentParser(default_config_files=['config.ini'])
@@ -154,5 +217,18 @@ def main():
         json.dump(get_questions_with_answers(survey_id), file)
 
 
+def new_main():
+    setup_args()
+    survey_id = 197925
+    # data = export_responses(survey_id, 'json')
+    with open('old_responses.json') as file:
+        data = json.load(file)
+    answers_string = str(convert_limesurvey(data, survey_id)).replace("'categories'", "categories").replace("'questions'", "questions")
+    with open('limesurvey_data.js', 'w') as file:
+        file.write(f"export const answers = {answers_string};")
+
+
 if __name__ == '__main__':
-    main()
+    # main()
+    print_questions()
+    new_main()
