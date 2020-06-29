@@ -2,16 +2,16 @@
 
 /*HARA: BUTTON COLOR*/
 .btn, .btn-floating, .btn-flat  {
-    background-color: #23483C;
+    background-color: #eb6a0a; /*#006e92;*/
 }
 .btn:hover, .btn-floating:hover, .btn-flat:hover {
-    background-color: #D2EAE2;
-	color: #23483C;
+    background-color: #feefd6; /*#d4e6f4;*/
+	color: #eb6a0a; /*#006e92;*/
 }
 
 /*HARA: HEADER COLOR*/
 nav {
-    background-color: #139c7d;
+    background-color: #179c7d;
 }
 
 /* HARA: FOOTER COLOR*/
@@ -21,7 +21,11 @@ nav {
 
 /* HARA: Link COLOR*/
 a {
-  color: #23483C;
+  color: #006e92;
+}
+
+a.footer {
+  color: #feefd6;
 }
 
 ul {
@@ -44,11 +48,11 @@ h1, h2, h3, h4, h5, h6 {
     margin: 20px auto;
 }
 
-/*HARA: CHANGED TITLE COLOR*/
+/*HARA: TITLE COLOR*/
 h1.page-title {
     font-weight: 500;
     font-size: 2.3em;
-    color: #183468;
+    color: #006e92;
 }
 
 
@@ -88,7 +92,7 @@ h1.page-title {
 }
 
 
-/*HARA: CHANGED POST-TITLE COLOR*/
+/*HARA: POST-TITLE COLOR*/
 .post-header h1.post-title {
     color: #FC9B2C;
     font-size: 2.8em;

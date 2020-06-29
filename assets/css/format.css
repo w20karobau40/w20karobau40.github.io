@@ -59,6 +59,7 @@ figure {
 /* first banner */
 #carousel-1 {
   background-image: url("{{ "/assets/img/banner_1.jpg" | relative_url }}");
+
 }
 
 /* second banner */

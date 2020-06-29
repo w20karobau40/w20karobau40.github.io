@@ -19,12 +19,6 @@ Hansastraße 27 c
 Internet: www.fraunhofer.de  
 E-Mail: info(at)zv.fraunhofer.de
 
-
-___Verantwortliche Redakteur*In___  
-Marcel, Todtermuschke, Antje Ahrens  
-info(at)iwu.fraunhofer.de
-
-
 Umsatzsteuer-Identifikationsnummer gemäß § 27 a  
 Umsatzsteuergesetz: DE 129515865
 
@@ -32,6 +26,10 @@ Registergericht
 Amtsgericht München  
 Eingetragener Verein  
 Register-Nr. VR 4461
+
+___Verantwortliche Redakteur*In___  
+Marcel Todtermuschke, Antje Ahrens, Patrick Alexander Schmidt  
+Karobau4.0(at)iwu.fraunhofer.de
 
 
 #### Vorstand
@@ -43,16 +41,25 @@ Dipl.-Kfm. Andreas Meuer, Finanzen und Digitalisierung
 
 #### Nutzungsrechte
 
-© Fraunhofer-Gesellschaft e.V., München
+Copyright © by  
+Fraunhofer-Gesellschaft
 
 Alle Rechte vorbehalten.  
 Die Urheberrechte dieser Webseite liegen vollständig bei der Fraunhofer-Gesellschaft.
 
-Ein Download oder Ausdruck dieser Veröffentlichungen ist ausschließlich für den persönlichen Gebrauch gestattet. Alle darüber hinaus gehenden Verwendungen, insbesondere die kommerzielle Nutzung und Verbreitung, sind grundsätzlich nicht gestattet und bedürfen der schriftlichen Genehmigung.
+Ein Download oder Ausdruck dieser Veröffentlichungen ist ausschließlich für den persönlichen Gebrauch gestattet. Alle darüber hinaus gehenden Verwendungen, insbesondere die kommerzielle Nutzung und Verbreitung, sind grundsätzlich nicht gestattet und bedürfen der schriftlichen Genehmigung. Anfragen richten Sie bitte an folgende Adresse:
 
-Ein Download oder Ausdruck ist darüber hinaus lediglich zum Zweck der Berichterstattung über die Fraunhofer-Gesellschaft und ihrer Institute nach Maßgabe untenstehender Nutzungsbedingungen gestattet:
+__Fraunhofer-Institut für Werkzeugmaschinen  und Umformtechnik IWU  
+Reichenhainer Straße 88  
+09126 Chemnitz, Germany  
+www.iwu.fraunhofer.de  
+info(at)iwu.fraunhofer.de  
+Telefon +49 371 5397 0__
+
+Ein Download oder Ausdruck ist darüber hinaus lediglich zum __Zweck der Berichterstattung__ über die Fraunhofer-Gesellschaft und ihrer Institute nach Maßgabe untenstehender __Nutzungsbedingungen__ gestattet:
 
 Grafische Veränderungen an Bildmotiven - außer zum Freistellen des Hauptmotivs - sind nicht gestattet. Es ist stets die Quellenangabe und Übersendung von zwei kostenlosen Belegexemplaren an die oben genannte Adresse erforderlich. Die Verwendung ist honorarfrei.
+
 
 #### Haftungshinweis
 
