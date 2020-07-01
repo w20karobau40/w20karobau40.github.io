@@ -13,13 +13,14 @@ Ziel dieses Projektes ist es die durch Digitalisierung, Fachkräftemangel und El
 Zur Untersuchung dieser Fragestellungen des automobilen Karosseriebaus führt das Fraunhofer IWU eine deutschlandweite Studie zum »Karosseriebau der Zukunft« durch für die eine breite Teilnehmerschaft gewonnen werden konnten. 
 Die erstmalige Datenerhebung umfasste die Beantwortung eines Online-Fragebogen sowie einem anschließenden Experteninterview. Hierbei wurden die Bereiche Megatrends, Technologien, Zukunftstrends und Unterstützungsangebote betrachtet, um einen tieferen Einblick in
 
-• aktuelle und zukünftige Anforderungen an den Karosseriebau,
+- aktuelle und zukünftige Anforderungen an den Karosseriebau,
 
-• notwendige Zukunftstechnologien, 
+- notwendige Zukunftstechnologien, 
 
-• den aktuellen Implementierungsstand von Digitalisierungsstrategien und 
+- den aktuellen Implementierungsstand von Digitalisierungsstrategien und 
 
-• Möglichkeiten zur Bewältigung der Anforderungen 
+- Möglichkeiten zur Bewältigung der Anforderungen
+{: .ul-md}
 
 zu erhalten.
 
@@ -29,7 +30,7 @@ Diese Maßnahme wird mitfinanziert mit Steuermitteln auf Grundlage des vom Säch
 
  
 
-<img src="{{ /assets/img/Sachsen_Emblem.jpg | relative_url }}">
+<img src="{{ "/assets/img/Sachsen_Emblem.png" | relative_url }}">
  
  
  
