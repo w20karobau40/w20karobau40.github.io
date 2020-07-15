@@ -1,8 +1,7 @@
   <nav role="navigation">
     <div class="nav-wrapper container">
       <div class="hide-on-med-and-down">
-        <a id="logo-container" class="brand-logo" href="{{ "/" | relative_url }}">
-          {{ site.title }}</a>
+        <img src="{{ "/assets/img/iwu.gif" | relative_url }}">
 
         {% assign default_paths = site.pages | map: "path" %}
         {% assign page_paths = site.header_pages | default: default_paths %}
@@ -29,6 +28,7 @@
     </div>
   </nav>
   <ul id="slide-out" class="sidenav">
+  
       <li><div class="user-view">
           <div class="background">
             <img width="200%" src="{{ "/assets/img/banner_1.jpg" | relative_url }}">
@@ -53,3 +53,8 @@
       <!--EINKOMMENTIEREN FÜR BLOG
 	  <li><a class="waves-effect waves-light" href="{{ "/articles" | relative_url }}">Artikel</a></li>-->
     </ul>
+	
+<div class="header-second">
+<a id="logo-container" class="brand-logo" href="{{ "/" | relative_url }}">
+          {{ site.title }}</a>
+</div>
