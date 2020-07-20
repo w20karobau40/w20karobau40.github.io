@@ -429,8 +429,8 @@ async function main() {
         const num_questions = local_data.length, num_values = question.values.length;
 
         // colors
-        const color_very_negative = "#ff800e", color_slightly_negative = "#ffbc79", color_neutral = "#cfcfcf",
-            color_slightly_positive = "#a2c8ec", color_very_positive = "#5f9ed1";
+        const color_very_negative = "#5f9ed1", color_slightly_negative = "#a2c8ec", color_neutral = "#cfcfcf",
+            color_slightly_positive = "#ffbc79", color_very_positive = "#ff800e";
         const color_interpolator_negative = d3.interpolateRgb(color_very_negative, color_slightly_negative);
         const colors_negative = question.negative.length === 1 ? [color_interpolator_negative(1 / 3)] : question.negative.map((d, i, a) => color_interpolator_negative(i / a.length));
         const color_interpolator_positive = d3.interpolateRgb(color_slightly_positive, color_very_positive);
