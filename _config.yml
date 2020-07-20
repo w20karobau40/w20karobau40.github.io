@@ -6,9 +6,9 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: Studie - Zukunft des Karosseriebaus 4.0
-author: Antje Ahrens
-email: antje.ahrens@iwu.fraunhofer.de
+title: Studie zur Zukunft des Karosseriebaus - Karosseriebau 4.0
+author: Marcel Todtermuschke, Antje Ahrens, Patrick Alexander Schmidt
+email: karobau4.0@iwu.fraunhofer.de
 description: > # this means to ignore newlines until "baseurl:"
   A project site and blog.
 

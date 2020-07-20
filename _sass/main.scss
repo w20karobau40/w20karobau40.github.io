@@ -11,7 +11,18 @@
 
 /*HARA: HEADER COLOR*/
 nav {
-    background-color: #feefd6;
+    background-color: white;
+}
+
+nav ul a{
+color: #006e92;
+}
+
+.header-second {
+	display: flex;
+	justify-content: center;
+	font-size: 26px;
+	min-height: 35px;
 }
 
 /* HARA: FOOTER COLOR*/
