@@ -1,6 +1,8 @@
 // import {data} from "./data.js";
 async function main() {
     const {categories, questions, answers} = await import("./data.js");
+    const {limesurvey_answers} = await import("./limesurvey_data.js");
+    const show_limesurvey_buttons = limesurvey_answers.length > 0;
 
     // media query, taken from materialize.min.css
     const media_query = window.matchMedia("only screen and (max-width: 992px)");

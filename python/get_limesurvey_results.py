@@ -72,6 +72,9 @@ def get_survey_properties(survey_id: int):
 @logger.catch(reraise=True)
 def export_responses(survey_id: int, document_type: str):
     result = call_method_with_session_key('export_responses', survey_id, document_type)
+    if isinstance(result, dict) and 'status' in result.keys():
+        logger.error("response: {}, returning empty data for now", result)
+        return {'responses': []}
     return json.loads(base64.b64decode(result).decode())
 
 
@@ -220,15 +223,15 @@ def main():
 def new_main():
     setup_args()
     survey_id = 197925
-    # data = export_responses(survey_id, 'json')
-    with open('old_responses.json') as file:
-        data = json.load(file)
+    data = export_responses(survey_id, 'json')
+    # with open('old_responses.json') as file:
+    #     data = json.load(file)
     answers_string = str(convert_limesurvey(data, survey_id)).replace("'categories'", "categories").replace("'questions'", "questions")
     with open('limesurvey_data.js', 'w') as file:
-        file.write(f"export const answers = {answers_string};")
+        file.write(f"export const limesurvey_answers = {answers_string};")
 
 
 if __name__ == '__main__':
     # main()
-    print_questions()
+    # print_questions()
     new_main()
