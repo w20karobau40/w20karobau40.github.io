@@ -231,13 +231,13 @@ def setup_args():
     URL = options.api_url
     USERNAME = options.username
     PASSWORD = options.password
-    SESSION_KEY = get_session_key()
     logger.debug("Using URL {}", URL)
     # TODO: REMOVE THIS!!!
     import os
     hostname = "websites.fraunhofer.de"
     ping_cmd = "ping -c 1 " + hostname
     logger.debug("Response of {}: {}", ping_cmd, os.system(ping_cmd))
+    SESSION_KEY = get_session_key()
 
 
 def main():
