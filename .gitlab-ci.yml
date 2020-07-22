@@ -5,14 +5,6 @@ variables:
   JEKYLL_ENV: production
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 
-# Cache gems in between builds
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - vendor/ruby
-    - .cache/pip
-    - venv/
-
 # TODO: Maybe make it so only this task is run every day, and running pages only on new commits
 # TODO: ping -c 1 websites.fraunhofer.de fails with "1 packets transmitted, 0 packets received, 100% packet loss", therefore this job will not succeed
 #fetch_js:
@@ -21,9 +13,6 @@ cache:
 #  tags:
 #    - asprunner
 #  before_script:
-#    - pip install virtualenv
-#    - virtualenv venv
-#    - source venv/bin/activate
 #    - pip install -r python/requirements.txt
 #  script:
 #    # fetch limesurvey
@@ -48,7 +37,7 @@ pages:
     - curl -X POST -s --data-urlencode 'input@assets/js/visualization/compatibility.js' https://javascript-minifier.com/raw > assets/js/visualization/compatibility.min.js
     - rm assets/js/visualization/visualization.js
     - rm assets/js/visualization/compatibility.js
-    - bundle install --path vendor/ruby
+    - bundle install
   script:
     - bundle exec jekyll build -d public
   artifacts:
