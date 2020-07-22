@@ -59,6 +59,14 @@ Aus der Verarbeitung der IP-Adresse und anderer Information in dem Logfile könn
 
 Darüber hinaus setzen wir beim Besuch unserer Website Cookies sowie Analysedienste ein. Nähere Erläuterungen dazu erhalten Sie in dieser Datenschutzinformation weiter unten.
 
+__b) Bei Nutzung von Kontaktformularen__
+Wir bieten Ihnen die Möglichkeit, mit uns über ein auf der Webseite bereitgestelltes Formular Kontakt aufzunehmen. Dabei sind die folgenden Angaben als Pflichtangaben erforderlich:
+•	Anrede
+•	Vor- und Nachname und
+•	E-Mail-Adresse.
+Ihre Daten benötigen wir, um festzustellen von wem die Anfrage stammt und um diese beantworten und bearbeiten zu können. 
+Die Datenverarbeitung erfolgt auf Ihre Anfrage hin und ist im Rahmen der Beantwortung einer Kontaktanfrage auf unsere berechtigten Interessen gem. Art. 6 Abs. 1 S. 1 lit. f DSGVO gestützt.
+Die für die Benutzung des Kontaktformulars von uns erhobenen personenbezogenen Daten werden nach Erledigung der von Ihnen gestellten Anfrage gelöscht.
 
 
 
@@ -77,22 +85,55 @@ Die weitergegebenen Daten dürfen von den Empfängern ausschließlich zu den gen
 
 
 ##### <a name="4.">4. Cookies</a>
-
+Es werden keine Cookies gesetzt.
 
 
 
 ##### <a name="5.">5. Webanalyse/Tracking</a>
+Es erfolgt keine Webanalyse/kein Tracking.
 
 
 
 
 ##### <a name="6.">6. Social-Media-Plugins</a>
+Wir setzen auf unserer Webseite sogenannte Social-Media-Buttons (auch Social-Media-Plugins) ein. Hierbei handelt es sich um kleine Schaltflächen mittels derer Sie Inhalte unserer Webseite in sozialen Netzwerken unter Ihrem Profil veröffentlichen können.
+
+Sofern Sie eine solche Schaltfläche aktivieren, wird eine Verbindung zwischen unserer Webseite und dem sozialen Netzwerk hergestellt. Neben den betreffenden Inhalten, erhält der Betreiber des sozialen Netzwerkes weitere zum Teil personenbezogene Informationen. Dazu gehört etwa der Umstand, dass Sie gerade unsere Seite besuchen.
+
+Die Einbindung der Social-Media-Buttons erfolgt unter Einsatz der sogenannten Shariff-Lösung. Diese Lösung verhindert, dass bereits eine Verbindung zu einem sozialen Netzwerk aufgebaut wird, nur weil Sie eine Seite mit einem Social-Media-Button aufrufen, ohne diesen zu aktivieren. Das bedeutet, dass erst dann Informationen an das soziale Netzwerk übermittelt werden, wenn Sie die Schaltfläche aktivieren.
+
+Die folgenden Social-Media-Plugins setzen wir ein:
+
+__a)	Facebook Ireland Limited: Teilen auf Facebook__
+
+Teilweise werden Informationen an die Muttergesellschaft Facebook Inc. mit Sitz in den USA übermittelt. Diese beachtet die Datenschutzbestimmungen des „US-Privacy-Shield“ und ist beim „US-Privacy Shield“-Programm des US-Handelsministeriums registriert.
+Zweck und Umfang der Datenerhebung und die weitere Verarbeitung und Nutzung der Daten durch Facebook sowie Ihre diesbezüglichen Rechte und Einstellungsmöglichkeiten zum Schutz Ihrer Privatsphäre entnehmen Sie bitte den <a target="_blank" href="https://www.facebook.com/about/privacy/">Datenschutzhinweisen</a> von Facebook.
+
+__b)	Twitter International Company: Teilen auf Twitter__
+
+Teilweise werden Informationen an die Muttergesellschaft Twitter Inc. mit Sitz in den USA übermittelt. Diese beachtet die Datenschutzbestimmungen des „US-Privacy-Shield“ und ist beim „US-Privacy Shield“-Programm des US-Handelsministeriums registriert.
+Weitere Informationen zum Datenschutz bei Twitter finden Sie in der <a target="_blank" href="https://twitter.com/privacy">Datenschutzerklärung</a> von Twitter.
+
+__c)	Xing SE: Teilen auf XING__
+
+Weitere Informationen zum Datenschutz bei XING finden Sie in der <a target="_blank" href="https://www.xing.com/privacy">Datenschutzerklärung</a> von XING. 
+
+__d)	LinkedIn Corporation: Teilen auf LinkedIn__
+
+Teilweise werden Informationen an die Muttergesellschaft LinkedIn Corporation mit Sitz in den USA übermittelt. Diese beachtet die Datenschutzbestimmungen des „US-Privacy-Shield“ und ist beim „US-Privacy Shield“-Programm des US-Handelsministeriums registriert. Weitere Informationen zum Datenschutz bei LinkedIn finden Sie in deren <a target="_blank" href="https://www.linkedin.com/legal/privacy-policy">Datenschutzrichtlinien</a>.
 
 
 
 
 
 ##### <a name="7.">7. YouTube</a>
+Wir binden Komponenten (Videos) des Unternehmens YouTube, LLC 901 Cherry Ave., 94066 San Bruno, CA, USA (Im Folgenden: „YouTube“), einem Unternehmen der Google Inc., Amphitheatre Parkway, Mountain View, CA 94043, USA (Im Folgenden: „Google“) auf unseren Internetseiten ein. Die Implementierung erfolgt aufgrund von Art. 6 Abs. 1 S. 1 lit. f DSGVO, wobei unser Interesse in der reibungslosen Integration der Videos und der damit ansprechenden Gestaltung unserer Webseite liegt.
+
+Die Einbindung erfolgt mittels einer Lösung, die verhindert, dass bereits eine Verbindung zu Google aufgebaut wird, nur weil Sie eine Seite mit einem implementierten Video aufrufen, ohne das Video zu aktivieren. Das bedeutet, dass erst dann Informationen an YouTube übermittelt werden, wenn Sie das Video zum Ansehen anklicken.
+
+Google beachtet die Datenschutzbestimmungen des „US-Privacy-Shield“ und ist beim „US-Privacy Shield“-Programm des US-Handelsministeriums registriert.
+
+Weitere Informationen zum Datenschutz im Zusammenhang mit YouTube finden Sie in den <a target="_blank" href="https://www.google.de/intl/de/policies/privacy/">Datenschutzbestimmungen</a> von Google.
 
 
 
