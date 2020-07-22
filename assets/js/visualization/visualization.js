@@ -1,6 +1,10 @@
 // import {data} from "./data.js";
 async function main() {
     const {categories, questions, answers} = await import("./data.js");
+    const {limesurvey_answers} = await import("./limesurvey_data.js");
+    const show_limesurvey_buttons = limesurvey_answers.length > 0;
+    // 1: show only old data, 2: show only limesurvey data, 3: show both
+    let current_data = 1;
 
     // media query, taken from materialize.min.css
     const media_query = window.matchMedia("only screen and (max-width: 992px)");
@@ -19,6 +23,7 @@ async function main() {
     let y_categories = 0, y_question = 50;
     let height_categories = 0, height_question = 0, height_question_text = 75;
     const height_button = 40;
+    const width_button = width_questions / questions.length;
     // create svg to fill with visualization
     const main_svg = d3.select("div#karobau_viz").append("svg")
         // .attr("height", 850)
@@ -44,6 +49,16 @@ async function main() {
 
     update_categories();
     update_question();
+
+    // if needed, add buttons for limesurvey
+    const limesurvey_buttons = main_g.append(() => create_limesurvey_toggle(width_categories, 0));
+    if (show_limesurvey_buttons) {
+        // move to make space for button
+        structure_yesno.attr("transform", `translate(${width_categories}, ${y_question + 40})`);
+        structure_sentiment.attr("transform", `translate(${width_categories}, ${y_question + 40})`);
+        structure_tabs.attr("transform", `translate(${width_categories}, 40)`);
+    }
+
 
     // call listener once, to setup correct layout on page load
     event_listener(media_query);
@@ -135,9 +150,16 @@ async function main() {
      * @returns {number[][]} two-dimensional array, for each subquestion an array with the number of answers per answer option
      */
     function accumulate_answers(i) {
+        let current_answers = [];
+        if (current_data === 1)
+            current_answers = answers;
+        else if (current_data === 2)
+            current_answers = limesurvey_answers;
+        else if (current_data === 3)
+            current_answers = answers.concat(limesurvey_answers);
         const question = questions[i];
         // select valid answers based on categories and given question index
-        let filtered_answers = answers
+        let filtered_answers = current_answers
             // filter answers, only allow those where all subcategories are active
             .filter(d => d.categories.every((sub_cat, cat) => is_active(cat, sub_cat)))
             // get answers of question i
@@ -164,9 +186,16 @@ async function main() {
     }
 
     function accumulate_categories(i) {
+        let current_answers = [];
+        if (current_data === 1)
+            current_answers = answers;
+        else if (current_data === 2)
+            current_answers = limesurvey_answers;
+        else if (current_data === 3)
+            current_answers = answers.concat(limesurvey_answers);
         // select subcategory answers based on given category index and other active subcategories
         let other_categories = d3.range(categories.length).filter(j => j !== i);
-        let filtered_answers = answers
+        let filtered_answers = current_answers
             // filter by other active subcategories
             .filter(d => other_categories.every(o => is_active(o, d.categories[o])))
             // get list of subcategory answers for category i
@@ -225,22 +254,7 @@ async function main() {
             .selectAll("tspan").data(d => d.split("\n")).join("tspan")
             .text(d => d)
             .attr("dy", (d, i, a) => i > 0 ? "1.2em" : a.length > 1 ? `-${(a.length - 1) * 0.6}em` : null)
-            .attr("x", 0)
-        ;
-
-        if (3 === tab)
-            // update text label
-            bar_container.selectAll("text.subquestion").data(d => [d[0]]).join("text")
-                .attr("dominant-baseline", "central")
-                .attr("y", scale_bar_vertical.bandwidth() / 2)
-                .classed("subquestion", true)
-                .selectAll("tspan").data(d => d.split("\n")).join("tspan")
-                .text(d => d)
-                .attr("dy", (d, i, a) => i > 0 ? "1.2em" : a.length > 1 ? `-${(a.length - 1) * 0.6}em` : null)
-            // .attr("x", 0)
-            ;
-
-
+            .attr("x", 0);
         return root.node();
     }
 
@@ -729,7 +743,6 @@ async function main() {
     }
 
     function create_category_toggle(pos_x, pos_y) {
-        const width_button = 600 / 5;
         const root = d3.create("svg:g")
             .attr("transform", `translate(${pos_x}, ${pos_y})`)
             .classed("hover_shadow", true)
@@ -751,7 +764,42 @@ async function main() {
         return root.node();
     }
 
+    function create_limesurvey_toggle(pos_x, pos_y) {
+        const root = d3.create("svg:g")
+            .attr("transform", `translate(${pos_x}, ${pos_y})`)
+            .attr("id", "tabs");
+        if (!show_limesurvey_buttons)
+            return root.node();
+        // position buttons next to toggle button for mobile view
+        const labels = ["Studienergebnisse", "weiterführende Ergebnisse", "alle Ergebnisse"];
+        if (media_query.matches)
+            pos_x += width_button;
+        const tab = root.selectAll("g").data(labels).join("g")
+            .attr("transform", (d, i) => `translate(${i * width_button}, 0)`)
+            .on("click", function (d, i) {
+                current_data = i + 1;
+                // redraw everything
+                update_categories();
+                update_question();
+            })
+            .classed("hover_shadow", true);
+        // create colored rectangle
+        tab.append("rect")
+            .attr("width", width_button)
+            .attr("height", height_button)
+            .classed("category_toggle", true);
+        // add text
+        tab.append("text")
+            .attr("x", width_button / 2)
+            .attr("y", height_button / 2)
+            .attr("dominant-baseline", "middle")
+            .attr("text-anchor", "middle")
+            .text(d => d);
+        return root.node();
+    }
+
     function event_listener(query) {
+        const vertical_limesurvey_offset = show_limesurvey_buttons ? height_button : 0;
         if (query.matches) {
             // setup mobile view
             viewBox_width = width_questions;
@@ -764,6 +812,7 @@ async function main() {
             structure_yesno.attr("transform", `translate(${width_categories}, ${y_question + 40})`);
             structure_sentiment.attr("transform", `translate(${width_categories}, ${y_question + 40})`);
             structure_tabs.attr("transform", `translate(${width_categories}, 40)`);
+            limesurvey_buttons.attr("transform", `translate(${width_categories+width_button}, 0)`);
             // show button
             category_toggle.attr("display", null);
         } else {
@@ -771,9 +820,10 @@ async function main() {
             viewBox_width = width_categories + width_questions;
             main_g.attr("transform", "translate(0, 0)");
             // move back to top
-            structure_yesno.attr("transform", `translate(${width_categories}, ${y_question})`);
-            structure_sentiment.attr("transform", `translate(${width_categories}, ${y_question})`);
-            structure_tabs.attr("transform", `translate(${width_categories}, 0)`);
+            structure_yesno.attr("transform", `translate(${width_categories}, ${y_question + vertical_limesurvey_offset})`);
+            structure_sentiment.attr("transform", `translate(${width_categories}, ${y_question + vertical_limesurvey_offset})`);
+            structure_tabs.attr("transform", `translate(${width_categories}, ${vertical_limesurvey_offset})`);
+            limesurvey_buttons.attr("transform", `translate(${width_categories}, 0)`);
             // hide button
             category_toggle.attr("display", "none");
         }
