@@ -15,7 +15,7 @@ cache:
 
 # TODO: Maybe make it so only this task is run every day, and running pages only on new commits
 fetch_js:
-  image: python:3.7-alpine
+  image: python:3.8-alpine
   stage: build
   tags:
     - asprunner
