@@ -23,6 +23,7 @@ fetch_js:
     - pip install virtualenv
     - virtualenv venv
     - source venv/bin/activate
+    - pip install -r python/requirements.txt
   script:
     # fetch limesurvey
     - cd ./python
