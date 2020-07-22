@@ -5,6 +5,36 @@ image: ruby:2.3
 
 variables:
   JEKYLL_ENV: production
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+# Cache gems in between builds
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - vendor/ruby
+    - .cache/pip
+    - venv/
+
+# TODO: Maybe make it so only this task is run every day, and running pages only on new commits
+fetch_js:
+  image: 3.7-alpine
+  stage: build
+  tags:
+    - asprunner
+  before_script:
+    - pip install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+  script:
+    # fetch limesurvey
+    - cd ./python
+    - python get_limesurvey_results.py --api_url "$LIMESURVEY_URL" --username "$LIMESURVEY_USERNAME" --password "$LIMESURVEY_PASSWORD"
+    - mv limesurvey_data.js assets/js/visualization/limesurvey_data.js
+  artifacts:
+    paths:
+      - assets/js/visualization/limesurvey_data.js
+  only:
+    - master
 
 
 pages:
@@ -12,11 +42,12 @@ pages:
   tags:
     - asprunner
   before_script:
+    # minify js
     - curl -X POST -s --data-urlencode 'input@assets/js/visualization/visualization.js' https://javascript-minifier.com/raw > assets/js/visualization/visualization.min.js
     - curl -X POST -s --data-urlencode 'input@assets/js/visualization/compatibility.js' https://javascript-minifier.com/raw > assets/js/visualization/compatibility.min.js
     - rm assets/js/visualization/visualization.js
     - rm assets/js/visualization/compatibility.js
-    - bundle install
+    - bundle install --path vendor/ruby
   script:
     - bundle exec jekyll build -d public
   artifacts:
