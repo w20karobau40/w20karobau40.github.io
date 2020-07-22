@@ -1,8 +1,6 @@
 # This file is a template, and might need editing before it works on your project.
 # Template project: https://gitlab.com/pages/jekyll
 # Docs: https://docs.gitlab.com/ce/pages/
-image: ruby:2.3
-
 variables:
   JEKYLL_ENV: production
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
@@ -17,7 +15,7 @@ cache:
 
 # TODO: Maybe make it so only this task is run every day, and running pages only on new commits
 fetch_js:
-  image: 3.7-alpine
+  image: python:3.7-alpine
   stage: build
   tags:
     - asprunner
@@ -38,6 +36,7 @@ fetch_js:
 
 
 pages:
+  image: ruby:2.3
   stage: deploy
   tags:
     - asprunner
