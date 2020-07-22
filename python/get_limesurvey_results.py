@@ -4,7 +4,6 @@ import re
 import time
 from typing import List, Dict, Optional
 
-import Levenshtein
 import configargparse
 import requests
 from loguru import logger
@@ -13,6 +12,28 @@ URL = ""
 SESSION_KEY = ""
 USERNAME = ""
 PASSWORD = ""
+
+
+def levenshtein_distance(s1: str, s2: str) -> int:
+    if s1 == s2:
+        return 0
+    # https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Python
+    if len(s1) < len(s2):
+        return levenshtein_distance(s2, s1)
+    # len(s1) >= len(s2)
+    if len(s2) == 0:
+        return len(s1)
+
+    previous_row = range(len(s2) + 1)
+    for i, c1 in enumerate(s1):
+        current_row = [i + 1]
+        for j, c2 in enumerate(s2):
+            insertions = previous_row[j + 1] + 1  # j+1 instead of j since previous_row and current_row are one character longer
+            deletions = current_row[j] + 1  # than s2
+            substitutions = previous_row[j] + (c1 != c2)
+            current_row.append(min(insertions, deletions, substitutions))
+        previous_row = current_row
+    return previous_row[-1]
 
 
 def call_method(method: str, params: list, id_: int = 1) -> dict:
@@ -159,8 +180,8 @@ def convert_limesurvey(data: dict, survey_id: int):
         current_result = {'categories': [], 'questions': []}
         for code in structure['categories']:
             answercode = current_answer[code]
-            index, opt_code = min(enumerate(answeroptions[code]), key=lambda t: Levenshtein.distance(t[1]['code'], answercode))
-            if Levenshtein.distance(opt_code['code'], answercode) < 2:
+            index, opt_code = min(enumerate(answeroptions[code]), key=lambda t: levenshtein_distance(t[1]['code'], answercode))
+            if levenshtein_distance(opt_code['code'], answercode) < 2:
                 current_result['categories'].append(index)
             else:
                 current_result['categories'].append(-1)
@@ -168,8 +189,8 @@ def convert_limesurvey(data: dict, survey_id: int):
             current_question = []
             for code in question:
                 answercode = current_answer[code]
-                index, opt_code = min(enumerate(answeroptions[code]), key=lambda t: Levenshtein.distance(t[1]['code'], answercode))
-                if Levenshtein.distance(opt_code['code'], answercode) < 2:
+                index, opt_code = min(enumerate(answeroptions[code]), key=lambda t: levenshtein_distance(t[1]['code'], answercode))
+                if levenshtein_distance(opt_code['code'], answercode) < 2:
                     current_question.append(index)
                 else:
                     current_question.append(-1)
