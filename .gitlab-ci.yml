@@ -30,13 +30,13 @@ ping:
   tags:
     - asprunner
   script:
-    - ping -c 2 www.google.de
+#    - ping -c 2 www.google.de
     - curl -sw 'We downloaded %{size_download} bytes\n' https://www.google.de -o /dev/null
-    - ping -c 2 www.iwu.fraunhofer.de
+#    - ping -c 2 www.iwu.fraunhofer.de
     - curl -sw 'We downloaded %{size_download} bytes\n' https://www.iwu.fraunhofer.de -o /dev/null
-    - ping -c 2 gitlab.cc-asp.fraunhofer.de
+#    - ping -c 2 gitlab.cc-asp.fraunhofer.de
     - curl -sw 'We downloaded %{size_download} bytes\n' https://gitlab.cc-asp.fraunhofer.de -o /dev/null
-    - ping -c 2 websites.fraunhofer.de
+#    - ping -c 2 websites.fraunhofer.de
     - curl -sw 'We downloaded %{size_download} bytes\n' https://websites.fraunhofer.de/iwu-surveys/ -o /dev/null
     - curl -sw 'We downloaded %{size_download} bytes\n' https://websites.fraunhofer.de/iwu-surveys/index.php/admin/authentication/sa/login -o /dev/null
 
