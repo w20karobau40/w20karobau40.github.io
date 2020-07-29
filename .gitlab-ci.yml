@@ -26,7 +26,7 @@ variables:
 #    - master
 
 ping:
-  image: alpine
+  image: curlimages/curl:latest
   tags:
     - asprunner
   script:
