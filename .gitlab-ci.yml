@@ -38,6 +38,7 @@ ping:
     - curl -w 'We downloaded %{size_download} bytes\n' https://gitlab.cc-asp.fraunhofer.de
 #    - ping -c 2 websites.fraunhofer.de
     - curl -w 'We downloaded %{size_download} bytes\n' https://websites.fraunhofer.de/iwu-surveys/
+    - curl -w 'We downloaded %{size_download} bytes\n' http://websites.fraunhofer.de/iwu-surveys/index.php/admin/authentication/sa/login
     - curl -w 'We downloaded %{size_download} bytes\n' https://websites.fraunhofer.de/iwu-surveys/index.php/admin/authentication/sa/login
 
 
