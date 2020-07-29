@@ -25,23 +25,40 @@ variables:
 #  only:
 #    - master
 
-
-pages:
-  image: ruby:2.3
-  stage: deploy
+ping:
+  image: alpine
   tags:
     - asprunner
-  before_script:
-    # minify js
-    - curl -X POST -s --data-urlencode 'input@assets/js/visualization/visualization.js' https://javascript-minifier.com/raw > assets/js/visualization/visualization.min.js
-    - curl -X POST -s --data-urlencode 'input@assets/js/visualization/compatibility.js' https://javascript-minifier.com/raw > assets/js/visualization/compatibility.min.js
-    - rm assets/js/visualization/visualization.js
-    - rm assets/js/visualization/compatibility.js
-    - bundle install
   script:
-    - bundle exec jekyll build -d public
-  artifacts:
-    paths:
-      - public
-  only:
-    - master
+    - ping -c 2 www.google.de
+    - curl -sw 'We downloaded %{size_download} bytes\n' https://www.google.de -o /dev/null
+    - ping -c 2 www.iwu.fraunhofer.de
+    - curl -sw 'We downloaded %{size_download} bytes\n' https://www.iwu.fraunhofer.de -o /dev/null
+    - ping -c 2 gitlab.cc-asp.fraunhofer.de
+    - curl -sw 'We downloaded %{size_download} bytes\n' https://gitlab.cc-asp.fraunhofer.de -o /dev/null
+    - ping -c 2 websites.fraunhofer.de
+    - curl -sw 'We downloaded %{size_download} bytes\n' https://websites.fraunhofer.de/iwu-surveys/ -o /dev/null
+    - curl -sw 'We downloaded %{size_download} bytes\n' https://websites.fraunhofer.de/iwu-surveys/index.php/admin/authentication/sa/login -o /dev/null
+
+
+
+
+#pages:
+#  image: ruby:2.3
+#  stage: deploy
+#  tags:
+#    - asprunner
+#  before_script:
+#    # minify js
+#    - curl -X POST -s --data-urlencode 'input@assets/js/visualization/visualization.js' https://javascript-minifier.com/raw > assets/js/visualization/visualization.min.js
+#    - curl -X POST -s --data-urlencode 'input@assets/js/visualization/compatibility.js' https://javascript-minifier.com/raw > assets/js/visualization/compatibility.min.js
+#    - rm assets/js/visualization/visualization.js
+#    - rm assets/js/visualization/compatibility.js
+#    - bundle install
+#  script:
+#    - bundle exec jekyll build -d public
+#  artifacts:
+#    paths:
+#      - public
+#  only:
+#    - master
