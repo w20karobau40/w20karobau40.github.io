@@ -26,7 +26,7 @@ variables:
 #    - master
 
 ping:
-  image: curlimages/curl:latest
+  image: praqma/network-multitool:latest
   tags:
     - asprunner
   script:
