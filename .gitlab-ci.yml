@@ -17,7 +17,7 @@ fetch_js:
   script:
     # fetch limesurvey
     - cd ./python
-    - python get_limesurvey_results.py --api_url "$LIMESURVEY_URL" --username "$LIMESURVEY_USERNAME" --password "$LIMESURVEY_PASSWORD"
+    - python get_limesurvey_results.py
     - mv limesurvey_data.js assets/js/visualization/limesurvey_data.js
   artifacts:
     paths:
