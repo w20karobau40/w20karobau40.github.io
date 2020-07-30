@@ -222,9 +222,9 @@ def print_questions():
 def setup_args():
     global SESSION_KEY, URL, USERNAME, PASSWORD
     p = configargparse.ArgumentParser(default_config_files=['config.ini'])
-    p.add_argument('--LIMESURVEY_URL', required=True)
-    p.add_argument('--LIMESURVEY_USERNAME', required=True)
-    p.add_argument('--LIMESURVEY_PASSWORD', required=True)
+    p.add_argument('--api_url', required=True, env_var="LIMESURVEY_URL")
+    p.add_argument('--username', required=True, env_var="LIMESURVEY_USERNAME")
+    p.add_argument('--password', required=True, env_var="LIMESURVEY_PASSWORD")
 
     options = p.parse_args()
 
