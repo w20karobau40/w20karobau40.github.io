@@ -7,6 +7,7 @@ from typing import List, Dict, Optional
 import configargparse
 import requests
 from loguru import logger
+import logging
 
 URL = ""
 SESSION_KEY = ""
@@ -38,12 +39,15 @@ def levenshtein_distance(s1: str, s2: str) -> int:
 
 def call_method(method: str, params: list, id_: int = 1) -> dict:
     assert len(URL) > 0
-    response = requests.post(URL, json={'method': method, 'params': params, 'id': id_})
+    temp_dict = {'method': method, 'params': params, 'id': id_}
+    # logger.debug(json.dumps(temp_dict))
+    response = requests.post(URL, json=temp_dict, timeout=10)
+    logger.debug(response.request.__dict__)
     # TODO: Add limit
     while not response.text.startswith(('[', '{')):
         logger.warning("Response is not valid json, trying again. Actual response: {}", response.text)
         time.sleep(1)
-        response = requests.post(URL, json={'method': method, 'params': params, 'id': id_})
+        response = requests.post(URL, json={'method': method, 'params': params, 'id': id_}, timeout=10)
     return response.json()
 
 
@@ -62,6 +66,7 @@ def call_method_with_session_key(method: str, *params, id_: int = 1, max_retries
         return response
     logger.error("Failed getting valid response within specified number of retries")
     return None
+
 
 @logger.catch
 def get_session_key(force: bool = False) -> str:
@@ -235,8 +240,8 @@ def setup_args():
     # TODO: REMOVE THIS!!!
     # import os
     # hostname = "websites.fraunhofer.de"
-    #ping_cmd = "ping -c 1 " + hostname
-    #logger.debug("Response of {}: {}", ping_cmd, os.system(ping_cmd))
+    # ping_cmd = "ping -c 1 " + hostname
+    # logger.debug("Response of {}: {}", ping_cmd, os.system(ping_cmd))
     SESSION_KEY = get_session_key()
 
 
