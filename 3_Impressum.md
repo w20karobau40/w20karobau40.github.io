@@ -28,7 +28,7 @@ Eingetragener Verein
 Register-Nr. VR 4461
 
 ___Verantwortliche Redakteur*In___  
-Marcel Todtermuschke, Antje Ahrens, Patrick Alexander Schmidt  
+Marcel Todtermuschke  
 Karobau4.0(at)iwu.fraunhofer.de
 
 
