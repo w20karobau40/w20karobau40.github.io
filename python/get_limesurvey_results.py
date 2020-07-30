@@ -63,7 +63,7 @@ def call_method_with_session_key(method: str, *params, id_: int = 1, max_retries
     logger.error("Failed getting valid response within specified number of retries")
     return None
 
-
+@logger.catch
 def get_session_key(force: bool = False) -> str:
     if force:
         key = call_method('get_session_key', [USERNAME, PASSWORD]).get('result')
@@ -233,10 +233,10 @@ def setup_args():
     PASSWORD = options.password
     logger.debug("Using URL {}", URL)
     # TODO: REMOVE THIS!!!
-    import os
-    hostname = "websites.fraunhofer.de"
-    ping_cmd = "ping -c 1 " + hostname
-    logger.debug("Response of {}: {}", ping_cmd, os.system(ping_cmd))
+    # import os
+    # hostname = "websites.fraunhofer.de"
+    #ping_cmd = "ping -c 1 " + hostname
+    #logger.debug("Response of {}: {}", ping_cmd, os.system(ping_cmd))
     SESSION_KEY = get_session_key()
 
 
