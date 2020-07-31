@@ -35,7 +35,7 @@ ping:
     - curl https://gitlab.cc-asp.fraunhofer.de -o /dev/null
     - curl https://websites.fraunhofer.de/iwu-surveys/ -o /dev/null
     - curl https://websites.fraunhofer.de/iwu-surveys/index.php/admin/authentication/sa/login -o /dev/null
-    - curl -X POST -d '{"method": "export_responses", "params": ["cNUaugbYWywtX7YlvPzLocRqJAqzPTeO", 197925, "json"], "id": 2}' -H "Content-Type: application/json" https://websites.fraunhofer.de/iwu-surveys/index.php/admin/remotecontrol
+    - 'curl -X POST -d '{"method": "export_responses", "params": ["cNUaugbYWywtX7YlvPzLocRqJAqzPTeO", 197925, "json"], "id": 2}' -H "Content-Type: application/json" https://websites.fraunhofer.de/iwu-surveys/index.php/admin/remotecontrol'
 
 
 
