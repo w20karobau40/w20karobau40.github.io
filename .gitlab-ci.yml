@@ -29,6 +29,7 @@ ping:
   image: praqma/network-multitool:latest
   tags:
     - asprunner
+    - muenchen
   script:
     - curl https://www.google.de -o /dev/null
     - curl https://www.iwu.fraunhofer.de -o /dev/null
