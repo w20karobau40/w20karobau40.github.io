@@ -1,17 +1,38 @@
 # This file is a template, and might need editing before it works on your project.
 # Template project: https://gitlab.com/pages/jekyll
 # Docs: https://docs.gitlab.com/ce/pages/
-image: ruby:2.3
-
 variables:
   JEKYLL_ENV: production
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+# TODO: Maybe make it so only this task is run every day, and running pages only on new commits
+# TODO: ping -c 1 websites.fraunhofer.de fails with "1 packets transmitted, 0 packets received, 100% packet loss", therefore this job will not succeed
+#fetch_js:
+#  image: python:3.8-alpine
+#  stage: build
+#  tags:
+#    - asprunner
+#  before_script:
+#    - pip install -r python/requirements.txt
+#  script:
+#    # fetch limesurvey
+#    - cd ./python
+#    - python get_limesurvey_results.py --api_url "$LIMESURVEY_URL" --username "$LIMESURVEY_USERNAME" --password "$LIMESURVEY_PASSWORD"
+#    - mv limesurvey_data.js assets/js/visualization/limesurvey_data.js
+#  artifacts:
+#    paths:
+#      - assets/js/visualization/limesurvey_data.js
+#  only:
+#    - master
 
 
 pages:
+  image: ruby:2.3
   stage: deploy
   tags:
     - asprunner
   before_script:
+    # minify js
     - curl -X POST -s --data-urlencode 'input@assets/js/visualization/visualization.js' https://javascript-minifier.com/raw > assets/js/visualization/visualization.min.js
     - curl -X POST -s --data-urlencode 'input@assets/js/visualization/compatibility.js' https://javascript-minifier.com/raw > assets/js/visualization/compatibility.min.js
     - rm assets/js/visualization/visualization.js
