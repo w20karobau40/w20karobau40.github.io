@@ -1,5 +1,6 @@
 import base64
 import json
+import os
 import re
 import time
 from typing import List, Dict, Optional
@@ -160,8 +161,13 @@ def get_questions_with_answers(survey_id):
 
 @logger.catch(reraise=True)
 def convert_limesurvey(data: dict, survey_id: int):
-    with open('question_and_answers.json') as input_file:
-        question_and_answers = json.load(input_file)
+    try:
+        with open('question_and_answers.json') as file:
+            question_and_answers = json.load(file)
+    except:
+        with open('question_and_answers.json', 'w') as file:
+            question_and_answers = get_questions_with_answers(survey_id)
+            json.dump(question_and_answers, file)
     questions = []
     for qa in question_and_answers:
         questions.extend(qa['questions'])
@@ -177,6 +183,9 @@ def convert_limesurvey(data: dict, survey_id: int):
         structure = json.load(input_file)
     for answer in data['responses']:
         current_answer = next(a for a in answer.values())
+        # skip sample answer
+        if current_answer['id'] == '1':
+            continue
         current_result = {'categories': [], 'questions': []}
         for code in structure['categories']:
             answercode = current_answer[code]
@@ -232,11 +241,6 @@ def setup_args():
     USERNAME = options.username
     PASSWORD = options.password
     logger.debug("Using URL {}", URL)
-    # TODO: REMOVE THIS!!!
-    import os
-    hostname = "websites.fraunhofer.de"
-    ping_cmd = "ping -c 1 " + hostname
-    logger.debug("Response of {}: {}", ping_cmd, os.system(ping_cmd))
     SESSION_KEY = get_session_key()
 
 
@@ -251,14 +255,10 @@ def new_main():
     setup_args()
     survey_id = 197925
     data = export_responses(survey_id, 'json')
-    # with open('old_responses.json') as file:
-    #     data = json.load(file)
     answers_string = str(convert_limesurvey(data, survey_id)).replace("'categories'", "categories").replace("'questions'", "questions")
     with open('limesurvey_data.js', 'w') as file:
         file.write(f"export const limesurvey_answers = {answers_string};")
 
 
 if __name__ == '__main__':
-    # main()
-    # print_questions()
     new_main()
