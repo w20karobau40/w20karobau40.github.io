@@ -16,6 +16,7 @@
           {% endif %}
           {% endfor %}
           {% endif %}
+          <li><a target="_blank" rel="noopener noreferrer" href="https://websites.fraunhofer.de/iwu-surveys/index.php/197925?lang=de">Umfrage</a></li>
           <!--EINKOMMENTIEREN FÜR BLOG
 		  <li><a href="{{ "/articles" | relative_url }}">Artikel</a></li>-->
         </ul>
@@ -27,7 +28,7 @@
     </div>
   </nav>
   <ul id="slide-out" class="sidenav">
-  
+
       <li><div class="user-view">
           <div class="background">
             <img width="200%" src="{{ "/assets/img/banner_1.jpg" | relative_url }}">
@@ -39,7 +40,7 @@
       <li>
         <div class="divider"></div>
       </li>
-     
+
       {% if page_paths %}
       {% for path in page_paths %}
       {% assign my_page = site.pages | where: "path", path | first %}
@@ -52,7 +53,7 @@
       <!--EINKOMMENTIEREN FÜR BLOG
 	  <li><a class="waves-effect waves-light" href="{{ "/articles" | relative_url }}">Artikel</a></li>-->
     </ul>
-	
+
 <div class="header-second">
 <a href="{{ "/visualisierung/" | relative_url }}">{{ site.title }}</a>
 </div>
