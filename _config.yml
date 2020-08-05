@@ -30,4 +30,4 @@ plugins:
 
 # Build settings
 markdown: kramdown
-exclude: ["README.md", "karobau40", "python", "Gemfile", "Gemfile.lock", "jsdoc.json", "LICENSE"]
+exclude: ["README.md", "karobau40", "python", "Gemfile", "Gemfile.lock", "jsdoc.json", "LICENSE", "Quelltext Karobau_040820.txt"]
