@@ -1,7 +1,7 @@
   <nav role="navigation">
     <div class="nav-wrapper container">
       <div class="hide-on-med-and-down">
-        <img src="{{ "/assets/img/iwu.gif" | relative_url }}">
+        <a target="_blank" rel="noopener noreferrer" href="https://www.iwu.fraunhofer.de/"><img src="{{ "/assets/img/iwu.gif" | relative_url }}"></a>
 
         {% assign default_paths = site.pages | map: "path" %}
         {% assign page_paths = site.header_pages | default: default_paths %}
@@ -50,10 +50,11 @@
       {% endif %}
       {% endfor %}
       {% endif %}
+	  <li><a target="_blank" rel="noopener noreferrer" href="https://websites.fraunhofer.de/iwu-surveys/index.php/197925?lang=de">Umfrage</a></li>
       <!--EINKOMMENTIEREN FÜR BLOG
 	  <li><a class="waves-effect waves-light" href="{{ "/articles" | relative_url }}">Artikel</a></li>-->
     </ul>
 
 <div class="header-second">
-<a href="{{ "/visualisierung/" | relative_url }}">{{ site.title }}</a>
+<a href="{{ "/" | relative_url }}">{{ site.title }}</a>
 </div>
