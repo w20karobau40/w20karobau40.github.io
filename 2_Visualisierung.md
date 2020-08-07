@@ -25,4 +25,5 @@ Durch Klick auf die umschließenden Kreise wird die Auswahl wieder aufgehoben.
 So können Sie sich beispielsweise gezielt die Sicht von anderen Branchenvertretern, Geschäftsführern in Kleinstunternehmen oder von Ingenieuren in Großunternehmen anzeigen lassen. Die Filtermöglichkeiten sind beliebig kombinierbar und ermöglichen eine vielschichtige Interpretationsmöglichkeit.
  \\
  \\
-<a target="_blank" rel="noopener noreferrer" href="https://websites.fraunhofer.de/iwu-surveys/index.php/197925?lang=de">Hier</a> gelangen Sie zur Teilnahme an der Umfrage um auch Ihre Sichtweise zu erfassen.
+<a target="_blank" rel="noopener noreferrer" href="https://websites.fraunhofer.de/iwu-surveys/index.php/197925?lang=de">Hier</a> gelangen Sie zur Teilnahme an der Umfrage um auch Ihre Sichtweise zu erfassen. 
+Für weitere Fragen stehen wir Ihnen gern über unser <a href="{{ "/kontakt" | relative_url }}">Kontaktformular</a> zur Verfügung.
