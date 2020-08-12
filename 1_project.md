@@ -6,6 +6,9 @@ permalink: /project/
 
 <h1 class="page-title">{{ page.title | escape }}</h1>
 
+<img src="{{ "/assets/img/EFRE.jpg" | relative_url }}" style="width:40%;height:40%;" align="right">  
+
+
 Kaum eine Branche ist stärker vom dem Thema Industrie 4.0 betroffen als die Automobilindustrie und dies gilt in gleichem Maße sowohl für ihre Produkte als auch deren Produktion. Deutsche Unternehmen haben hier eine weltweite Führungsposition, die es zu verteidigen und bestenfalls auszubauen gilt. Besonders Zulieferer, Ausrüster und Dienstleister müssen sich den Herausforderungen stellen, um künftig den Anforderungen eines sich verändernden Marktes nachhaltig gewachsen zu sein. Doch wo geht die Reise konkret hin? Und wie können sich Unternehmen bestmöglich darauf vorbereiten?
 
 Ziel dieses Projektes ist es die durch Digitalisierung, Fachkräftemangel und Elektromobilität anstehenden Veränderungen in der Automobilproduktion zu erfassen, zu analysieren und eine strategische Perspektive zu entwickeln.
@@ -30,7 +33,8 @@ Diese Maßnahme wird mitfinanziert mit Steuermitteln auf Grundlage des vom Säch
 
  
 
-<img src="{{ "/assets/img/Sachsen_Emblem.png" | relative_url }}">
- 
+
+ <img src="{{ "/assets/img/Sachsen_Emblem.png" | relative_url }}" style="width:20%;height:20%;">   
+
  
  
