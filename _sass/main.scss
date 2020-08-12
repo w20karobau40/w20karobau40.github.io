@@ -19,10 +19,11 @@ color: #006eb6;
 }
 
 .header-second {
+	background: #e1e3e3;
 	display: flex;
 	justify-content: center;
 	font-size: 26px;
-	min-height: 35px;
+	min-height: 42px;
 }
 
 /* HARA: FOOTER COLOR*/
@@ -110,4 +111,13 @@ h1.page-title {
 }
 p.rss-subscribe {
     margin: 0;
+}
+
+.carousel {
+	height: 500px;
+	&.carousel-slider {
+		.carousel-item {
+			background-position: center;
+		}
+	}
 }
