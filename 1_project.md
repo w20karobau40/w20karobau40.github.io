@@ -34,7 +34,7 @@ Diese Maßnahme wird mitfinanziert mit Steuermitteln auf Grundlage des vom Säch
  
 
 
- <img src="{{ "/assets/img/Sachsen_Emblem.png" | relative_url }}" style="width:20%;height:20%;">   
+<img src="{{ "/assets/img/Sachsen_Emblem.png" | relative_url }}" style="width:20%;height:20%;">   
 
  
  
