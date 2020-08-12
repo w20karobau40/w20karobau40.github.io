@@ -12,7 +12,7 @@ async function main() {
     // global variable keeping track which question should be displayed
     let active_question = 0;
     // global variable keeping track which question categories are active, per question
-    let active_question_categories = questions.map(() => []);
+    let active_question_categories = questions.map((d) => d.hasOwnProperty('categories') ? d3.range(d.categories.length) : []);
 
     // global array keeping track which categories of participants are currently active
     // for each category there is an array of active incides, an empty array shall be equivalent to an array containing all possible indices
@@ -812,7 +812,7 @@ async function main() {
             structure_yesno.attr("transform", `translate(${width_categories}, ${y_question + 40})`);
             structure_sentiment.attr("transform", `translate(${width_categories}, ${y_question + 40})`);
             structure_tabs.attr("transform", `translate(${width_categories}, 40)`);
-            limesurvey_buttons.attr("transform", `translate(${width_categories+width_button}, 0)`);
+            limesurvey_buttons.attr("transform", `translate(${width_categories + width_button}, 0)`);
             // show button
             category_toggle.attr("display", null);
         } else {
