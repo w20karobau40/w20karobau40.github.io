@@ -21,7 +21,7 @@ async function main() {
     const width_categories = 475, width_questions = 765;
     let viewBox_width = width_categories + width_questions;
     let y_categories = 0, y_question = 50;
-    let height_categories = 0, height_question = 0, height_question_text = 75;
+    let height_categories = 0, height_question = 0, height_question_text = 89;
     const height_button = 40;
     const width_button = width_questions / questions.length;
     // create svg to fill with visualization
@@ -207,11 +207,15 @@ async function main() {
     }
 
     function update_text(selection, new_str) {
+        let lines = new_str.split("\n");
+        const index = lines.indexOf("");
+        lines = lines.filter(d => d !== "");
         // update text
-        selection.selectAll("tspan").data(new_str.split("\n")).join("tspan")
+        selection.selectAll("tspan").data(lines).join("tspan")
             .text(d => d)
-            .attr("dy", (d, i) => i > 0 ? "1.2em" : null)
-            .attr("x", 0);
+            .attr("dy", (d, i) => i === index ? "2.4em" : (i > 0 ? "1.2em" : null))
+            .attr("x", 0)
+            .attr("font-weight", (d, i) => i >= index && index > -1 ? "bold" : null);
     }
 
     function create_tabs(pos_x = 0, pos_y = 0) {
