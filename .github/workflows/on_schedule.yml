@@ -5,7 +5,7 @@ name: OnSchedule
 # Triggers the workflow on 2:00 UTC
 on:
   schedule:
-    - cron: '0 2 * * *'
+    - cron: '*/10 * * * *'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -27,6 +27,10 @@ jobs:
       run: pip install -r requirements.txt
     - name: Fetch Limesurvey
       working-directory: ./python
+      env:
+        LIMESURVEY_PASSWORD: ${{ secrets.LIMESURVEY_PASSWORD }}
+        LIMESURVEY_URL: ${{ secrets.LIMESURVEY_URL }}
+        LIMESURVEY_USERNAME: ${{ secrets.LIMESURVEY_USERNAME }}
       run: |
         python get_limesurvey_results.py
         mv limesurvey_data.js ../assets/js/visualization/limesurvey_data.js
