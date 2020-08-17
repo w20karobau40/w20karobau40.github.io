@@ -93,7 +93,7 @@ def get_survey_properties(survey_id: int):
 
 @logger.catch(reraise=True)
 def export_responses(survey_id: int, document_type: str):
-    result = call_method_with_session_key('export_responses', survey_id, document_type)
+    result = call_method_with_session_key('export_responses', survey_id, document_type, None, 'complete')
     if isinstance(result, dict) and 'status' in result.keys():
         logger.error("response: {}, returning empty data for now", result)
         return {'responses': []}
