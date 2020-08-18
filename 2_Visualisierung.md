@@ -16,7 +16,7 @@ Nachstehende Grafiken visualisieren die bisherigen Ergebnisse der Online-Befragu
 
 
 <div id="karobau_viz"></div>
-<div id="viz_compat"></div>
+<center><div id="viz_compat"></div></center>
 
 
 Diese Darstellung ist interaktiv, d. h. Sie können sich die Ergebnisse durch einen Klick auf die einzelnen Kreise gefiltert für bestimmte Teilnehmergruppen anzeigen lassen. Durch Klick auf den entsprechenden Kreis auf der linken Seite der Darstellung wird die Gruppe ausgewählt. Dadurch wird zum einen das Ergebnis nur noch für diese Gruppe angezeigt, aber auch die Teilnehmerübersicht passt sich den Anteilen der jeweiligen Gruppe an.
