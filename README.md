@@ -1,4 +1,4 @@
-http://w20_montage.pages.fraunhofer.de/visualisierung-karobau40
+http://www.karobau40.de
 
 [Learn more about GitLab Pages](https://pages.gitlab.io) or read the the [official GitLab Pages documentation](https://docs.gitlab.com/ce/user/project/pages/).
 
