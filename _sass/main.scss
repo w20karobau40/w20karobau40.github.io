@@ -1,5 +1,16 @@
 @charset "utf-8";
 
+/*HARA: sticky footer*/
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+
 /*HARA: BUTTON COLOR*/
 .btn, .btn-floating, .btn-flat  {
     background-color: #eb6a0a; /*#006e92;*/
