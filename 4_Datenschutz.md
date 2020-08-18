@@ -26,7 +26,7 @@ Personenbezogene Daten sind gemäß Art. 4 Nr. 1 Datenschutzgrundverordnung (DSG
 
 ##### <a name="1.">1. Name und Kontaktdaten des für die Verarbeitung Verantwortlichen sowie des betrieblichen Datenschutzbeauftragten</a>
 
-Diese Datenschutzinformation gilt für die Datenverarbeitung auf unserer Webseite [________________] durch den Verantwortlichen:
+Diese Datenschutzinformation gilt für die Datenverarbeitung auf unserer Webseite www.karobau40.de durch den Verantwortlichen:
 
 Fraunhofer-Gesellschaft  
 zur Förderung der angewandten Forschung e.V.  
