@@ -29,12 +29,4 @@ zu erhalten.
 
 Über das Projektende hinaus soll diese Umfrage planmäßig fortgesetzt werden, um kontinuierlich Tendenzen frühzeitig zu erkennen und Entwicklungsbedarfe zu eruieren. Nehmen Sie an unserer Studie teil und vergleichen Sie Ihre Sicht auf den Karosseriebau der Zukunft mit der Ihrer Kollegen, Partner und Wettbewerber. Da sich die Ergebnisse dynamisch an neue Antworten anpassen, lohnt es sich regelmäßig einen Blick auf die Schaubilder zu werfen, um zukünftige Trendwenden rechtzeitig zu erkennen.
 
-Diese Maßnahme wird mitfinanziert mit Steuermitteln auf Grundlage des vom Sächsischen Landtag beschlossenen Haushaltes. 
-
- 
-
-
-<img src="{{ "/assets/img/Sachsen_Emblem.png" | relative_url }}" style="width:20%;height:20%;">   
-
- 
- 
+Diese Maßnahme wird mitfinanziert mit Steuermitteln auf Grundlage des vom Sächsischen Landtag beschlossenen Haushaltes.
