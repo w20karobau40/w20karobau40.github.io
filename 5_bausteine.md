@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Bausteine
+title: Referenzprojekte
 permalink: /bausteine/
 ---
 <h1 class="page-title">{{ page.title | escape }}</h1>
