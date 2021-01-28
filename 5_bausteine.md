@@ -7,17 +7,32 @@ permalink: /bausteine/
 
 Hier finden Sie hier eine wachsende Vorstellung von Forschungsergebnissen aus dem Bereich Karosseriebau 4.0.
 
-[Adaptive Vorrichtungen](#av)  
-[Adaptive Robotergreifer](#ar)  
-[Softwareunterstützte Baukastenkonstruktion für die Vorrichtungs- und Greiferkonfiguration](#sgvg)  
-[Automatisierte Stelleinrichtungen](#as)  
-[KI-basierte Qualitätsregelung im Karosseriebau - „Justage per Knopfdruck“](#kishim)  
-[Softwaretool zur assistierten Behälterplanung](#stbp)  
-[Modularität und Leichtbau von Betriebsmitteln im Karosseriebau](#bm)  
-[Nachgiebigkeitskompensation von Industrierobotern für den Einsatz bei wechselnder Prozesslast](#nagiko)  
-[Vakuumsaugtechnologie](#vst)  
-[Rot-Grün-Vergleich im Konstruktions- und Planungsprozess](#rg)  
-[Universelle Forschungsplattform](#ufp)
+Beispiel große Card:
+
+<div class="card">
+	<div class="card-image">
+		<img src="/assets/img/bausteine/as1.png">
+	</div>
+	<span class="card-title">
+Automatisierte Stelleinrichtungen</span>
+	<div class="card-tabs">
+		 <ul class="tabs tabs-fixed-width">
+			<li class="tab"><a class="active" href="#about">Details</a></li>
+			<li class="tab"><a href="#nutzen">Nutzeffekte</a></li>
+		</ul>
+    </div>
+	<div class="card-content grey lighten-4">
+		<div id="about">Das mechanische Nachjustieren von Vorrichtungen für das temporäre Fixieren von zwei oder mehreren Bauteilen zur Beeinflussung von geometrischen Toleranzen der gefügten Baugruppe wird als „Shimmen“ bezeichnet. Selbst bei Großserien erfolgt diese Anpassung im Bereich von 0,1 bis 10 mm heute noch manuell mit Hilfe von Shim-Platten und bedarf daher einem Anlagen-Stillstand. Um diese Verstellung im Serientakt zu ermöglichen, wurden Aktoren entwickelt, die einerseits die geforderte Genauigkeit und andererseits die nötige Steifigkeit aufweisen. Positiver Nebeneffekt: Die Dokumentation kann nun vollautomatisch erfolgen und das handgeschriebene Shimbuch an der Karosseriebau-Anlage entfällt.</div>
+		<div id="nutzen">
+			<ul>
+				<li>• Shimmen im Serientakt</li>
+				<li>• Baugröße und Steifigkeit vergleichbar mit konventionellen Konsolen</li>
+				<li>• automatische Dokumentation der Justageparameter</li>
+			</ul>
+		</div>
+    </div>
+</div>
+
 
 <center>
 <div id="bausteine-carousel" class="carousel bausteine">
