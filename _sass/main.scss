@@ -122,31 +122,3 @@ h1.page-title {
 p.rss-subscribe {
     margin: 0;
 }
-
-/* HARA: edit carousel */
-.carousel {
-	numVisible: 5;
-	&.carousel-slider {
-		height: 500px;
-		.carousel-item {
-			background-position: center;
-		}
-	}
-}
-
-.card{
-	width:400px;
-}
-
-.responsive-img.bausteine{
-	max-width:100%;
-	max-height:150px;
-}
-
-	
-.carousel.bausteine{
-		background-color: #e0f2f1;
-		width:60%;
-		max-height:400px;
-		numVisible:5;
-	}

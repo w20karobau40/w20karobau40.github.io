@@ -93,12 +93,5 @@ g > path {
 
 /* meramid overrides - END */
 
-.carousel-item {
-    background-size: cover;
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    min-width: 100%;
-    min-height: 100%;
-}
+
 

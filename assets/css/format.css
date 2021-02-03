@@ -59,16 +59,41 @@ figure {
 /* first banner */
 #carousel-1 {
   background-image: url("{{ "/assets/img/banner_1.jpg" | relative_url }}");
+  
+	background-position: center;
+    background-size: cover;
+    position: absolute;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
 }
 
 /* second banner */
 #carousel-2 {
   background-image: url("{{ "/assets/img/banner_2.jpg" | relative_url }}");
+  
+	background-position: center;
+    background-size: cover;
+    position: absolute;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
 }
 
 /* third banner */
 #carousel-3 {
   background-image: url("{{ "/assets/img/banner_3.jpg" | relative_url }}");
+	
+	background-position: center;
+    background-size: cover;
+    position: absolute;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+#home-carousel{
+	height: 500px;
 }
 
 .carousel-buttns {
@@ -76,3 +101,18 @@ figure {
   right: 2em;
   bottom: -3em;
 }
+
+.carousel-item.bausteine{
+	width: 70%;
+	height: 800px;
+	max-width:400px;
+}
+#bausteine-carousel{
+	height: 850px;
+}
+
+.card-content{
+	text-align: left;
+}
+
+

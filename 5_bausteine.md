@@ -1,7 +1,7 @@
 ---
-layout: page
+layout: page_ref
 title: Referenzprojekte
-permalink: /bausteine/
+permalink: /referenz/
 ---
 <h1 class="page-title">{{ page.title | escape }}</h1>
 
@@ -11,10 +11,9 @@ Beispiel große Card:
 
 <div class="card">
 	<div class="card-image">
-		<img src="/assets/img/bausteine/as1.png">
+		<img src="/assets/img/bausteine/av1.jpg">
 	</div>
-	<span class="card-title">
-Automatisierte Stelleinrichtungen</span>
+	<span class="card-title">Adaptive Vorrichtungen</span>
 	<div class="card-tabs">
 		 <ul class="tabs tabs-fixed-width">
 			<li class="tab"><a class="active" href="#about">Details</a></li>
@@ -22,133 +21,19 @@ Automatisierte Stelleinrichtungen</span>
 		</ul>
     </div>
 	<div class="card-content grey lighten-4">
-		<div id="about">Das mechanische Nachjustieren von Vorrichtungen für das temporäre Fixieren von zwei oder mehreren Bauteilen zur Beeinflussung von geometrischen Toleranzen der gefügten Baugruppe wird als „Shimmen“ bezeichnet. Selbst bei Großserien erfolgt diese Anpassung im Bereich von 0,1 bis 10 mm heute noch manuell mit Hilfe von Shim-Platten und bedarf daher einem Anlagen-Stillstand. Um diese Verstellung im Serientakt zu ermöglichen, wurden Aktoren entwickelt, die einerseits die geforderte Genauigkeit und andererseits die nötige Steifigkeit aufweisen. Positiver Nebeneffekt: Die Dokumentation kann nun vollautomatisch erfolgen und das handgeschriebene Shimbuch an der Karosseriebau-Anlage entfällt.</div>
+		<div id="about">Ob in der Großserie, bei der zwischen mehreren Modellen gewechselt wird, oder in der Prototypen- und Kleinserienfertigung: Jeder Arbeitsschritt benötigt bislang aufwändig geplante und teuer hergestellte, modellspezifische Vorrichtungen zum Fügen, Messen und Ablegen. Dabei müssen die Auflage- oder Spannpunkte räumlich in verschiedenen Freiheitsgraden im Bereich weniger bis einigen hundert Millimetern verändert werden.</div>
 		<div id="nutzen">
 			<ul>
-				<li>• Shimmen im Serientakt</li>
-				<li>• Baugröße und Steifigkeit vergleichbar mit konventionellen Konsolen</li>
-				<li>• automatische Dokumentation der Justageparameter</li>
+				<li>• Ressourceneffizienzsteigerung durch Reduzierung der Anzahl unterschiedlicher modellspezifischer Vorrichtungen</li>
+				<li>• Produktivitätssteigerung durch weniger Vorrichtungswechsel</li>
+				<li>• Umstellung im Fertigungstakt und im wilden Mix (freie Reihenfolge der zu fertigenden Baugruppen)<</li>
 			</ul>
 		</div>
     </div>
 </div>
 
 
-<center>
-<div id="bausteine-carousel" class="carousel bausteine">
-	<div class="carousel-item"><a href="#av">
-		<div class="card blue-grey darken-1" >
-			<div class="card-image">
-				<img src="/assets/img/bausteine/av2.jpg">
-			</div>
-			<div class="card-content white-text">
-				Adaptive Vorrichtungen
-			</div>
-		</div></a>
-	</div>
-	<div class="carousel-item"><a href="#ar">
-		<div class="card blue-grey darken-1" >
-			<div class="card-image">
-				<img src="/assets/img/bausteine/ar.png">
-			</div>
-			<div class="card-content white-text">
-				Adaptive Robotergreifer
-			</div>
-		</div></a>
-	</div>
-	<div class="carousel-item"><a href="#sgvg">
-		<div class="card blue-grey darken-1" >
-			<div class="card-image">
-				<img src="/assets/img/bausteine/sgvg.png">
-			</div>
-			<div class="card-content white-text">
-				Softwareunterstützte Baukastenkonstruktion für die Vorrichtungs- und Greiferkonfiguration
-			</div>
-		</div></a>
-	</div>
-	<div class="carousel-item"><a href="#as">
-		<div class="card blue-grey darken-1" >
-			<div class="card-image">
-				<img src="/assets/img/bausteine/as1.png">
-			</div>
-			<div class="card-content white-text">
-				Automatisierte Stelleinrichtungen
-			</div>
-		</div></a>
-	</div>
-	<div class="carousel-item"><a href="#kishim">
-		<div class="card blue-grey darken-1" >
-			<div class="card-image">
-				<img src="/assets/img/bausteine/kishim1.png">
-			</div>
-			<div class="card-content white-text">
-				KI-basierte Qualitätsregelung im Karosseriebau<br>
-				„Justage per Knopfdruck“
-			</div>
-		</div></a>
-	</div>
-	<div class="carousel-item"><a href="#stbp">
-		<div class="card blue-grey darken-1" >
-			<div class="card-image">
-				<img src="/assets/img/bausteine/stbp.png">
-			</div>
-			<div class="card-content white-text">
-				Softwaretool zur assistierten Behälterplanung
-			</div>
-		</div></a>
-	</div>
-	<div class="carousel-item"><a href="#bm">
-		<div class="card blue-grey darken-1" >
-			<div class="card-image">
-				<img src="/assets/img/bausteine/bm.png">
-			</div>
-			<div class="card-content white-text">
-				Modularität und Leichtbau von Betriebsmitteln im Karosseriebau
-			</div>
-		</div></a>
-	</div>
-	<div class="carousel-item"><a href="#nagiko">
-		<div class="card blue-grey darken-1" >
-			<div class="card-image">
-				<img src="/assets/img/bausteine/nagiko.png">
-			</div>
-			<div class="card-content white-text">
-				Nachgiebigkeitskompensation von Industrierobotern für den Einsatz bei wechselnder Prozesslast
-			</div>
-		</div></a>
-	</div>
-	<div class="carousel-item"><a href="#vst">
-		<div class="card blue-grey darken-1" >
-			<div class="card-image">
-				<img src="/assets/img/bausteine/vst2.png">
-			</div>
-			<div class="card-content white-text">
-				Vakuumsaugtechnologie
-			</div>
-		</div></a>
-	</div>
-	<div class="carousel-item"><a href="#rg">
-		<div class="card blue-grey darken-1" >
-			<div class="card-image">
-				<img src="/assets/img/bausteine/rg.png">
-			</div>
-			<div class="card-content white-text">
-				Rot-Grün-Vergleich im Konstruktions- und Planungsprozess
-			</div>
-		</div></a>
-	</div>	
-	<div class="carousel-item"><a href="#ufp">
-		<div class="card blue-grey darken-1" >
-			<div class="card-image">
-				<img src="/assets/img/bausteine/ufp.png">
-			</div>
-			<div class="card-content white-text">
-				Universelle Forschungsplattform
-			</div>
-		</div></a>
-	</div>
-</div>
-</center>   
+   
 
 <table>
 	<tr>

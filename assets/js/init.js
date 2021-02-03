@@ -3,6 +3,7 @@
   var intervall = null;
 
   $(document).ready(function () {
+
     initMaterialize();
 	
     $("#play-btn").on("click", playCarousel);
@@ -33,13 +34,15 @@
       top: 150,
       offset: 75
     });
-
-    $('.carousel.carousel-slider').carousel({
+	
+    $("#home-carousel").carousel({
       fullWidth: true,
       indicators: true,
       duration: 500
     });
-
+	
+    $("#bausteine-carousel").carousel();
+	
   }
 
   function triggerCarousel() {
@@ -57,14 +60,4 @@
       intervall = setInterval(triggerCarousel, 5500);
     }
   }
-  
-$('.pushpin-demo-nav').each(function() {
-    var $this = $(this);
-    var $target = $('#' + $(this).attr('data-target'));
-    $this.pushpin({
-      top: $target.offset().top,
-      bottom: $target.offset().top + $target.outerHeight() - $this.height()
-    });
-  });
-
 })(jQuery); // end of jQuery name space
