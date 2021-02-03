@@ -10,7 +10,8 @@ title: Studie zur Zukunft des Karosseriebaus - Karosseriebau 4.0
 author: Marcel Todtermuschke, Antje Ahrens, Patrick Alexander Schmidt
 email: karobau4.0@iwu.fraunhofer.de
 description: > # this means to ignore newlines until "baseurl:"
-  A project site and blog.
+    Ziel dieses Projektes ist es die durch Digitalisierung, Fachkräftemangel und Elektromobilität anstehenden Veränderungen in der Automobilproduktion zu erfassen, zu analysieren und eine strategische Perspektive zu entwickeln.
+  <img src="/assets/img/study.png">
   
 sass:
   style: compressed
