@@ -9,9 +9,8 @@
 title: Studie zur Zukunft des Karosseriebaus - Karosseriebau 4.0
 author: Marcel Todtermuschke, Antje Ahrens, Patrick Alexander Schmidt
 email: karobau4.0@iwu.fraunhofer.de
-description: > # this means to ignore newlines until "baseurl:"
-   Studie zur Zukunft des Karosseriebaus - Karosseriebau 4.0
-   <img src="/assets/img/study.png">
+description: > 
+      Studie zur Zukunft des Karosseriebaus - Karosseriebau 4.0
   
 sass:
   style: compressed
