@@ -3,6 +3,10 @@
 # to process this file with liquid
 ---
 
+body {
+ hyphens: auto;
+}
+
 .site-logo {
     margin-top: 0.2em;
     max-height: 1.6em;
