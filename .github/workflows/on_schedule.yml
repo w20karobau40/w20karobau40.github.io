@@ -2,10 +2,11 @@
 
 name: OnSchedule
 
-# Triggers the workflow on 00:00 UTC
+# Triggers the workflow every sunday at 20:00 UTC.
+# To trigger the workflow every day at 00:00 UTC, change it to '0 0 * * *'
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 20 * * 0'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -16,9 +17,9 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
-    - uses: actions/setup-python@v2
+    - uses: actions/setup-python@v4
       with:
         python-version: '3.7'
         
@@ -42,3 +43,6 @@ jobs:
         repository: 'assets/js'
         commit_message: "Github Action: Auto Limesurvey results"
         branch: ${{ github.ref }}
+    # keep this scheduled action alive. A commit every 60 days is required. 
+    # This adds a dummy commit if there has been no activity for 50 days
+    - uses: gautamkrishnar/keepalive-workflow@v1
