@@ -2,6 +2,7 @@
 layout: page
 title: Projekt
 permalink: /project/
+lang: de
 ---
 
 <h1 class="page-title">{{ page.title | escape }}</h1>

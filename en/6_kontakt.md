@@ -5,6 +5,7 @@ jsarr:
 - contact/contact.js
 cssarr:
 - contact/contact.css
+lang: en
 ---
 &nbsp;  
 &nbsp;  

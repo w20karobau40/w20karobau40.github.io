@@ -2,6 +2,7 @@
 layout: page_ref
 title: Referenzprojekte
 permalink: /referenz/
+lang: de
 ---
 <h1 class="page-title">{{ page.title | escape }}</h1>
 

@@ -1,6 +1,7 @@
 ---
 layout: page
 permalink: /Impressum/
+lang: de
 ---
 <h1 class="page-title">Impressum</h1>
 

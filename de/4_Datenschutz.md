@@ -1,6 +1,7 @@
 ---
 layout: page
 permalink: /Datenschutz/
+lang: de
 ---
 <h1 class="page-title">Datenschutzinformation</h1>
 

@@ -7,6 +7,6 @@
 
 <script src="{{ "/assets/shariff/shariff.min.js" | relative_url }}"></script>
 
-{% for js in page.jsarr %}
+{%- for js in page.jsarr -%}
 <script src="{{ '/assets/js/' | relative_url }}{% if jekyll.environment == 'production' %}{{ js | replace: '.js', '.min.js' }}{% else %}{{ js }}{% endif %}"></script>
-{% endfor %}
+{%- endfor -%}

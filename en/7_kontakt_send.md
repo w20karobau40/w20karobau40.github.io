@@ -1,6 +1,7 @@
 ---
 layout: page
 permalink: /danke/
+lang: en
 ---
 
 <h1 class="page-title">Formular abgesendet</h1>
