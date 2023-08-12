@@ -7,6 +7,10 @@
 
 <script src="{{ "/assets/shariff/shariff.min.js" | relative_url }}"></script>
 
-{%- for js in page.jsarr -%}
+<script>
+  var jekyll_lang = "{{ site.active_lang }}";
+</script>
+
+{% for js in page.jsarr -%}
 <script src="{{ '/assets/js/' | relative_url }}{% if jekyll.environment == 'production' %}{{ js | replace: '.js', '.min.js' }}{% else %}{{ js }}{% endif %}"></script>
-{%- endfor -%}
+{%- endfor %}

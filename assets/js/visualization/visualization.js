@@ -1,6 +1,6 @@
-// import {data} from "./data.js";
 async function main() {
-    const {categories, questions, answers} = await import("./data.js");
+    const {categories, questions} = await import("./questions_" + jekyll_lang + ".js");
+    const {answers} = await import("./answers.js");
     const {limesurvey_answers} = await import("./limesurvey_data.js");
     const show_limesurvey_buttons = limesurvey_answers.length > 0;
     // 1: show only old data, 2: show only limesurvey data, 3: show both
