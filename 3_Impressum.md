@@ -19,6 +19,10 @@ Hansastraße 27 c
 Internet: www.fraunhofer.de  
 E-Mail: info(at)zv.fraunhofer.de
 
+___Verantwortliche Redakteur*In___  
+Marcel Todtermuschke  
+Karobau4.0(at)iwu.fraunhofer.de
+
 Umsatzsteuer-Identifikationsnummer gemäß § 27 a  
 Umsatzsteuergesetz: DE 129515865
 
@@ -27,17 +31,18 @@ Amtsgericht München
 Eingetragener Verein  
 Register-Nr. VR 4461
 
-___Verantwortliche Redakteur*In___  
-Marcel Todtermuschke  
-Karobau4.0(at)iwu.fraunhofer.de
+
 
 
 #### Vorstand
 
-Prof. Dr.-Ing. Reimund Neugebauer, Präsident, Unternehmenspolitik und Forschung  
-Prof. Dr. Ralf Boris Wehrspohn, Technologiemarketing und Geschäftsmodelle  
-Prof. Dr. Alexander Kurz, Personal, Recht und Verwertung  
-Dipl.-Kfm. Andreas Meuer, Finanzen und Digitalisierung  
+Vorstand
+Prof. Dr.-Ing. Holger Hanselka | Präsident  
+Prof. Dr. Alexander Kurz | Mitglied des Vorstands  
+Prof. Dr. Axel Müller-Groeling | Mitglied des Vorstands  
+Ass. jur. Elisabeth Ewen | Mitglied des Vorstands  
+Dr. Sandra Krey | Mitglied des Vorstands
+
 
 #### Nutzungsrechte
 
