@@ -49,6 +49,7 @@ jobs:
         with:
           directory: 'assets/js'
           overwrite: true
+          js_engine: uglify-js
       - name: Build with Jekyll
         # Outputs to the './_site' directory by default
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
