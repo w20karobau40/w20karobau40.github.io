@@ -326,3 +326,4 @@ config.ini
 SESSION_KEY
 python/*.json
 python/*.js
+*.ps1
