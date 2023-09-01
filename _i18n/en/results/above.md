@@ -1,1 +1,1 @@
-Nachstehende Grafiken visualisieren die bisherigen Ergebnisse der Online-Befragung. Durch Klicken auf die Teilnehmergruppen können Sie die Ansicht anpassen.
+The following graphics visualize the results of the online survey so far. You can adjust the view by clicking on the participant groups.

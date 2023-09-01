@@ -7,6 +7,10 @@
 
 <script src="{{ "/assets/shariff/shariff.min.js" | prepend: site.baseurl_root }}"></script>
 
+<script>
+  var jekyll_lang = "{{ site.lang }}";
+</script>
+
 {% for js in page.jsarr %}
 <script src="{{ '/assets/js/' | prepend: site.baseurl_root }}{{ js }}"></script>
 {% endfor %}
