@@ -25,6 +25,9 @@ plugins:
 languages: ["de", "en"]
 exclude_from_localizations: ["assets/*", "CNAME"]
 default_locale_in_subfolder: true
+languageNames:
+  de: Deutsch
+  en: English
 
 compress_html:
   blanklines: true
