@@ -3,7 +3,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-    <title>{% if page.title %}{% translate page.title %}{% else %}{{ site.title | escape }}{% endif %}</title>
+    <title>{% if page.title %}{% translate page.title %}{% else %}{% translate titles.site %}{% endif %}</title>
     <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}" />
 
 	<link href="{{ "/assets/shariff/shariff.complete.css" | relative_url }}" rel="stylesheet">
