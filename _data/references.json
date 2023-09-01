@@ -1,0 +1,15 @@
+[
+  {
+    "div_id": "AdapVorr",
+    "img": "av.png",
+    "title": "Adaptive<wbr> Vor&shy;richtungen",
+    "about_id": "AV_about",
+    "benefits_id": "AV_nutzen",
+    "about": "Ob in der Großserie, bei der zwischen mehreren Modellen gewechselt wird, oder in der Prototypen- und Kleinserienfertigung: Jeder Arbeitsschritt benötigt bislang aufwändig geplante und teuer hergestellte, modellspezifische Vorrichtungen zum Fügen, Messen und Ablegen. Dabei müssen die Auflage- oder Spannpunkte räumlich in verschiedenen Freiheitsgraden im Bereich weniger bis einigen hundert Millimetern verändert werden.",
+    "benefits": [
+      "Ressourceneffizienzsteigerung durch Reduzierung der Anzahl unterschiedlicher modellspezifischer Vorrichtungen",
+      "Produktivitätssteigerung durch weniger Vorrichtungswechsel",
+      "Umstellung im Fertigungstakt und im wilden Mix (freie Reihenfolge der zu fertigenden Baugruppen)"
+    ]
+  }
+]

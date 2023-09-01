@@ -1,1 +1,1 @@
-The following graphics visualize the results of the online survey so far. You can adjust the view by clicking on the participant groups.
+The following graphics visualize the results of the online survey to date. By clicking on the participant groups you can customize the view.
