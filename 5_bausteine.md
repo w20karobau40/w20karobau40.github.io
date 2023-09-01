@@ -1,7 +1,9 @@
 ---
 layout: page_ref
-title: Referenzprojekte
+title: titles.refs
+namespace: reference
 permalink: /referenz/
+permalink_en: /reference/
 ---
 <h1 class="page-title">{{ page.title | escape }}</h1>
 

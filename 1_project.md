@@ -1,7 +1,9 @@
 ---
 layout: page
 title: titles.project
-permalink: /project/
+namespace: project
+permalink: /projekt/
+permalink_en: /project/
 ---
 
 <h1 class="page-title">{% translate page.title %}</h1>

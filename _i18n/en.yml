@@ -1,5 +1,8 @@
 titles:
   project: "Project"
+  results: "Results"
+  refs: "Reference projects"
+  survey: "Survey"
 home:
   results: "Survey results"
   create: "Create with us"

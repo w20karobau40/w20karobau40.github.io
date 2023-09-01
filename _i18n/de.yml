@@ -1,5 +1,8 @@
 titles:
   project: "Projekt"
+  results: "Ergebnisse"
+  refs: "Referenzprojekte"
+  survey: "Umfrage"
 home:
   results: "Ergebnisse der Studie"
   create: "Gestalten Sie mit"

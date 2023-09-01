@@ -1,7 +1,9 @@
 ---
 layout: page
-title: Ergebnisse
+title: titles.results
+namespace: results
 permalink: /visualisierung/
+permalink_en: /results/
 jsarr:
 - visualization/visualization.js
 - visualization/compatibility.js
