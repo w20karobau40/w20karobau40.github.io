@@ -22,10 +22,14 @@ permalink: /:categories/:title/
 plugins:
   - jekyll-seo-tag
 
+languages: ["de", "en"]
+exclude_from_localizations: ["assets/*", "CNAME"]
+default_locale_in_subfolder: true
+
 compress_html:
   blanklines: true
   comments: all
 
 # Build settings
 markdown: kramdown
-exclude: [ "README.md", "karobau40", "python", "Gemfile", "Gemfile.lock", "jsdoc.json", "LICENSE", ".idea" ]
+exclude: [ "README.md", "karobau40", "python", "Gemfile", "Gemfile.lock", "jsdoc.json", "LICENSE", ".idea", "venv", "*.ps1", "CNAME"]
