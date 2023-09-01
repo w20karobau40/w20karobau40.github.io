@@ -4,6 +4,7 @@ title: titles.project
 namespace: project
 permalink: /projekt/
 permalink_en: /project/
+nav: true
 ---
 
 <h1 class="page-title">{% translate page.title %}</h1>

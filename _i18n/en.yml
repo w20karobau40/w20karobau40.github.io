@@ -4,6 +4,8 @@ titles:
   refs: "Reference projects"
   survey: "Survey"
   imprint: "Imprint"
+  privacy: "Privacy information"
+  privacy_short: "Privacy"
 home:
   results: "Survey results"
   create: "Create with us"

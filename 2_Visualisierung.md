@@ -4,6 +4,7 @@ title: titles.results
 namespace: results
 permalink: /visualisierung/
 permalink_en: /results/
+nav: true
 jsarr:
 - visualization/visualization.js
 - visualization/compatibility.js

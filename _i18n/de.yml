@@ -4,6 +4,8 @@ titles:
   refs: "Referenzprojekte"
   survey: "Umfrage"
   imprint: "Impressum"
+  privacy: "Datenschutzinformation"
+  privacy_short: "Datenschutz"
 home:
   results: "Ergebnisse der Studie"
   create: "Gestalten Sie mit"

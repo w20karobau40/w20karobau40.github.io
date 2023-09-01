@@ -4,6 +4,7 @@ title: titles.refs
 namespace: reference
 permalink: /referenz/
 permalink_en: /reference/
+nav: true
 ---
 <h1 class="page-title">{{ page.title | escape }}</h1>
 

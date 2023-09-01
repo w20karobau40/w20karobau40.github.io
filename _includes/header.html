@@ -11,12 +11,13 @@
           {% if page_paths %}
           {% for path in page_paths %}
           {% assign my_page = site.pages | where: "path", path | first %}
-          {% if my_page.title %}
+          {% if my_page.title and my_page.nav %}
           <li><a href="{% tl {{my_page.namespace}} %}">{% t {{my_page.title}} %}</a></li>
           {% endif %}
           {% endfor %}
           {% endif %}
           <li><a target="_blank" rel="noopener noreferrer" href="{% t survey %}">{% t titles.survey %}</a></li>
+          <!-- language toggle -->
           {% for lang in site.languageNames %}
           {% unless lang[0] == site.lang %}
           {% if page.namespace %}
