@@ -8,16 +8,6 @@
     <div class="container">
       Copyright © 2023
       <a target="_blank" href="https://www.iwu.fraunhofer.de/" class="footer">Fraunhofer IWU</a> | <a href="{{ "/kontakt" | relative_url }}" class="footer">Kontakt</a> | <a href="{{ "/Impressum" | relative_url }}" class="footer">Impressum</a> | <a href="{{ "/Datenschutz" | relative_url }}" class="footer">Datenschutz</a>
-      |
-      {% for lang in site.languageNames %}
-      {% unless lang[0] == site.lang %}
-      {% if page.namespace %}
-      <a href="{% tl {{ page.namespace }} {{ lang[0] }} %}">{{ lang[1] }} {{lang}}</a>
-      {% else %}
-      <a href="{{ site.baseurl_root }}/{{ lang[0] }}/">{{ lang[1] }}</a>
-      {% endif %}
-      {% endunless %}
-      {% endfor %}
       <span style="text-align: right; float: right">
 		Powered by <a target="_blank" href="http://jekyllrb.com/" class="footer">Jekyll</a> and <a target="_blank" href="http://materializecss.com" class="footer">Materialize</a>
       </span>

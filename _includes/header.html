@@ -17,6 +17,15 @@
           {% endfor %}
           {% endif %}
           <li><a target="_blank" rel="noopener noreferrer" href="{% t survey %}">{% t titles.survey %}</a></li>
+          {% for lang in site.languageNames %}
+          {% unless lang[0] == site.lang %}
+          {% if page.namespace %}
+          <li><a href="{% tl {{ page.namespace }} {{ lang[0] }} %}">{{ lang[1] }}</a></li>
+          {% else %}
+          <li><a href="{{ site.baseurl_root }}/{{ lang[0] }}/">{{ lang[1] }}</a></li>
+          {% endif %}
+          {% endunless %}
+          {% endfor %}
           <!--EINKOMMENTIEREN FÜR BLOG
 		  <li><a href="{{ "/articles" | relative_url }}">Artikel</a></li>-->
         </ul>
