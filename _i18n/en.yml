@@ -3,8 +3,10 @@ titles:
   results: "Results"
   refs: "Reference projects"
   survey: "Survey"
+  imprint: "Imprint"
 home:
   results: "Survey results"
   create: "Create with us"
   bodyshop: "Car Body Shop 4.0"
   network: "Network with others"
+survey: "https://websites.fraunhofer.de/iwu-surveys/index.php/197925?lang=en"
