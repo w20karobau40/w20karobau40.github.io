@@ -8,294 +8,32 @@ layout: default
 </div>
 
 <center>
-<div id="bausteine-carousel" class="carousel">
+  <div id="bausteine-carousel" class="carousel">
 
-  {% for data in site.data.references %}
-  <div id="{{ data.div_id }}" class="carousel-item bausteine">
-    <div class="card">
-      <div class="card-image"><img src="/assets/img/bausteine/{{ data.img }}"></div>
-      <span class="card-title">{{ data.title }}</span>
-      <div class="card-tabs">
-        <ul class="tabs tabs-fixed-width">
-          <li class="tab"><a href="#{{ data.about_id }}" class="active">Details</a></li>
-          <li class="tab"><a href="#{{ data.benefits_id }}">Nutzeffekte</a></li>
-        </ul>
-      </div>
-      <div class="card-content grey lighten-4">
-        <div id="{{ data.about_id }}">{{ data.about }}</div>
-        <div id="{{ data.benefits_id }}">
-          <ul>
-            {% for line in data.benefits %}
-            <li>• {{ line }}</li>
-            {% endfor %}
+    {% for data in site.data.references %}
+    <div id="{{ data.div_id }}" class="carousel-item bausteine">
+      <div class="card">
+        <div class="card-image"><img src="/assets/img/bausteine/{{ data.img }}"></div>
+        <span class="card-title">{{ data.title }}</span>
+        <div class="card-tabs">
+          <ul class="tabs tabs-fixed-width">
+            <li class="tab"><a href="#{{ data.about_id }}" class="active">Details</a></li>
+            <li class="tab"><a href="#{{ data.benefits_id }}">Nutzeffekte</a></li>
           </ul>
+        </div>
+        <div class="card-content grey lighten-4">
+          <div id="{{ data.about_id }}">{{ data.about }}</div>
+          <div id="{{ data.benefits_id }}">
+            <ul>
+              {% for line in data.benefits %}
+              <li>• {{ line }}</li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
+    {% endfor %}
+
   </div>
-  {% endfor %}
-
-  <!--
-
-	<div id="AdapVorr" class="carousel-item bausteine">
-		<div class="card">
-			<div class="card-image"><img src="/assets/img/bausteine/av.png"></div>
-			<span class="card-title">Adaptive<wbr> Vor&shy;richtungen</span>
-			<div class="card-tabs">
-				<ul class="tabs tabs-fixed-width">
-					<li class="tab"><a href="#AV_about" class="active">Details</a></li>
-					<li class="tab"><a href="#AV_nutzen">Nutzeffekte</a></li>
-				</ul>
-			</div>
-			<div class="card-content grey lighten-4">
-				<div id="AV_about">Ob in der Großserie, bei der zwischen mehreren Modellen gewechselt wird, oder in der Prototypen- und Kleinserienfertigung: Jeder Arbeitsschritt benötigt bislang aufwändig geplante und teuer hergestellte, modellspezifische Vorrichtungen zum Fügen, Messen und Ablegen. Dabei müssen die Auflage- oder Spannpunkte räumlich in verschiedenen Freiheitsgraden im Bereich weniger bis einigen hundert Millimetern verändert werden.</div>
-				<div id="AV_nutzen">
-					<ul>
-						<li>• Ressourceneffizienzsteigerung durch Reduzierung der Anzahl unterschiedlicher modellspezifischer Vorrichtungen</li>
-						<li>• Produktivitätssteigerung durch weniger Vorrichtungswechsel</li>
-						<li>• Umstellung im Fertigungstakt und im wilden Mix (freie Reihenfolge der zu fertigenden Baugruppen)</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="AdapRob" class="carousel-item bausteine">
-		<div class="card">
-			<div class="card-image"><img src="/assets/img/bausteine/ar.png"></div>
-			<span class="card-title">Adaptive<wbr> Roboter&shy;greifer</span>
-			<div class="card-tabs">
-				<ul class="tabs tabs-fixed-width">
-					<li class="tab"><a href="#AR_about" class="active">Details</a></li>
-					<li class="tab"><a href="#AR_nutzen">Nutzeffekte</a></li>
-				</ul>
-			</div>
-			<div class="card-content grey lighten-4">
-				<div id="AR_about">Nicht nur die Fügevorrichtungen selbst, sondern auch alle notwendigen Betriebsmittel der vor- und nachgelagerten Prozessschritte, müssen in der Lage sein, adaptiv, sicher und robust, die Bauteilzuführung zu gewährleisten. Zudem sind diese Handlingsysteme überwiegend robotergeführt und somit einer hohen dynamischen Belastung ausgesetzt. Eine große Bauteilvielfalt stellt hierbei eine weitere enorme Herausforderung bei der Flexibilisierung (adaptiven Anpassung) von Karosseriebaufügestationen dar. Es wurden verschiedene Greifer, welche auf die jeweiligen Prozesse angepasst sind, entwickelt, die einen sicheren Bauteiltransport im wilden Mix aus den Ladungsträgern in die Fertigungsvorrichtung gewährleisten.</div>
-				<div id="AR_nutzen">
-					<ul>
-						<li>• Ressourceneffizienzsteigerung durch Reduzierung der Anzahl unterschiedlicher modellspezifischer Greifer</li>
-						<li>• Produktivitätssteigerung durch weniger Werkzeugwechsel am Roboter (Docking)</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="SGKonst" class="carousel-item bausteine">
-		<div class="card">
-			<div class="card-image"><img src="/assets/img/bausteine/sgvg.png"></div>
-			<span class="card-title">Software&shy;unterstützte Baukasten&shy;konstruktion für die Vorrichtungs- und Greifer&shy;konfiguration</span>
-			<div class="card-tabs">
-				<ul class="tabs tabs-fixed-width">
-					<li class="tab"><a href="#SGVG_about" class="active">Details</a></li>
-					<li class="tab"><a href="#SGVG_nutzen">Nutzeffekte</a></li>
-				</ul>
-			</div>
-			<div class="card-content grey lighten-4">
-				<div id="SGVG_about">Der Konstruktionsassistent (DesignAssistant) ist eine innovative Software zur Automatisierung und Optimierung von Konstruktionsprozessen für baukastenbasierte Betriebsmittel, wie z. B. Greifer im Karosseriebau.</div>
-				<div id="SGVG_nutzen">
-					<ul>
-						<li>• mathematischen Optimierungsverfahren zur Generierung von Konstruktionsvorschlägen garantieren eine deutlich schnellere Greiferauslegung (> 50% Zeitgewinn)</li>
-						<li>• Konstrukteur behält volle Kontrolle und kann in den Entscheidungsprozess eingreifen</li>
-						<li>• einheitliches methodisches Vorgehen stellt die Konformität der Konstruktionsprozesse mit Richtlinien sicher</li>
-						<li>• firmeninternes Know-how bleibt erhalten und kann schneller an neue Mitarbeiter vermittelt werden</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="AutoShim" class="carousel-item bausteine">
-		<div class="card">
-			<div class="card-image"><img src="/assets/img/bausteine/as.png"></div>
-			<span class="card-title">Automatisierte<wbr> Stelleinrichtungen</span>
-			<div class="card-tabs">
-				<ul class="tabs tabs-fixed-width">
-					<li class="tab"><a href="#AS_about" class="active">Details</a></li>
-					<li class="tab"><a href="#AS_nutzen">Nutzeffekte</a></li>
-				</ul>
-			</div>
-			<div class="card-content grey lighten-4">
-				<div id="AS_about">Das mechanische Nachjustieren von Vorrichtungen für das temporäre Fixieren von zwei oder mehreren Bauteilen zur Beeinflussung von geometrischen Toleranzen der gefügten Baugruppe wird als „Shimmen“ bezeichnet. Selbst bei Großserien erfolgt diese Anpassung im Bereich von 0,1 bis 10 mm heute noch manuell mit Hilfe von Shim-Platten und bedarf daher einem Anlagen-Stillstand. Um diese Verstellung im Serientakt zu ermöglichen, wurden Aktoren entwickelt, die einerseits die geforderte Genauigkeit und andererseits die nötige Steifigkeit aufweisen. Positiver Nebeneffekt: Die Dokumentation kann nun vollautomatisch erfolgen und das handgeschriebene Shimbuch an der Karosseriebau-Anlage entfällt.</div>
-				<div id="AS_nutzen">
-					<ul>
-						<li>• Shimmen im Serientakt</li>
-						<li>• Baugröße und Steifigkeit vergleichbar mit konventionellen Konsolen</li>
-						<li>• automatische Dokumentation der Justageparameter</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="KIShim" class="carousel-item bausteine">
-		<div class="card">
-			<div class="card-image"><img src="/assets/img/bausteine/kishim.png"></div>
-			<span class="card-title">KI-basierte Qualitäts&shy;regelung im Karosseriebau<br><b>"Justage per Knopfdruck“</b></span>
-			<div class="card-tabs">
-				<ul class="tabs tabs-fixed-width">
-					<li class="tab"><a href="#KIShim_about" class="active">Details</a></li>
-					<li class="tab"><a href="#KIShim_nutzen">Nutzeffekte</a></li>
-				</ul>
-			</div>
-			<div class="card-content grey lighten-4">
-				<div id="KIShim_about">Mit Hilfe eines mathematischen Modells werden die erfahrungsbasierten Justagevorgänge nachvollzogen, d. h. mittels eines künstlichen neuronalen Netzes gelernt. Das Training erfolgt durch die Verknüpfungen von Messdaten und resultierenden Veränderungen an den Konturstücken durch „Shimmen“. Die KI-basierte Software korreliert die Qualitätsdaten mit den Justageeinstellungen der Vorrichtung. Nach einer Anlernphase der KI generiert die Software („Justageassistent“) eigenständig geeignete Justageparameter anhand von Messdaten der Einzelteile bzw. der gefügten Baugruppe. Somit kann die Anlage zukünftig autark auf Qualitätsschwankungen der Eingangsbauteile reagieren und erforderliche Stellmaßnahmen innerhalb des Fertigungstaktes durchführen.</div>
-				<div id="KIShim_nutzen">
-					<ul>
-						<li>• Verkürzung des Anlagenanlaufs</li>
-						<li>• reproduzierbare Justage im Produktionstakt</li>
-						<li>• Justage ohne Betreten des Anlagenschutzkreises</li>
-						<li>• Verkürzung des gesamten Regelzyklus</li>
-						<li>• Produktionssteigerung</li>
-						<li>• Reduktion von Nacharbeit und Ausschuss</li>
-						<li>• automatische Dokumentation der Justageparameter</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="SoftBaehlt" class="carousel-item bausteine">
-		<div class="card">
-			<div class="card-image"><img src="/assets/img/bausteine/stbp.png"></div>
-			<span class="card-title">Softwaretool zur assistierten Behälter&shy;planung</span>
-			<div class="card-tabs">
-				<ul class="tabs tabs-fixed-width">
-					<li class="tab"><a href="#STBP_about" class="active">Details</a></li>
-					<li class="tab"><a href="#STBP_nutzen">Nutzeffekte</a></li>
-				</ul>
-			</div>
-			<div class="card-content grey lighten-4">
-				<div id="STBP_about">Der automatische Planungsassistent ist eine innovative PC-Software, mit dem Planungs-und Konstruktionsprozesse zur Entwicklung und Fertigung von Behältern und Sonderladungsträgern optimiert werden können.</div>
-				<div id="STBP_nutzen">
-					<ul>
-						<li>• automatisches Generieren der CAD-basierten Behälterkonstruktion ermöglicht eine Effizienzsteige¬rung gegenüber herkömmlichen Engineeringprozessen um bis zu 75 Prozent</li>
-						<li>• integrierte automatische Bauteil- und Bauraumanalyse optimiert Bauteilanordnung und Anzahl je Behälter (bis zu 12 Prozent bessere Raumausnutzung)</li>
-						<li>• einheitliches methodisches Vorgehen stellt die Konformität der Konstruktionsprozesse mit Richtlinien sicher</li>
-						<li>• firmeninternes Know-how bleibt erhalten und kann schneller an neue Mitarbeiter vermittelt werden</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="Betriebsmittel" class="carousel-item bausteine">
-		<div class="card">
-			<div class="card-image"><img src="/assets/img/bausteine/bm.png"></div>
-			<span class="card-title">Modularität und Leichtbau von Betriebsmitteln im Karosseriebau</span>
-			<div class="card-tabs">
-				<ul class="tabs tabs-fixed-width">
-					<li class="tab"><a href="#BM_about" class="active">Details</a></li>
-					<li class="tab"><a href="#BM_nutzen">Nutzeffekte</a></li>
-				</ul>
-			</div>
-			<div class="card-content grey lighten-4">
-				<div id="BM_about">Für die Entwicklung bewegter Betriebsmittel, besonders bei robotergeführten Werkzeugen, ist Leichtbau eine Grundvoraussetzung um Prozesse dynamisch und energieeffizient zu gestalten. Gerade im Fahrzeugrohbau weisen besonders Punktscheißzangen eine hohe Einsatzdichte auf und bieten ein damit verbundenes großes Optimierungspotential.</div>
-				<div id="BM_nutzen">
-					<ul>
-						<li>• Gewichtsreduzierung des Zangengrundkörpers um 45%</li>
-						<li>• Reduzierung Baubreite um 50%</li>
-						<li>• Senkung der Variantenanzahl durch symmetrischen Aufbau</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="NaGiKo" class="carousel-item bausteine">
-		<div class="card">
-			<div class="card-image"><img src="/assets/img/bausteine/nagiko.png"></div>
-			<span class="card-title">Nachgiebigkeits&shy;kompensation</span>
-			<div class="card-tabs">
-				<ul class="tabs tabs-fixed-width">
-					<li class="tab"><a href="#NAGIKO_about" class="active">Details</a></li>
-					<li class="tab"><a href="#NAGIKO_nutzen">Nutzeffekte</a></li>
-				</ul>
-			</div>
-			<div class="card-content grey lighten-4">
-				<div id="NAGIKO_about">Infolge ihrer großen Flexibilität und der damit verbundenen hohen Bandbreite an Einsatzmöglichkeiten eignen sich 6-Achs-Roboter besonders für ein agiles Produktionsumfeld. Demgegenüber besitzen sie in den verschiedenen Achsen und Gelenken ein im Vergleich mit Werkzeugmaschinen geringere Steifigkeit, was zu Positionsungenauigkeiten insbesondere im Prozessverlauf mit wechselnder Last führen kann. Aus diesem Grund wurde eine Methodik zur Kompensation dieser Verschiebung entwickelt, die basierend auf einer Kraftmessung direkt am Roboterwerkzeug die Position im laufenden Prozess korrigieren kann.</div>
-				<div id="NAGIKO_nutzen">
-					<ul>
-						<li>• Qualitätssteigerung im robotergeführten Fertigungsprozess</li>
-						<li>• Erhöhung der Produktivität durch verkürzte Programmieraufwände</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="VakSaug" class="carousel-item bausteine">
-		<div class="card">
-			<div class="card-image"><img src="/assets/img/bausteine/vst.png"></div>
-			<span class="card-title">Vakuum&shy;saug&shy;technologie</span>
-			<div class="card-tabs">
-				<ul class="tabs tabs-fixed-width">
-					<li class="tab"><a href="#VS_about" class="active">Details</a></li>
-					<li class="tab"><a href="#VS_nutzen">Nutzeffekte</a></li>
-				</ul>
-			</div>
-			<div class="card-content grey lighten-4">
-				<div id="VS_about">Dieses neuartige Handlingsystem nutzt die Vorteile der Vakuumtechnologie ohne auf eine Druckluftversorgung angewiesen zu sein. Dazu wurde gemäß bionischem Vorbild ein Oktopus nachempfunden. Die Betätigung der Saugnäpfe wird durch die Verwendung künstlicher Muskeln realisiert. Einzelne Gruppen von Saugnäpfen, sog. Cluster, agieren selbstorganisierend und werden mit Hilfe künstlicher Intelligenz gesteuert. Dabei wird Reinforcement Learning verwendet. Das System wird mit linearen Regressionsmodellen trainiert und entscheidet bei Druckverlusten selbst über das Nachsaugen.</div>
-				<div id="VS_nutzen">
-					<ul>
-						<li>• Vision „Druckluftfreier Karosseriebau“</li>
-						<li>• Entfall einer Druckluftversorgung</li>
-						<li>• Reduzierung des Energieverbrauchs um 16%</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="RotGruen" class="carousel-item bausteine">
-		<div class="card">
-			<div class="card-image"><img src="/assets/img/bausteine/rg.png"></div>
-			<span class="card-title">Rot-Grün-<wbr>Vergleich im Konstruktions- und Planungs&shy;prozess</span>
-			<div class="card-tabs">
-				<ul class="tabs tabs-fixed-width">
-					<li class="tab"><a href="#RG_about" class="active">Details</a></li>
-					<li class="tab"><a href="#RG_nutzen">Nutzeffekte</a></li>
-				</ul>
-			</div>
-			<div class="card-content grey lighten-4">
-				<div id="RG_about">Mithilfe des Softwaretools Geometrievergleich können die Unterschiede zwischen zwei Bauteilständen berechnet und graphisch visualisiert werden. Als Grundlage dienen triangulierte Modelle der entsprechenden Bauteildaten.</div>
-				<div id="RG_nutzen">
-					<ul>
-						<li>• utomatischer Vergleich sehr großer Datenbestände (Batch-Betrieb)</li>
-						<li>• automatisierten Exportfunktion dokumentiert die Ergebnisse</li>
-						<li>• Kollisionsabgleich zwischen den geänderten Bauteilgeometrien (Konturen, Features) und der jeweiligen bauteilspezifischen Vorrichtungen stellt eventuelle Anpassungen dar</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="UFP" class="carousel-item bausteine">
-		<div class="card">
-			<div class="card-image"><img src="/assets/img/bausteine/ufp.png"></div>
-			<span class="card-title">Universelle Forschungs&shy;plattform</span>
-			<div class="card-tabs">
-				<ul class="tabs tabs-fixed-width">
-					<li class="tab"><a href="#UFP_about" class="active">Details</a></li>
-					<li class="tab"><a href="#UFP_nutzen">Nutzeffekte</a></li>
-				</ul>
-			</div>
-			<div class="card-content grey lighten-4">
-				<div id="UFP_about">Bis Ende 2021 erfolgt der Um- und Aufbau eines modularen Robotersystems, welches die Möglichkeiten bietet für verschiedenste industrielle Anwendungen (Automobilbau, Flugzeugbau, Werkzeugmaschinenbau) und in unterschiedlichen Anwendungsbereichen (Strukturaufbau, Karosseriebau, Endmontage) Forschungsaufgaben zu realisieren und dabei stets auf den neuesten Stand der Steuerung- und Regelungstechnik (incl. Edge-Computing, OPC-UA, MQTT, TSN usw.) zurückzugreifen.</div>
-				<div id="UFP_nutzen">
-					<ul>
-						<li>• Multi-Roboter-Anlage</li>
-						<li>• Modular konfigurierbar</li>
-						<li>• Integration verschiedener Produktionsprozesse (Umformung, Fügen, Zerspanung)</li>
-						<li>• Virtueller Produktionszwilling für schnellere IBN, Szenarienanalyse und Inline-Überwachung</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-
--->
-
-</div>
 </center>

@@ -11,5 +11,140 @@
       "Produktivitätssteigerung durch weniger Vorrichtungswechsel",
       "Umstellung im Fertigungstakt und im wilden Mix (freie Reihenfolge der zu fertigenden Baugruppen)"
     ]
+  },
+  {
+    "div_id": "AdapRob",
+    "img": "ar.png",
+    "title": "Adaptive<wbr> Roboter&shy;greifer",
+    "about_id": "AR_about",
+    "benefits_id": "AR_nutzen",
+    "about": "Nicht nur die Fügevorrichtungen selbst, sondern auch alle notwendigen Betriebsmittel der vor- und nachgelagerten Prozessschritte, müssen in der Lage sein, adaptiv, sicher und robust, die Bauteilzuführung zu gewährleisten. Zudem sind diese Handlingsysteme überwiegend robotergeführt und somit einer hohen dynamischen Belastung ausgesetzt. Eine große Bauteilvielfalt stellt hierbei eine weitere enorme Herausforderung bei der Flexibilisierung (adaptiven Anpassung) von Karosseriebaufügestationen dar. Es wurden verschiedene Greifer, welche auf die jeweiligen Prozesse angepasst sind, entwickelt, die einen sicheren Bauteiltransport im wilden Mix aus den Ladungsträgern in die Fertigungsvorrichtung gewährleisten.",
+    "benefits": [
+      "Ressourceneffizienzsteigerung durch Reduzierung der Anzahl unterschiedlicher modellspezifischer Greifer",
+      "Produktivitätssteigerung durch weniger Werkzeugwechsel am Roboter (Docking)"
+    ]
+  },
+  {
+    "div_id": "SGKonst",
+    "img": "sgvg.png",
+    "title": "Software&shy;unterstützte Baukasten&shy;konstruktion für die Vorrichtungs- und Greifer&shy;konfiguration",
+    "about_id": "SGVG_about",
+    "benefits_id": "SGVG_nutzen",
+    "about": "Der Konstruktionsassistent (DesignAssistant) ist eine innovative Software zur Automatisierung und Optimierung von Konstruktionsprozessen für baukastenbasierte Betriebsmittel, wie z. B. Greifer im Karosseriebau.",
+    "benefits": [
+      "mathematischen Optimierungsverfahren zur Generierung von Konstruktionsvorschlägen garantieren eine deutlich schnellere Greiferauslegung (> 50% Zeitgewinn)",
+      "Konstrukteur behält volle Kontrolle und kann in den Entscheidungsprozess eingreifen",
+      "einheitliches methodisches Vorgehen stellt die Konformität der Konstruktionsprozesse mit Richtlinien sicher",
+      "firmeninternes Know-how bleibt erhalten und kann schneller an neue Mitarbeiter vermittelt werden"
+    ]
+  },
+  {
+    "div_id": "AutoShim",
+    "img": "as.png",
+    "title": "Automatisierte<wbr> Stelleinrichtungen",
+    "about_id": "AS_about",
+    "benefits_id": "AS_nutzen",
+    "about": "Das mechanische Nachjustieren von Vorrichtungen für das temporäre Fixieren von zwei oder mehreren Bauteilen zur Beeinflussung von geometrischen Toleranzen der gefügten Baugruppe wird als „Shimmen“ bezeichnet. Selbst bei Großserien erfolgt diese Anpassung im Bereich von 0,1 bis 10 mm heute noch manuell mit Hilfe von Shim-Platten und bedarf daher einem Anlagen-Stillstand. Um diese Verstellung im Serientakt zu ermöglichen, wurden Aktoren entwickelt, die einerseits die geforderte Genauigkeit und andererseits die nötige Steifigkeit aufweisen. Positiver Nebeneffekt: Die Dokumentation kann nun vollautomatisch erfolgen und das handgeschriebene Shimbuch an der Karosseriebau-Anlage entfällt.",
+    "benefits": [
+      "Shimmen im Serientakt",
+      "Baugröße und Steifigkeit vergleichbar mit konventionellen Konsolen",
+      "automatische Dokumentation der Justageparameter"
+    ]
+  },
+  {
+    "div_id": "KIShim",
+    "img": "kishim.png",
+    "title": "KI-basierte Qualitäts&shy;regelung im Karosseriebau<br><b>\"Justage per Knopfdruck“</b>",
+    "about_id": "KIShim_about",
+    "benefits_id": "KIShim_nutzen",
+    "about": "Mit Hilfe eines mathematischen Modells werden die erfahrungsbasierten Justagevorgänge nachvollzogen, d. h. mittels eines künstlichen neuronalen Netzes gelernt. Das Training erfolgt durch die Verknüpfungen von Messdaten und resultierenden Veränderungen an den Konturstücken durch „Shimmen“. Die KI-basierte Software korreliert die Qualitätsdaten mit den Justageeinstellungen der Vorrichtung. Nach einer Anlernphase der KI generiert die Software („Justageassistent“) eigenständig geeignete Justageparameter anhand von Messdaten der Einzelteile bzw. der gefügten Baugruppe. Somit kann die Anlage zukünftig autark auf Qualitätsschwankungen der Eingangsbauteile reagieren und erforderliche Stellmaßnahmen innerhalb des Fertigungstaktes durchführen.",
+    "benefits": [
+      "Verkürzung des Anlagenanlaufs",
+      "reproduzierbare Justage im Produktionstakt",
+      "Justage ohne Betreten des Anlagenschutzkreises",
+      "Verkürzung des gesamten Regelzyklus",
+      "Produktionssteigerung",
+      "Reduktion von Nacharbeit und Ausschuss",
+      "automatische Dokumentation der Justageparameter"
+    ]
+  },
+  {
+    "div_id": "SoftBaehlt",
+    "img": "stbp.png",
+    "title": "Softwaretool zur assistierten Behälter&shy;planung",
+    "about_id": "STBP_about",
+    "benefits_id": "STBP_nutzen",
+    "about": "Der automatische Planungsassistent ist eine innovative PC-Software, mit dem Planungs-und Konstruktionsprozesse zur Entwicklung und Fertigung von Behältern und Sonderladungsträgern optimiert werden können.",
+    "benefits": [
+      "automatisches Generieren der CAD-basierten Behälterkonstruktion ermöglicht eine Effizienzsteige¬rung gegenüber herkömmlichen Engineeringprozessen um bis zu 75 Prozent",
+      "integrierte automatische Bauteil- und Bauraumanalyse optimiert Bauteilanordnung und Anzahl je Behälter (bis zu 12 Prozent bessere Raumausnutzung)",
+      "einheitliches methodisches Vorgehen stellt die Konformität der Konstruktionsprozesse mit Richtlinien sicher",
+      "firmeninternes Know-how bleibt erhalten und kann schneller an neue Mitarbeiter vermittelt werden"
+    ]
+  },
+  {
+    "div_id": "Betriebsmittel",
+    "img": "bm.png",
+    "title": "Modularität und Leichtbau von Betriebsmitteln im Karosseriebau",
+    "about_id": "BM_about",
+    "benefits_id": "BM_nutzen",
+    "about": "Für die Entwicklung bewegter Betriebsmittel, besonders bei robotergeführten Werkzeugen, ist Leichtbau eine Grundvoraussetzung um Prozesse dynamisch und energieeffizient zu gestalten. Gerade im Fahrzeugrohbau weisen besonders Punktscheißzangen eine hohe Einsatzdichte auf und bieten ein damit verbundenes großes Optimierungspotential.",
+    "benefits": [
+      "Gewichtsreduzierung des Zangengrundkörpers um 45%",
+      "Reduzierung Baubreite um 50%",
+      "Senkung der Variantenanzahl durch symmetrischen Aufbau"
+    ]
+  },
+  {
+    "div_id": "NaGiKo",
+    "img": "nagiko.png",
+    "title": "Nachgiebigkeits&shy;kompensation",
+    "about_id": "NAGIKO_about",
+    "benefits_id": "NAGIKO_nutzen",
+    "about": "Infolge ihrer großen Flexibilität und der damit verbundenen hohen Bandbreite an Einsatzmöglichkeiten eignen sich 6-Achs-Roboter besonders für ein agiles Produktionsumfeld. Demgegenüber besitzen sie in den verschiedenen Achsen und Gelenken ein im Vergleich mit Werkzeugmaschinen geringere Steifigkeit, was zu Positionsungenauigkeiten insbesondere im Prozessverlauf mit wechselnder Last führen kann. Aus diesem Grund wurde eine Methodik zur Kompensation dieser Verschiebung entwickelt, die basierend auf einer Kraftmessung direkt am Roboterwerkzeug die Position im laufenden Prozess korrigieren kann.",
+    "benefits": [
+      "Qualitätssteigerung im robotergeführten Fertigungsprozess",
+      "Erhöhung der Produktivität durch verkürzte Programmieraufwände"
+    ]
+  },
+  {
+    "div_id": "VakSaug",
+    "img": "vst.png",
+    "title": "Vakuum&shy;saug&shy;technologie",
+    "about_id": "VS_about",
+    "benefits_id": "VS_nutzen",
+    "about": "Dieses neuartige Handlingsystem nutzt die Vorteile der Vakuumtechnologie ohne auf eine Druckluftversorgung angewiesen zu sein. Dazu wurde gemäß bionischem Vorbild ein Oktopus nachempfunden. Die Betätigung der Saugnäpfe wird durch die Verwendung künstlicher Muskeln realisiert. Einzelne Gruppen von Saugnäpfen, sog. Cluster, agieren selbstorganisierend und werden mit Hilfe künstlicher Intelligenz gesteuert. Dabei wird Reinforcement Learning verwendet. Das System wird mit linearen Regressionsmodellen trainiert und entscheidet bei Druckverlusten selbst über das Nachsaugen.",
+    "benefits": [
+      "Vision „Druckluftfreier Karosseriebau“",
+      "Entfall einer Druckluftversorgung",
+      "Reduzierung des Energieverbrauchs um 16%"
+    ]
+  },
+  {
+    "div_id": "RotGruen",
+    "img": "rg.png",
+    "title": "Rot-Grün-<wbr>Vergleich im Konstruktions- und Planungs&shy;prozess",
+    "about_id": "RG_about",
+    "benefits_id": "RG_nutzen",
+    "about": "Mithilfe des Softwaretools Geometrievergleich können die Unterschiede zwischen zwei Bauteilständen berechnet und graphisch visualisiert werden. Als Grundlage dienen triangulierte Modelle der entsprechenden Bauteildaten.",
+    "benefits": [
+      "automatischer Vergleich sehr großer Datenbestände (Batch-Betrieb)",
+      "automatisierten Exportfunktion dokumentiert die Ergebnisse",
+      "Kollisionsabgleich zwischen den geänderten Bauteilgeometrien (Konturen, Features) und der jeweiligen bauteilspezifischen Vorrichtungen stellt eventuelle Anpassungen dar"
+    ]
+  },
+  {
+    "div_id": "UFP",
+    "img": "ufp.png",
+    "title": "Universelle Forschungs&shy;plattform",
+    "about_id": "UFP_about",
+    "benefits_id": "UFP_nutzen",
+    "about": "Bis Ende 2021 erfolgt der Um- und Aufbau eines modularen Robotersystems, welches die Möglichkeiten bietet für verschiedenste industrielle Anwendungen (Automobilbau, Flugzeugbau, Werkzeugmaschinenbau) und in unterschiedlichen Anwendungsbereichen (Strukturaufbau, Karosseriebau, Endmontage) Forschungsaufgaben zu realisieren und dabei stets auf den neuesten Stand der Steuerung- und Regelungstechnik (incl. Edge-Computing, OPC-UA, MQTT, TSN usw.) zurückzugreifen.",
+    "benefits": [
+      "Multi-Roboter-Anlage",
+      "Modular konfigurierbar",
+      "Integration verschiedener Produktionsprozesse (Umformung, Fügen, Zerspanung)",
+      "Virtueller Produktionszwilling für schnellere IBN, Szenarienanalyse und Inline-Überwachung"
+    ]
   }
 ]
