@@ -10,7 +10,7 @@ layout: default
 <center>
   <div id="bausteine-carousel" class="carousel">
 
-    {% for data in site.data.references %}
+    {% for data in site.data.references[site.lang] %}
     <div id="{{ data.div_id }}" class="carousel-item bausteine">
       <div class="card">
         <div class="card-image"><img src="/assets/img/bausteine/{{ data.img }}"></div>
