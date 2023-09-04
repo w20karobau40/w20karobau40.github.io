@@ -23,7 +23,7 @@ plugins:
   - jekyll-seo-tag
 
 languages: ["de", "en"]
-exclude_from_localizations: ["assets", "CNAME", "iwu_logo.ico"]
+exclude_from_localizations: ["assets", "iwu_logo.ico"]
 default_locale_in_subfolder: true
 languageNames:
   de: Deutsch
@@ -35,4 +35,4 @@ compress_html:
 
 # Build settings
 markdown: kramdown
-exclude: [ "README.md", "karobau40", "python", "Gemfile", "Gemfile.lock", "jsdoc.json", "LICENSE", ".idea", "venv", "*.ps1", "CNAME"]
+exclude: [ "README.md", "karobau40", "python", "Gemfile", "Gemfile.lock", "jsdoc.json", "LICENSE", ".idea", "venv", "*.ps1"]
