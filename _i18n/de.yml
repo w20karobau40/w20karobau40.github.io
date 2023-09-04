@@ -1,0 +1,20 @@
+titles:
+  project: "Projekt"
+  results: "Ergebnisse"
+  refs: "Referenzprojekte"
+  survey: "Umfrage"
+  imprint: "Impressum"
+  privacy: "Datenschutzinformation"
+  privacy_short: "Datenschutz"
+  site: "Studie zur Zukunft des Karosseriebaus - Karosseriebau 4.0"
+home:
+  results: "Ergebnisse der Studie"
+  create: "Gestalten Sie mit"
+  bodyshop: "Karosseriebau 4.0"
+  network: "Vernetzen Sie sich"
+survey: "https://websites.fraunhofer.de/iwu-surveys/index.php/197925?lang=de"
+reference:
+  about: "Details"
+  benefits: "Nutzeffekte"
+  titles:
+    av: "Adaptive<wbr> Vor&shy;richtungen"

@@ -1,0 +1,302 @@
+{
+  "de": [
+    {
+      "div_id": "AdapVorr",
+      "img": "av.png",
+      "title": "Adaptive<wbr> Vor&shy;richtungen",
+      "about_id": "AV_about",
+      "benefits_id": "AV_nutzen",
+      "about": "Ob in der Großserie, bei der zwischen mehreren Modellen gewechselt wird, oder in der Prototypen- und Kleinserienfertigung: Jeder Arbeitsschritt benötigt bislang aufwändig geplante und teuer hergestellte, modellspezifische Vorrichtungen zum Fügen, Messen und Ablegen. Dabei müssen die Auflage- oder Spannpunkte räumlich in verschiedenen Freiheitsgraden im Bereich weniger bis einigen hundert Millimetern verändert werden.",
+      "benefits": [
+        "Ressourceneffizienzsteigerung durch Reduzierung der Anzahl unterschiedlicher modellspezifischer Vorrichtungen",
+        "Produktivitätssteigerung durch weniger Vorrichtungswechsel",
+        "Umstellung im Fertigungstakt und im wilden Mix (freie Reihenfolge der zu fertigenden Baugruppen)"
+      ]
+    },
+    {
+      "div_id": "AdapRob",
+      "img": "ar.png",
+      "title": "Adaptive<wbr> Roboter&shy;greifer",
+      "about_id": "AR_about",
+      "benefits_id": "AR_nutzen",
+      "about": "Nicht nur die Fügevorrichtungen selbst, sondern auch alle notwendigen Betriebsmittel der vor- und nachgelagerten Prozessschritte, müssen in der Lage sein, adaptiv, sicher und robust, die Bauteilzuführung zu gewährleisten. Zudem sind diese Handlingsysteme überwiegend robotergeführt und somit einer hohen dynamischen Belastung ausgesetzt. Eine große Bauteilvielfalt stellt hierbei eine weitere enorme Herausforderung bei der Flexibilisierung (adaptiven Anpassung) von Karosseriebaufügestationen dar. Es wurden verschiedene Greifer, welche auf die jeweiligen Prozesse angepasst sind, entwickelt, die einen sicheren Bauteiltransport im wilden Mix aus den Ladungsträgern in die Fertigungsvorrichtung gewährleisten.",
+      "benefits": [
+        "Ressourceneffizienzsteigerung durch Reduzierung der Anzahl unterschiedlicher modellspezifischer Greifer",
+        "Produktivitätssteigerung durch weniger Werkzeugwechsel am Roboter (Docking)"
+      ]
+    },
+    {
+      "div_id": "SGKonst",
+      "img": "sgvg.png",
+      "title": "Software&shy;unterstützte Baukasten&shy;konstruktion für die Vorrichtungs- und Greifer&shy;konfiguration",
+      "about_id": "SGVG_about",
+      "benefits_id": "SGVG_nutzen",
+      "about": "Der Konstruktionsassistent (DesignAssistant) ist eine innovative Software zur Automatisierung und Optimierung von Konstruktionsprozessen für baukastenbasierte Betriebsmittel, wie z. B. Greifer im Karosseriebau.",
+      "benefits": [
+        "mathematischen Optimierungsverfahren zur Generierung von Konstruktionsvorschlägen garantieren eine deutlich schnellere Greiferauslegung (> 50% Zeitgewinn)",
+        "Konstrukteur behält volle Kontrolle und kann in den Entscheidungsprozess eingreifen",
+        "einheitliches methodisches Vorgehen stellt die Konformität der Konstruktionsprozesse mit Richtlinien sicher",
+        "firmeninternes Know-how bleibt erhalten und kann schneller an neue Mitarbeiter vermittelt werden"
+      ]
+    },
+    {
+      "div_id": "AutoShim",
+      "img": "as.png",
+      "title": "Automatisierte<wbr> Stelleinrichtungen",
+      "about_id": "AS_about",
+      "benefits_id": "AS_nutzen",
+      "about": "Das mechanische Nachjustieren von Vorrichtungen für das temporäre Fixieren von zwei oder mehreren Bauteilen zur Beeinflussung von geometrischen Toleranzen der gefügten Baugruppe wird als „Shimmen“ bezeichnet. Selbst bei Großserien erfolgt diese Anpassung im Bereich von 0,1 bis 10 mm heute noch manuell mit Hilfe von Shim-Platten und bedarf daher einem Anlagen-Stillstand. Um diese Verstellung im Serientakt zu ermöglichen, wurden Aktoren entwickelt, die einerseits die geforderte Genauigkeit und andererseits die nötige Steifigkeit aufweisen. Positiver Nebeneffekt: Die Dokumentation kann nun vollautomatisch erfolgen und das handgeschriebene Shimbuch an der Karosseriebau-Anlage entfällt.",
+      "benefits": [
+        "Shimmen im Serientakt",
+        "Baugröße und Steifigkeit vergleichbar mit konventionellen Konsolen",
+        "automatische Dokumentation der Justageparameter"
+      ]
+    },
+    {
+      "div_id": "KIShim",
+      "img": "kishim.png",
+      "title": "KI-basierte Qualitäts&shy;regelung im Karosseriebau<br><b>\"Justage per Knopfdruck“</b>",
+      "about_id": "KIShim_about",
+      "benefits_id": "KIShim_nutzen",
+      "about": "Mit Hilfe eines mathematischen Modells werden die erfahrungsbasierten Justagevorgänge nachvollzogen, d. h. mittels eines künstlichen neuronalen Netzes gelernt. Das Training erfolgt durch die Verknüpfungen von Messdaten und resultierenden Veränderungen an den Konturstücken durch „Shimmen“. Die KI-basierte Software korreliert die Qualitätsdaten mit den Justageeinstellungen der Vorrichtung. Nach einer Anlernphase der KI generiert die Software („Justageassistent“) eigenständig geeignete Justageparameter anhand von Messdaten der Einzelteile bzw. der gefügten Baugruppe. Somit kann die Anlage zukünftig autark auf Qualitätsschwankungen der Eingangsbauteile reagieren und erforderliche Stellmaßnahmen innerhalb des Fertigungstaktes durchführen.",
+      "benefits": [
+        "Verkürzung des Anlagenanlaufs",
+        "reproduzierbare Justage im Produktionstakt",
+        "Justage ohne Betreten des Anlagenschutzkreises",
+        "Verkürzung des gesamten Regelzyklus",
+        "Produktionssteigerung",
+        "Reduktion von Nacharbeit und Ausschuss",
+        "automatische Dokumentation der Justageparameter"
+      ]
+    },
+    {
+      "div_id": "SoftBaehlt",
+      "img": "stbp.png",
+      "title": "Softwaretool zur assistierten Behälter&shy;planung",
+      "about_id": "STBP_about",
+      "benefits_id": "STBP_nutzen",
+      "about": "Der automatische Planungsassistent ist eine innovative PC-Software, mit dem Planungs-und Konstruktionsprozesse zur Entwicklung und Fertigung von Behältern und Sonderladungsträgern optimiert werden können.",
+      "benefits": [
+        "automatisches Generieren der CAD-basierten Behälterkonstruktion ermöglicht eine Effizienzsteige¬rung gegenüber herkömmlichen Engineeringprozessen um bis zu 75 Prozent",
+        "integrierte automatische Bauteil- und Bauraumanalyse optimiert Bauteilanordnung und Anzahl je Behälter (bis zu 12 Prozent bessere Raumausnutzung)",
+        "einheitliches methodisches Vorgehen stellt die Konformität der Konstruktionsprozesse mit Richtlinien sicher",
+        "firmeninternes Know-how bleibt erhalten und kann schneller an neue Mitarbeiter vermittelt werden"
+      ]
+    },
+    {
+      "div_id": "Betriebsmittel",
+      "img": "bm.png",
+      "title": "Modularität und Leichtbau von Betriebsmitteln im Karosseriebau",
+      "about_id": "BM_about",
+      "benefits_id": "BM_nutzen",
+      "about": "Für die Entwicklung bewegter Betriebsmittel, besonders bei robotergeführten Werkzeugen, ist Leichtbau eine Grundvoraussetzung um Prozesse dynamisch und energieeffizient zu gestalten. Gerade im Fahrzeugrohbau weisen besonders Punktscheißzangen eine hohe Einsatzdichte auf und bieten ein damit verbundenes großes Optimierungspotential.",
+      "benefits": [
+        "Gewichtsreduzierung des Zangengrundkörpers um 45%",
+        "Reduzierung Baubreite um 50%",
+        "Senkung der Variantenanzahl durch symmetrischen Aufbau"
+      ]
+    },
+    {
+      "div_id": "NaGiKo",
+      "img": "nagiko.png",
+      "title": "Nachgiebigkeits&shy;kompensation",
+      "about_id": "NAGIKO_about",
+      "benefits_id": "NAGIKO_nutzen",
+      "about": "Infolge ihrer großen Flexibilität und der damit verbundenen hohen Bandbreite an Einsatzmöglichkeiten eignen sich 6-Achs-Roboter besonders für ein agiles Produktionsumfeld. Demgegenüber besitzen sie in den verschiedenen Achsen und Gelenken ein im Vergleich mit Werkzeugmaschinen geringere Steifigkeit, was zu Positionsungenauigkeiten insbesondere im Prozessverlauf mit wechselnder Last führen kann. Aus diesem Grund wurde eine Methodik zur Kompensation dieser Verschiebung entwickelt, die basierend auf einer Kraftmessung direkt am Roboterwerkzeug die Position im laufenden Prozess korrigieren kann.",
+      "benefits": [
+        "Qualitätssteigerung im robotergeführten Fertigungsprozess",
+        "Erhöhung der Produktivität durch verkürzte Programmieraufwände"
+      ]
+    },
+    {
+      "div_id": "VakSaug",
+      "img": "vst.png",
+      "title": "Vakuum&shy;saug&shy;technologie",
+      "about_id": "VS_about",
+      "benefits_id": "VS_nutzen",
+      "about": "Dieses neuartige Handlingsystem nutzt die Vorteile der Vakuumtechnologie ohne auf eine Druckluftversorgung angewiesen zu sein. Dazu wurde gemäß bionischem Vorbild ein Oktopus nachempfunden. Die Betätigung der Saugnäpfe wird durch die Verwendung künstlicher Muskeln realisiert. Einzelne Gruppen von Saugnäpfen, sog. Cluster, agieren selbstorganisierend und werden mit Hilfe künstlicher Intelligenz gesteuert. Dabei wird Reinforcement Learning verwendet. Das System wird mit linearen Regressionsmodellen trainiert und entscheidet bei Druckverlusten selbst über das Nachsaugen.",
+      "benefits": [
+        "Vision „Druckluftfreier Karosseriebau“",
+        "Entfall einer Druckluftversorgung",
+        "Reduzierung des Energieverbrauchs um 16%"
+      ]
+    },
+    {
+      "div_id": "RotGruen",
+      "img": "rg.png",
+      "title": "Rot-Grün-<wbr>Vergleich im Konstruktions- und Planungs&shy;prozess",
+      "about_id": "RG_about",
+      "benefits_id": "RG_nutzen",
+      "about": "Mithilfe des Softwaretools Geometrievergleich können die Unterschiede zwischen zwei Bauteilständen berechnet und graphisch visualisiert werden. Als Grundlage dienen triangulierte Modelle der entsprechenden Bauteildaten.",
+      "benefits": [
+        "automatischer Vergleich sehr großer Datenbestände (Batch-Betrieb)",
+        "automatisierten Exportfunktion dokumentiert die Ergebnisse",
+        "Kollisionsabgleich zwischen den geänderten Bauteilgeometrien (Konturen, Features) und der jeweiligen bauteilspezifischen Vorrichtungen stellt eventuelle Anpassungen dar"
+      ]
+    },
+    {
+      "div_id": "UFP",
+      "img": "ufp.png",
+      "title": "Universelle Forschungs&shy;plattform",
+      "about_id": "UFP_about",
+      "benefits_id": "UFP_nutzen",
+      "about": "Bis Ende 2021 erfolgt der Um- und Aufbau eines modularen Robotersystems, welches die Möglichkeiten bietet für verschiedenste industrielle Anwendungen (Automobilbau, Flugzeugbau, Werkzeugmaschinenbau) und in unterschiedlichen Anwendungsbereichen (Strukturaufbau, Karosseriebau, Endmontage) Forschungsaufgaben zu realisieren und dabei stets auf den neuesten Stand der Steuerung- und Regelungstechnik (incl. Edge-Computing, OPC-UA, MQTT, TSN usw.) zurückzugreifen.",
+      "benefits": [
+        "Multi-Roboter-Anlage",
+        "Modular konfigurierbar",
+        "Integration verschiedener Produktionsprozesse (Umformung, Fügen, Zerspanung)",
+        "Virtueller Produktionszwilling für schnellere IBN, Szenarienanalyse und Inline-Überwachung"
+      ]
+    }
+  ],
+  "en": [
+    {
+      "div_id": "AdapVorr",
+      "img": "av.png",
+      "title": "Adaptive fixtures",
+      "about_id": "AV_about",
+      "benefits_id": "AV_nutzen",
+      "about": "Whether in large-scale production, in which switching is carried out between several models, or in prototype and small-scale production: Each work step previously required elaborately planned and expensively manufactured, model-specific fixtures for joining, measuring and depositing. In the process, the support or clamping points must be changed spatially in various degrees of freedom in the range of a few to a few hundred millimeters.",
+      "benefits": [
+        "Resource efficiency increase by reducing the number of different model-specific fixtures",
+        "Productivity increase due to fewer fixture changes",
+        "Changeover in the production cycle and in the wild mix (free sequence of assemblies to be produced)"
+      ]
+    },
+    {
+      "div_id": "AdapRob",
+      "img": "ar.png",
+      "title": "Adaptive robot gripper",
+      "about_id": "AR_about",
+      "benefits_id": "AR_nutzen",
+      "about": "Not only the joining devices themselves, but also all the necessary operating equipment for the upstream and downstream process steps must be able to ensure adaptive, safe and robust component feeding. In addition, these handling systems are predominantly robot-guided and thus subject to high dynamic loads. A large variety of components represents a further enormous challenge in the flexibilization (adaptive adjustment) of car body assembly stations. Various grippers, which are adapted to the respective processes, have been developed to ensure safe component transport in the wild mix from the load carriers into the production device.",
+      "benefits": [
+        "Increase in resource efficiency due to reduction in the number of different model-specific grippers",
+        "Productivity increase due to fewer tool changes on the robot (docking)"
+      ]
+    },
+    {
+      "div_id": "SGKonst",
+      "img": "sgvg.png",
+      "title": "Software-supported modular design for fixture and gripper configuration",
+      "about_id": "SGVG_about",
+      "benefits_id": "SGVG_nutzen",
+      "about": "The Design Assistant (DesignAssistant) is an innovative software for automating and optimizing design processes for modular-based operating equipment, such as grippers in car body construction.",
+      "benefits": [
+        "mathematical optimization methods for generating design proposals guarantee significantly faster gripper design (> 50% time savings)",
+        "designer retains full control and can intervene in the decision-making process",
+        "uniform methodical procedure ensures conformity of design processes with guidelines",
+        "in-house know-how is retained and can be transferred more quickly to new employees"
+      ]
+    },
+    {
+      "div_id": "AutoShim",
+      "img": "as.png",
+      "title": "Automated control devices",
+      "about_id": "AS_about",
+      "benefits_id": "AS_nutzen",
+      "about": "The mechanical readjustment of fixtures for the temporary fixing of two or more components to influence geometric tolerances of the joined assembly is called \"shimming\". Even in large series, this adjustment in the range of 0.1 to 10 mm is still carried out manually using shim plates and therefore requires a system shutdown. In order to enable this adjustment in the series cycle, actuators were developed that have the required accuracy on the one hand and the necessary rigidity on the other. A positive side effect is that documentation can now be fully automated and the handwritten shim book on the body shop line is no longer necessary.",
+      "benefits": [
+        "Shimming in series cycle",
+        "size and stiffness comparable to conventional consoles",
+        "automatic documentation of adjustment parameters"
+      ]
+    },
+    {
+      "div_id": "KIShim",
+      "img": "kishim.png",
+      "title": "AI-based quality control in car body manufacturing<br><b>\"Adjustment at the touch of a button“</b>",
+      "about_id": "KIShim_about",
+      "benefits_id": "KIShim_nutzen",
+      "about": "By using a mathematical model, the experience-based adjustment processes are reproduced, i.e. learned by means of an artificial neural network. The training is performed by linking measurement data and resulting changes to the contour pieces by \"shimming\". The AI-based software correlates the quality data with the fixture's adjustment settings. After a learning phase of the AI, the software (\"adjustment wizard\") independently generates suitable adjustment parameters based on measurement data of the individual parts or the joined assembly. In the future, the system will thus be able to react autonomously to quality fluctuations of the input components and carry out the necessary adjustment measures within the production cycle.",
+      "benefits": [
+        "shortening of the plant start-up time",
+        "Reproducible adjustment in the production cycle",
+        "Adjustment without entering the plant protection circuit",
+        "Shortening of the entire control cycle",
+        "Increase in production",
+        "Reduction of rework and scrap",
+        "Automatic documentation of adjustment parameters"
+      ]
+    },
+    {
+      "div_id": "SoftBaehlt",
+      "img": "stbp.png",
+      "title": "Software tool for assisted container planning",
+      "about_id": "STBP_about",
+      "benefits_id": "STBP_nutzen",
+      "about": "The automatic planning assistant is an innovative PC software that can be used to optimize planning and design processes for the development and production of containers and special load carriers.",
+      "benefits": [
+        "automatic generation of the CAD-based container design enables an efficiency increase of up to 75 percent compared to conventional engineering processes",
+        "integrated automatic component and installation space analysis optimizes component arrangement and number per container (up to 12 percent better space utilization)",
+        "uniform methodical approach ensures conformity of design processes with guidelines",
+        "in-house know-how is retained and can be transferred more quickly to new employees"
+      ]
+    },
+    {
+      "div_id": "Betriebsmittel",
+      "img": "bm.png",
+      "title": "Modularity and lightweight construction of operating equipment in car body construction",
+      "about_id": "BM_about",
+      "benefits_id": "BM_nutzen",
+      "about": "Lightweight construction is a basic requirement for the development of moving equipment, especially for robot-guided tools, in order to make processes dynamic and energy-efficient. Particularly in vehicle body-in-white construction, spot-welding guns have a high application density and offer great potential for optimization.",
+      "benefits": [
+        "weight reduction of the tong base body by 45%",
+        "reduction of overall width by 50%",
+        "Reduction of the number of variants due to symmetrical design"
+      ]
+    },
+    {
+      "div_id": "NaGiKo",
+      "img": "nagiko.png",
+      "title": "Compliance compensation of industrial robots for use with changing process loads",
+      "about_id": "NAGIKO_about",
+      "benefits_id": "NAGIKO_nutzen",
+      "about": "As a result of their great flexibility and the associated wide range of possible applications, 6-axis robots are particularly suitable for an agile production environment. In contrast, they have a lower stiffness in the various axes and joints compared to machine tools, which can lead to position inaccuracies, especially in the course of the process with changing loads. For this reason, a methodology was developed to compensate for this displacement, which can correct the position during the running process based on a force measurement directly on the robot tool.",
+      "benefits": [
+        "Quality increase in the robot-guided manufacturing process",
+        "Increase in productivity due to reduced programming efforts"
+      ]
+    },
+    {
+      "div_id": "VakSaug",
+      "img": "vst.png",
+      "title": "Vacuum suction technology",
+      "about_id": "VS_about",
+      "benefits_id": "VS_nutzen",
+      "about": "This innovative handling system uses the advantages of vacuum technology without relying on a compressed air supply. For this purpose, an octopus was modeled after a bionic model. The actuation of the suction cups is realized by the use of artificial muscles. Individual groups of suction cups, so-called clusters, act in a self-organizing manner and are controlled with the aid of artificial intelligence. Reinforcement learning is used in this process. The system is trained with linear regression models and decides itself whether to re-suckle in the event of pressure losses",
+      "benefits": [
+        "Vision „Compressed Air-Free Body Shop“",
+        "Elimination of compressed air supply",
+        "Reduction of energy consumption by 16%"
+      ]
+    },
+    {
+      "div_id": "RotGruen",
+      "img": "rg.png",
+      "title": "Red-green comparison in the design and planning process",
+      "about_id": "RG_about",
+      "benefits_id": "RG_nutzen",
+      "about": "With the help of the Geometry Comparison software tool, the differences between two component positions can be calculated and graphically visualized. Triangulated models of the corresponding component data serve as a basis.",
+      "benefits": [
+        "Automatic comparison of very large data sets (batch operation)",
+        "automated export function documents the results",
+        "Collision comparison between the modified part geometries (contours, features) and the respective part-specific fixtures represents possible adjustments"
+      ]
+    },
+    {
+      "div_id": "UFP",
+      "img": "ufp.png",
+      "title": "Universal research platform",
+      "about_id": "UFP_about",
+      "benefits_id": "UFP_nutzen",
+      "about": "By the end of 2021, a modular robot system will be converted and set up, which will offer the possibility of carrying out research tasks for a wide range of industrial applications (automotive construction, aircraft construction, machine tool construction) and in different areas of application (structural design, body construction, final assembly), while always using the latest control technology (incl. edge computing, OPC-UA, MQTT, TSN, etc.).",
+      "benefits": [
+        "Multi-robot system",
+        "Modularly configurable",
+        "Integration of different production processes (forming, joining, machining)",
+        "Virtual production twin for faster IBN, scenario analysis and inline monitoring"
+      ]
+    }
+  ]
+}

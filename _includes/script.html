@@ -1,12 +1,16 @@
 <!--  Scripts-->
-<script src="{{ "/assets/lib/jquery/jquery.min.js" | relative_url }}"></script>
-<script src="{{ "/assets/lib/materialize/js/materialize.min.js" | relative_url }}"></script>
-<script src="{{ "/assets/js/init.js" | relative_url }}"></script>
+<script src="{{ "/assets/lib/jquery/jquery.min.js" | prepend: site.baseurl_root }}"></script>
+<script src="{{ "/assets/lib/materialize/js/materialize.min.js" | prepend: site.baseurl_root }}"></script>
+<script src="{{ "/assets/js/init.js" | prepend: site.baseurl_root }}"></script>
 
 <script src="https://unpkg.com/mermaid@8.2.1/dist/mermaid.min.js"></script>
 
-<script src="{{ "/assets/shariff/shariff.min.js" | relative_url }}"></script>
+<script src="{{ "/assets/shariff/shariff.min.js" | prepend: site.baseurl_root }}"></script>
+
+<script>
+  var jekyll_lang = "{{ site.lang }}";
+</script>
 
 {% for js in page.jsarr %}
-<script src="{{ '/assets/js/' | relative_url }}{% if jekyll.environment == 'production' %}{{ js | replace: '.js', '.min.js' }}{% else %}{{ js }}{% endif %}"></script>
+<script src="{{ '/assets/js/' | prepend: site.baseurl_root }}{{ js }}"></script>
 {% endfor %}

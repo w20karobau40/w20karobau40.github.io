@@ -9,9 +9,9 @@
 title: Studie zur Zukunft des Karosseriebaus - Karosseriebau 4.0
 author: Marcel Todtermuschke, Antje Ahrens, Patrick Alexander Schmidt
 email: karobau4.0@iwu.fraunhofer.de
-description: > 
-      Studie zur Zukunft des Karosseriebaus - Karosseriebau 4.0
-  
+description: >
+  Studie zur Zukunft des Karosseriebaus - Karosseriebau 4.0
+
 sass:
   style: compressed
 
@@ -22,6 +22,17 @@ permalink: /:categories/:title/
 plugins:
   - jekyll-seo-tag
 
+languages: ["de", "en"]
+exclude_from_localizations: ["assets", "iwu_logo.ico"]
+default_locale_in_subfolder: true
+languageNames:
+  de: Deutsch
+  en: English
+
+compress_html:
+  blanklines: true
+  comments: all
+
 # Build settings
 markdown: kramdown
-exclude: ["README.md", "karobau40", "python", "Gemfile", "Gemfile.lock", "jsdoc.json", "LICENSE", "Quelltext Karobau_040820.txt"]
+exclude: [ "README.md", "karobau40", "python", "Gemfile", "Gemfile.lock", "jsdoc.json", "LICENSE", ".idea", "venv", "*.ps1"]
