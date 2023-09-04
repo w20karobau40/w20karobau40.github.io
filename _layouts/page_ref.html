@@ -13,7 +13,7 @@ layout: default
     {% for data in site.data.references[site.lang] %}
     <div id="{{ data.div_id }}" class="carousel-item bausteine">
       <div class="card">
-        <div class="card-image"><img src="/assets/img/bausteine/{{ data.img }}"></div>
+        <div class="card-image"><img src="{{ "/assets/img/bausteine/" | append: data.img  | prepend: site.baseurl_root }}"></div>
         <span class="card-title">{{ data.title }}</span>
         <div class="card-tabs">
           <ul class="tabs tabs-fixed-width">
