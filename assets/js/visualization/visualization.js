@@ -13,9 +13,10 @@ async function main() {
         questions: [[0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0], [0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1], [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0], [0, 1, 0, 1, 0, 1, 0, 1], [0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0]]
     }];
     const {translation} = await import("./translation.js");
-    const show_limesurvey_buttons = true;
+    // enable buttons when ready
+    const show_limesurvey_buttons = false;
     // indices: old, new, conference
-    let current_data = [true, true, true];
+    let current_data = [true, false, false];
 
     // media query, taken from materialize.min.css
     const media_query = window.matchMedia("only screen and (max-width: 992px)");

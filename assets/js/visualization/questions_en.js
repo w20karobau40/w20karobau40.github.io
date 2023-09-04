@@ -55,13 +55,13 @@ export const questions = [{
     subquestions: ["Artificial intelligence for\nautonomous process control", "Digital twin of the entire plant", "AR / VR (use in maintenance /\nassembly sequencing)", "Use of wearables (portable sensor\nand terminal devices)", "End-to-end tracking of each\ncomponent (e.g. RFID)", "Automated guided vehicles\nfor components", "Big Data storage and analysis", "Intuitive (robot) programming and\nstandardized interfaces", "Predictive Maintenance", "Automated production planning", "Cloud technologies"],
     label: "Technologies and\nfuture trends"
 }, {
-    question: "There are various offers for companies to orient themselves in the variety of technological possibilities.\n\nPlease indicate which ones you already use.",
+    question: "There are various offers for companies to orient themselves in the variety of technological possibilities.\n\nWhat support services are you already using to successfully master technologies for the body shop of the future?",
     type: "yesno",
     values: ["not quoted", "quoted"],
     subquestions: ["R&D cooperation", "Cross-industry exchange of experience", "Public funding of R&D efforts", "Exchange with industry members at\nconferences and workshops", "Regular training courses", "Support from external\nconsulting companies", "Software service providers\nfor data evaluation"],
     label: "Support needs"
 }, {
-    question: "\n\nWhat other support options does your company need in order to successfully address the future issues of automotive body shop?",
+    question: "In addition to the existing offerings, we are interested in other support options you may need to successfully\naddress the future issues facing automotive body shop.\n\nWhat other support options does your company need in order to successfully address\nthe future issues of automotive body shop?",
     type: "sentiment",
     values: ["Very important", "Important", "Less important", "Not relevant", "Not known"],
     subquestions: ["Change in legal framework conditions", "More IT specialists", "More other specialists", "Standardization across customers", "Market overview through benchmarking\nof existing technologies", "Overview of benefits of\ndifferent technologies", "More R&D in own company", "R&D cooperation", "Exchange of knowledge/experience\nwith industry members", "Change in management /\nleadership behavior", "More offers from technology providers"],
