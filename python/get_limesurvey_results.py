@@ -259,6 +259,7 @@ def new_main():
     answers_string = str(convert_limesurvey(data, survey_id)).replace("'categories'", "categories").replace("'questions'", "questions")
     with open('limesurvey_data.js', 'w') as file:
         file.write(f"export const limesurvey_answers = {answers_string};")
+    logger.info("Successfully exported limesurvey data")
 
 
 if __name__ == '__main__':
