@@ -16,3 +16,9 @@ survey: "https://websites.fraunhofer.de/iwu-surveys/index.php/197925?lang=de"
 reference:
   about: "Details"
   benefits: "Nutzeffekte"
+javascript:
+  survey:
+    old_results: "Ursprungsstudie"
+    new_results: "Update '23-'24"
+    conference: "CBMS'23"
+  overview: "Teilnehmerübersicht"

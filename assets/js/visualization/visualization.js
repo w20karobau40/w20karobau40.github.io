@@ -12,7 +12,6 @@ async function main() {
         categories: [4, 2, 3, 5],
         questions: [[0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0], [0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1], [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0], [0, 1, 0, 1, 0, 1, 0, 1], [0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0]]
     }];
-    const {translation} = await import("./translation.js");
     // enable buttons when ready
     const show_limesurvey_buttons = false;
     // indices: old, new, conference
@@ -91,7 +90,7 @@ async function main() {
 
         root.append("text")
             .classed("header", true)
-            .text(translation.overview[jekyll_lang])
+            .text(translation.overview)
             .attr("x", width_categories / 2)
             .attr("y", 20)
             .attr("dominant-baseline", "central")
@@ -753,7 +752,7 @@ async function main() {
         if (!show_limesurvey_buttons) return root.node();
         // position buttons next to toggle button for mobile view
         // TODO: Translate
-        const labels = [translation.old_results[jekyll_lang], translation.new_results[jekyll_lang], translation.conference[jekyll_lang]];
+        const labels = [translation.survey.old_results, translation.survey.new_results, translation.survey.conference];
         if (media_query.matches) pos_x += width_button;
         const tab = root.selectAll("g").data(labels).join("g")
             .attr("transform", (d, i) => `translate(${i * width_button}, 0)`)
