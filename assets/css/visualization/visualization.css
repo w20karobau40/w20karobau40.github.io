@@ -57,3 +57,11 @@ rect.category_toggle.inactive {
 svg text.header {
     font-size: 18px;
 }
+
+rect.overlay.hatch {
+  fill: url(#simple_hatch);
+}
+
+rect.overlay:not(.hatch) {
+  fill: none;
+}

@@ -43,6 +43,17 @@ async function main() {
         .attr("preserveAspectRatio", "xMidYMin meet")
         .attr("id", "karobau_viz_svg");
 
+    const pattern_size = 10;
+
+    const pattern = main_svg.append("pattern")
+        .attr("id", "simple_hatch")
+        .attr("width", pattern_size)
+        .attr("height", pattern_size)
+        .attr("patternUnits", "userSpaceOnUse");
+    pattern.append("path")
+        .attr("d", `M-1,1 l2,-2 M0,${pattern_size} l${pattern_size},${-pattern_size} M${pattern_size - 1},${pattern_size + 1} l2,-2`)
+        .attr("style", "stroke:white; stroke-width:1");
+
     const main_g = main_svg.append("g")
         .classed("viz_root", true);
 
@@ -543,13 +554,25 @@ async function main() {
                     .map((d, i, a) => a[i + 1] - d).slice(0, -1);
                 return d3.zip(start_x, bar_width, colors);
             }).join(enter => enter.append("rect")
-                // TODO: use correct scale, i. e. replace index 0 with current question category?
-                .attr("height", scales_bar_vertical[0].bandwidth())
-                .attr("width", d => d[1])
-                .attr("x", d => d[0])
-                .style("fill", d => d[2]), update => update.call(u => u.transition()
-                .attr("width", d => d[1])
-                .attr("x", d => d[0])));
+                    // TODO: use correct scale, i. e. replace index 0 with current question category?
+                    .attr("height", scales_bar_vertical[0].bandwidth())
+                    .attr("width", d => d[1])
+                    .attr("x", d => d[0])
+                    .style("fill", d => d[2]),
+                update => update.call(u => u.transition()
+                    .attr("width", d => d[1])
+                    .attr("x", d => d[0])));
+
+            // hatching of new questions
+            bar_container.selectAll("rect.overlay").data(d => [d[0][1]]).join(enter => enter.append("rect")
+                    .classed("overlay", true)
+                    // TODO: set hatch depending on if it is new or old
+                    .classed("hatch", false)
+                    .attr("transform", d => `translate(${offset_bars + scale_bar_horizontal(num_max - d.sum_negative - d.sum_neutral / 2)},0)`)
+                    .attr("height", scales_bar_vertical[0].bandwidth())
+                    .attr("width", d => scale_bar_horizontal(d.sum_negative + d.sum_neutral + d.sum_positive)),
+                update => update.call(u => u.transition()
+                    .attr("transform", d => `translate(${offset_bars + scale_bar_horizontal(num_max - d.sum_negative - d.sum_neutral / 2)},0)`)));
 
             // update text label
             bar_container.selectAll("text").data(d => [d[0][0]]).join("text")
@@ -784,7 +807,7 @@ async function main() {
     }
 
     function update_limesurvey_toggle() {
-        const root  = main_g.select("g#survey_toggles");
+        const root = main_g.select("g#survey_toggles");
         // recolor rectangles
         root.selectAll("rect.category_toggle")
             .attr("class", (d, i) => current_data[i] ? "category_toggle active" : "category_toggle inactive");
