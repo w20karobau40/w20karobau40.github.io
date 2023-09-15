@@ -795,7 +795,7 @@ async function main() {
         tab.append("rect")
             .attr("width", width_button)
             .attr("height", height_button)
-            .attr("class", (d, i) => current_data[i] ? "category_toggle active" : "category_toggle inactive");
+            .attr("class", (d, i) => current_data[i] ? "survey_toggle active" : "survey_toggle inactive");
         // add text
         tab.append("text")
             .attr("x", width_button / 2)
@@ -809,8 +809,8 @@ async function main() {
     function update_limesurvey_toggle() {
         const root = main_g.select("g#survey_toggles");
         // recolor rectangles
-        root.selectAll("rect.category_toggle")
-            .attr("class", (d, i) => current_data[i] ? "category_toggle active" : "category_toggle inactive");
+        root.selectAll("rect.survey_toggle")
+            .attr("class", (d, i) => current_data[i] ? "survey_toggle active" : "survey_toggle inactive");
     }
 
     function event_listener(query) {

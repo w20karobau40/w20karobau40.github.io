@@ -46,11 +46,15 @@ rect.question_category {
     fill: papayawhip;
 }
 
-rect.category_toggle.active {
+rect.category_toggle {
+  fill: papayawhip;
+}
+
+rect.survey_toggle.active {
   fill: moccasin;
 }
 
-rect.category_toggle.inactive {
+rect.survey_toggle.inactive {
   fill: papayawhip;
 }
 
