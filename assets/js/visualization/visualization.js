@@ -749,7 +749,7 @@ async function main() {
     function create_limesurvey_toggle(pos_x, pos_y) {
         const root = d3.create("svg:g")
             .attr("transform", `translate(${pos_x}, ${pos_y})`)
-            .attr("id", "tabs");
+            .attr("id", "survey_toggles");
         if (!show_limesurvey_buttons) return root.node();
         // position buttons next to toggle button for mobile view
         // TODO: Translate
@@ -766,13 +766,14 @@ async function main() {
                 // redraw everything
                 update_categories();
                 update_question();
+                update_limesurvey_toggle();
             })
             .classed("hover_shadow", true);
         // create colored rectangle
         tab.append("rect")
             .attr("width", width_button)
             .attr("height", height_button)
-            .classed("category_toggle", true);
+            .attr("class", (d, i) => current_data[i] ? "category_toggle active" : "category_toggle inactive");
         // add text
         tab.append("text")
             .attr("x", width_button / 2)
@@ -781,6 +782,13 @@ async function main() {
             .attr("text-anchor", "middle")
             .text(d => d);
         return root.node();
+    }
+
+    function update_limesurvey_toggle() {
+        const root  = main_g.select("g#survey_toggles");
+        // recolor rectangles
+        root.selectAll("rect.category_toggle")
+            .attr("class", (d, i) => current_data[i] ? "category_toggle active" : "category_toggle inactive");
     }
 
     function event_listener(query) {

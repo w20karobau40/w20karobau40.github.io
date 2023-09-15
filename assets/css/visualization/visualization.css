@@ -46,8 +46,12 @@ rect.question_category {
     fill: papayawhip;
 }
 
-rect.category_toggle {
-    fill: papayawhip;
+rect.category_toggle.active {
+  fill: moccasin;
+}
+
+rect.category_toggle.inactive {
+  fill: papayawhip;
 }
 
 svg text.header {
