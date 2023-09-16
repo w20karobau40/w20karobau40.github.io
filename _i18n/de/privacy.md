@@ -68,7 +68,7 @@ Die Datenverarbeitung erfolgt auf Ihre Anfrage hin und ist im Rahmen der Beantwo
 
 Die für die Benutzung des Kontaktformulars von uns erhobenen personenbezogenen Daten werden nach Erledigung der von Ihnen gestellten Anfrage gelöscht.
 
-##### <a name="4.">4. Weitergabe von Daten </a>
+### <a name="4.">4. Weitergabe von Daten </a>
 Sofern wir personenbezogene Daten, die wir über die Webseite erheben, an Auftragsverarbeiter weitergeben, informieren wir Sie darüber in dieser Datenschutzinformation bei dem jeweiligen Datenverarbeitungsvorgang unter Nennung des konkreten Empfängers.
 
 Im Übrigen geben wir Ihre personenbezogenen Daten nur weiter, wenn
@@ -82,7 +82,7 @@ Die weitergegebenen Daten dürfen von den Empfängern ausschließlich zu den gen
 
 
 
-##### <a name="5.">5. Cookies</a>
+### <a name="5.">5. Cookies</a>
 __Allgemeines__
 
 Wir setzen auf unserer Seite Cookies ein. Bei Cookies handelt es sich um kleine Dateien, die Ihr Browser automatisch erstellt und die auf Ihrem Endgerät (Laptop, Tablet, Smartphone o.ä.) gespeichert werden, wenn Sie unsere Seite besuchen. Cookies richten auf Ihrem Endgerät keinen Schaden an, enthalten keine Viren, Trojaner oder sonstige Schadsoftware.
@@ -107,7 +107,7 @@ Die meisten Browser akzeptieren Cookies automatisch. Sie können Ihren Browser j
 
 Ihr Widerruf hat keine Auswirkungen auf die Rechtmäßigkeit der von uns vorgenommenen Verarbeitungstätigkeiten, die auf unserem berechtigten Interesse (Art. 6 Abs. 1 S. 1 lit. f) DSGVO) beruhen.
 
-##### <a name="6.">6. Social-Media-Plugins</a>
+### <a name="6.">6. Social-Media-Plugins</a>
 Wir setzen auf unserer Webseite sogenannte Social-Media-Buttons (auch Social-Media-Plugins) ein. Hierbei handelt es sich um kleine Schaltflächen mittels derer Sie Inhalte unserer Webseite in sozialen Netzwerken unter Ihrem Profil veröffentlichen können.
 
 Sofern Sie eine solche Schaltfläche aktivieren, wird eine Verbindung zwischen unserer Webseite und dem sozialen Netzwerk hergestellt. Neben den betreffenden Inhalten erhält der Betreiber des sozialen Netzwerkes weitere zum Teil personenbezogene Information. Dazu gehört etwa der Umstand, dass Sie gerade unsere Seite besuchen.
@@ -140,7 +140,7 @@ Teilweise werden Informationen an die Muttergesellschaft LinkedIn Corporation mi
 
 Weitere Informationen zum Datenschutz bei LinkedIn finden Sie in deren Datenschutzrichtlinien unter https://www.linkedin.com/legal/privacy-policy.
 
-##### <a name="7.">7. Betroffenenrechte</a>
+### <a name="7.">7. Betroffenenrechte</a>
 Sie haben das Recht:
 
 - gemäß Art. 7 Abs. 3 DSGVO Ihre einmal erteilte Einwilligung jederzeit gegenüber uns zu widerrufen. Dies hat zur Folge, dass wir die Datenverarbeitung, die auf dieser Einwilligung beruhte, für die Zukunft nicht mehr fortführen dürfen;  
@@ -164,10 +164,10 @@ Möchten Sie von Ihrem Widerspruchsrecht Gebrauch machen, genügt eine E-Mail an
 
 ---
 
-##### <a name="8.">8. Datensicherheit</a>
+### <a name="8.">8. Datensicherheit</a>
 Alle von Ihnen persönlich übermittelten Daten werden mit dem allgemein üblichen und sicheren Standard TLS (Transport Layer Security) verschlüsselt übertragen. TLS ist ein sicherer und erprobter Standard, der z.B. auch beim Onlinebanking Verwendung findet. Sie erkennen eine sichere TLS-Verbindung unter anderem an dem angehängten s am http (also https://..) in der Adressleiste Ihres Browsers oder am Schloss-Symbol im unteren Bereich Ihres Browsers.
 
 Wir bedienen uns im Übrigen geeigneter technischer und organisatorischer Sicherheitsmaßnahmen, um Ihre Daten gegen zufällige oder vorsätzliche Manipulationen, teilweisen oder vollständigen Verlust, Zerstörung oder gegen den unbefugten Zugriff Dritter zu schützen. Unsere Sicherheitsmaßnahmen werden entsprechend der technologischen Entwicklung fortlaufend verbessert.
 
-##### <a name="9.">9. Aktualität und Änderung dieser Datenschutzinformation</a>
+### <a name="9.">9. Aktualität und Änderung dieser Datenschutzinformation</a>
 Durch die Weiterentwicklung unserer Webseite und Angebote darüber oder aufgrund geänderter gesetzlicher bzw. behördlicher Vorgaben kann es notwendig werden, diese Datenschutzinformation zu ändern. Die jeweils aktuelle Datenschutzinformation kann jederzeit auf unserer Webseite von Ihnen abgerufen und ausgedruckt werden.
