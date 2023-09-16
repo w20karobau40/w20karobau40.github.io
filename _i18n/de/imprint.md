@@ -31,7 +31,6 @@ Register-Nr. VR 4461
 #### Vorstand
 
 Prof. Dr.-Ing. Holger Hanselka | Präsident  
-Prof. Dr. Alexander Kurz | Mitglied des Vorstands  
 Prof. Dr. Axel Müller-Groeling | Mitglied des Vorstands  
 Ass. jur. Elisabeth Ewen | Mitglied des Vorstands  
 Dr. Sandra Krey | Mitglied des Vorstands  
