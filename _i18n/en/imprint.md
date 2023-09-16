@@ -30,7 +30,6 @@ Registration no. VR 4461
 #### Executive board
 
 Prof. Holger Hanselka | President  
-Prof. Alexander Kurz | Member of the executive board  
 Prof. Axel Müller-Groeling | Member of the executive board  
 Elisabeth Ewen | Member of the executive board  
 Dr. Sandra Krey | Member of the executive board  
