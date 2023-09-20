@@ -35,7 +35,7 @@ async function main() {
     const main_svg = d3.select("div#karobau_viz").append("svg")
         // .attr("height", 850)
         .attr("width", "100%")
-        .attr("viewBox", `0 0 ${width_categories + width_questions} 850`)
+        .attr("viewBox", `0 0 ${width_categories + width_questions} ${show_limesurvey_buttons ? 890: 850}`)
         .attr("preserveAspectRatio", "xMidYMin meet")
         .attr("id", "karobau_viz_svg");
 
@@ -738,6 +738,7 @@ async function main() {
     function set_svg_size() {
         let required_height = Math.max(y_question + height_question, y_categories + height_categories);
         if (media_query.matches) required_height += height_button;
+        if (show_limesurvey_buttons) required_height += height_button;
         main_svg
             .attr("viewBox", `0 0 ${viewBox_width} ${required_height}`);
     }
