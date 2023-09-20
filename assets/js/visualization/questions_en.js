@@ -17,17 +17,17 @@ export const questions = [{
     question: "The current upheaval in the industry is caused and influenced by general megatrends,\nwhich affect individual sectors and trades to varying degrees.\n\nTo what extent do you see the following technologies already implemented in the body shop today?",
     type: "sentiment",
     values: ["Very Strong", "Strong", "Little", "Not Affected"],
-    subquestions: ["Demographic change", "Shortage of skilled workers", "Loss of knowledge due to\nemployee turnover", "Workplace ergonomics", "Cyber Security", "Automated data processing", "Sale of own production data", "Purchase of relevant data for\nown products and plants", "Cost pressure from\ninternational competitors", "International supply chains", "Contract manufacturing of\nsub assemblies and whole body", "Increasing product diversity\nrequires plant flexibility", "Shortening of production cycles", "Flexibility in production volume\ndue to fluctuating demand", "Energy efficiency", "Shortage of raw materials", "Waste prevention"],
+    subquestions: ["Demographic change", "Shortage of skilled workers", "Loss of knowledge due to\nemployee turnover", "Workplace ergonomics", "Cyber Security", "Automated data processing", "Sale of own production data", "Purchase of relevant data for\nown products and plants", "AI-based production processes", "Cost pressure from\ninternational competitors", "International supply chains", "Contract manufacturing of\nsub assemblies and whole body", "Increasing product diversity\nrequires plant flexibility", "Shortening of production cycles", "Flexibility in production volume\ndue to fluctuating demand", "Energy efficiency", "Shortage of raw materials", "Waste prevention"],
     positive: [1, 0],
     neutral: [],
     negative: [3, 2],
     categories: [{name: "Work 4.0", values: [0, 1, 2, 3]}, {
         name: "Digital transformation",
-        values: [4, 5, 6, 7]
-    }, {name: "Globalisation", values: [8, 9, 10]}, {
+        values: [4, 5, 6, 7, 8]
+    }, {name: "Globalisation", values: [9, 10, 11]}, {
         name: "Diversification",
-        values: [11, 12, 13]
-    }, {name: "Environment and resources", values: [14, 15, 16]}],
+        values: [12, 13, 14]
+    }, {name: "Environment and resources", values: [15, 16, 17]}],
     label: "Megatrends"
 }, {
     question: "Technologies are continuously evolving. Technical innovations offer enormous opportunities to increase\nvalue creation and improve plant capabilities.\n\nPlease rate the current implementation status for the following hardware technologies\nin your company's or your customers' automotive body shop.",
@@ -64,7 +64,7 @@ export const questions = [{
     question: "In addition to the existing offerings, we are interested in other support options you may need to successfully\naddress the future issues facing automotive body shop.\n\nWhat other support options does your company need in order to successfully address\nthe future issues of automotive body shop?",
     type: "sentiment",
     values: ["Very important", "Important", "Less important", "Not relevant", "Not known"],
-    subquestions: ["Change in legal framework conditions", "More IT specialists", "More other specialists", "Standardization across customers", "Market overview through benchmarking\nof existing technologies", "Overview of benefits of\ndifferent technologies", "More R&D in own company", "R&D cooperation", "Exchange of knowledge/experience\nwith industry members", "Change in management /\nleadership behavior", "More offers from technology providers"],
+    subquestions: ["Change in legal framework conditions", "More IT specialists", "More other specialists", "Standardization across customers", "Market overview through benchmarking\nof existing technologies", "Overview of benefits of\ndifferent technologies", "More R&D in own company", "R&D cooperation", "Exchange of knowledge/experience\nwith industry members", "Change in management /\nleadership behavior", "More offers from technology providers", "Human-comprehensible use of artificial\nintelligence (explainable AI)", "Human-friendly process design"],
     positive: [1, 0],
     neutral: [],
     negative: [2],

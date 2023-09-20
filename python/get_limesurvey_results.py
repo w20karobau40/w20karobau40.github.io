@@ -277,7 +277,11 @@ def detect_repo():
 
 
 if __name__ == '__main__':
-    if detect_repo() == 2:
-        download_multiple([197925], debug=False)
-    else:
+    repo_status = detect_repo()
+    if repo_status == 0:
         download_multiple([197925, 765683, 616349], debug=True)
+    elif repo_status == 1:
+        # TODO: Set debug to false
+        download_multiple([197925, 765683, 616349], debug=True)
+    elif repo_status == 2:
+        download_multiple([197925], debug=False)

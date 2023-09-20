@@ -17,17 +17,17 @@ export const questions = [{
     question: "Der derzeitige Umbruch in der Industrie wird durch allgemeine Megatrends verursacht und beeinflusst,\nwelche unterschiedlich stark auf einzelne Branchen und Gewerke wirken.\n\nInwieweit sehen Sie den Karosseriebau von folgenden Megatrends beeinflusst?",
     type: "sentiment",
     values: ["Sehr stark", "Stark", "Wenig", "Nicht betroffen"],
-    subquestions: ["Demografischer Wandel", "Fachkräftemangel", "Wissensverlust durch\nMitarbeiterwechsel", "Arbeitsplatzergonomie", "IT-Sicherheit (Cyber Security)", "Automatisierte Datenverarbeitung", "Verkauf eigener Produktionsdaten", "Ankauf relevanter Daten für\neigene Produkte und Anlagen", "Kostendruck durch\ninternationale Wettbewerber", "Internationale Zulieferketten", "Auftragsfertigung von\nBaugruppen und Karossen", "Steigende Produktvielfalt erfordert\nAnlagenflexibilität", "Verkürzung der Produktionszyklen", "Volumenflexibilität aufgrund\nschwankender Nachfrage", "Energieeffizienz", "Rohstoffverknappung", "Abfallvermeidung"],
+    subquestions: ["Demografischer Wandel", "Fachkräftemangel", "Wissensverlust durch\nMitarbeiterwechsel", "Arbeitsplatzergonomie", "IT-Sicherheit (Cyber Security)", "Automatisierte Datenverarbeitung", "Verkauf eigener Produktionsdaten", "Ankauf relevanter Daten für\neigene Produkte und Anlagen", "KI-basierte Produktionsprozesse", "Kostendruck durch\ninternationale Wettbewerber", "Internationale Zulieferketten", "Auftragsfertigung von\nBaugruppen und Karossen", "Steigende Produktvielfalt erfordert\nAnlagenflexibilität", "Verkürzung der Produktionszyklen", "Volumenflexibilität aufgrund\nschwankender Nachfrage", "Energieeffizienz", "Rohstoffverknappung", "Abfallvermeidung"],
     positive: [1, 0],
     neutral: [],
     negative: [3, 2],
     categories: [{name: "Arbeit 4.0", values: [0, 1, 2, 3]}, {
         name: "Digitale Transformation",
-        values: [4, 5, 6, 7]
-    }, {name: "Globalisierung", values: [8, 9, 10]}, {
+        values: [4, 5, 6, 7, 8]
+    }, {name: "Globalisierung", values: [9, 10, 11]}, {
         name: "Diversifizierung",
-        values: [11, 12, 13]
-    }, {name: "Umwelt und Ressourcen", values: [14, 15, 16]}],
+        values: [12, 13, 14]
+    }, {name: "Umwelt und Ressourcen", values: [15, 16, 17]}],
     label: "Megatrends"
 }, {
     question: "Technologien entwickeln sich kontinuierlich. Technische Neuerungen bieten enorme Chancen\nzur Erhöhungder Wertschöpfung und Verbesserung von Anlagenfähigkeiten.\n\nBitte bewerten Sie den derzeitigen Implementierungsstatus für folgende Hardware-Technologien\nim automobilen Karosseriebau Ihres Unternehmens bzw. bei Ihren Kunden.",
@@ -64,7 +64,7 @@ export const questions = [{
     question: "Neben den bestehenden Angebote interessieren wir uns für weitere Unterstützungsmöglichkeiten,\ndie Sie benötigen, um den Zukunftsthemen des Karosseriebaus erfolgreich zu begegnen.\n\nWelche weitere Untersützung benötigt Ihr Unternehmen,\num den Zukunftsthemen des Karosseriebaus erfolgreich begegnen zu können?",
     type: "sentiment",
     values: ["Sehr wichtig", "Wichtig", "Weniger wichtig", "Nicht relevant", "Nicht bekannt"],
-    subquestions: ["Änderung gesetzlicher\nRahmenbedingungen", "Mehr IT-Fachkräfte", "Mehr sonstige Fachkräfte", "Kundenübergreifende\nStandardisierung", "Marktübersicht durch Benchmarking\nvorhandener Technologien", "Nutzenübersicht unterschiedlicher\nTechnologien", "Mehr F&E im eigenen Unternehmen", "Forschungskooperationen", "Wissens-/Erfahrungsaustausch\nmit Branchenmitgliedern", "Änderung im Führungsverhalten", "Weiterbildungsangebote von\nTechnologieanbietern"],
+    subquestions: ["Änderung gesetzlicher\nRahmenbedingungen", "Mehr IT-Fachkräfte", "Mehr sonstige Fachkräfte", "Kundenübergreifende\nStandardisierung", "Marktübersicht durch Benchmarking\nvorhandener Technologien", "Nutzenübersicht unterschiedlicher\nTechnologien", "Mehr F&E im eigenen Unternehmen", "Forschungskooperationen", "Wissens-/Erfahrungsaustausch\nmit Branchenmitgliedern", "Änderung im Führungsverhalten", "Weiterbildungsangebote von\nTechnologieanbietern", "Für den Menschen nachvollziehbarer Einsatz\nvon KI (Erklärbare KI)", "Menschgerechte Prozessgestaltung"],
     positive: [1, 0],
     neutral: [],
     negative: [2],
