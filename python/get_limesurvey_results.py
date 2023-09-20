@@ -16,28 +16,6 @@ USERNAME = ""
 PASSWORD = ""
 
 
-def levenshtein_distance(s1: str, s2: str) -> int:
-    if s1 == s2:
-        return 0
-    # https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Python
-    if len(s1) < len(s2):
-        return levenshtein_distance(s2, s1)
-    # len(s1) >= len(s2)
-    if len(s2) == 0:
-        return len(s1)
-
-    previous_row = range(len(s2) + 1)
-    for i, c1 in enumerate(s1):
-        current_row = [i + 1]
-        for j, c2 in enumerate(s2):
-            insertions = previous_row[j + 1] + 1  # j+1 instead of j since previous_row and current_row are one character longer
-            deletions = current_row[j] + 1  # than s2
-            substitutions = previous_row[j] + (c1 != c2)
-            current_row.append(min(insertions, deletions, substitutions))
-        previous_row = current_row
-    return previous_row[-1]
-
-
 def call_method(method: str, params: list, id_: int = 1) -> dict:
     assert len(URL) > 0
     response = requests.post(URL, json={'method': method, 'params': params, 'id': id_})
@@ -189,21 +167,21 @@ def convert_limesurvey(data: dict, survey_id: int, debug: bool = False):
             continue
         current_result = {'categories': [], 'questions': []}
         for code in structure['categories']:
-            answercode = current_answer[code]
-            index, opt_code = min(enumerate(answeroptions[code]), key=lambda t: levenshtein_distance(t[1]['code'], answercode))
-            if levenshtein_distance(opt_code['code'], answercode) < 2:
-                current_result['categories'].append(index)
-            else:
+            if code not in current_answer:
                 current_result['categories'].append(-1)
+                continue
+            answercode = current_answer[code]
+            index = next((i for i, c in enumerate(answeroptions[code]) if c['code'] == answercode), -1)
+            current_result['categories'].append(index)
         for question in structure['questions']:
             current_question = []
             for code in question:
-                answercode = current_answer[code]
-                index, opt_code = min(enumerate(answeroptions[code]), key=lambda t: levenshtein_distance(t[1]['code'], answercode))
-                if levenshtein_distance(opt_code['code'], answercode) < 2:
-                    current_question.append(index)
-                else:
+                if code not in current_answer:
                     current_question.append(-1)
+                    continue
+                answercode = current_answer[code]
+                index = next((i for i, c in enumerate(answeroptions[code]) if c['code'] == answercode), -1)
+                current_question.append(index)
             current_result['questions'].append(current_question)
 
         result.append(current_result)
