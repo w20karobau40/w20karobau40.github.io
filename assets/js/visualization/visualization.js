@@ -2,18 +2,14 @@ async function main() {
     const {categories, questions} = await import("./questions_" + jekyll_lang + ".js");
     const {answers} = await import("./answers.js");
     const {limesurvey_answers} = await import("./limesurvey_data.js");
-    const old_answers = answers.concat(limesurvey_answers);
-    // TODO: Load actual answers instead of debug values
-    const new_answers = [{
-        categories: [0, 0, 0, 0],
-        questions: [[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]]
-    }];
-    const conference_answers = [{
-        categories: [4, 2, 3, 5],
-        questions: [[0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0], [0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1], [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0], [0, 1, 0, 1, 0, 1, 0, 1], [0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0]]
-    }];
+    const ls_old_id = 197925;
+    const ls_new_id = 765683;
+    const ls_autoform_id = 616349;
+    const old_answers = answers.concat(limesurvey_answers[ls_old_id] || []);
+    const new_answers = limesurvey_answers[ls_new_id] || [];
+    const conference_answers = limesurvey_answers[ls_autoform_id] || [];
     // enable buttons when ready
-    const show_limesurvey_buttons = false;
+    const show_limesurvey_buttons = new_answers.length > 0 || conference_answers.length > 0;
     // indices: old, new, conference
     let current_data = [true, false, false];
 
