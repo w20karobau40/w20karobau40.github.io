@@ -8,6 +8,7 @@ async function main() {
     const old_answers = answers.concat(limesurvey_answers[ls_old_id] || []);
     const new_answers = limesurvey_answers[ls_new_id] || [];
     const conference_answers = limesurvey_answers[ls_autoform_id] || [];
+    const new_questions_highlight = {0: [8], 1: [], 2: [], 3: [], 4: [11, 12]};
     // enable buttons when ready
     const show_limesurvey_buttons = new_answers.length > 0 || conference_answers.length > 0;
     // indices: old, new, conference
@@ -200,7 +201,11 @@ async function main() {
                     sum_neutral: d3.sum(question.neutral, j => a[j]),
                     sum_positive: d3.sum(question.positive, j => a[j])
                 }))
-                .map(a => ({...a, sum: a.sum_negative + a.sum_neutral + a.sum_positive}));
+                .map((a, index) => ({
+                    ...a,
+                    sum: a.sum_negative + a.sum_neutral + a.sum_positive,
+                    is_new: new_questions_highlight[i].indexOf(index) >= 0
+                }));
         else
             // count answers
             return answers_transposed.map(subquestion => values.map(v => subquestion.filter(i => i === v).length));
@@ -502,10 +507,12 @@ async function main() {
             // add category container
             const category_container = root_bars.selectAll("g.question_category_container")
                 .data(question_categories, d => `${active_question}_${d.name}`)
-                .join(enter => enter.append("g")
+                .join(
+                    enter => enter.append("g")
                         .classed("question_category_container", true)
                         .attr("transform", (d, i) => `translate(0, ${vertical_offsets[i]})`),
-                    update => update.call(u => u.transition().attr("transform", (d, i) => `translate(0, ${vertical_offsets[i]})`))
+                    update => update.call(u => u.transition()
+                        .attr("transform", (d, i) => `translate(0, ${vertical_offsets[i]})`))
                 );
             // update toggleable bars
             const category_bar = category_container.selectAll("g.question_category_bar").data((d, i) => [[d, i]]).join("g")
@@ -568,12 +575,14 @@ async function main() {
             // hatching of new questions
             bar_container.selectAll("rect.overlay").data(d => [d[0][1]]).join(enter => enter.append("rect")
                     .classed("overlay", true)
-                    // TODO: set hatch depending on if it is new or old
-                    .classed("hatch", false)
+                    .classed("hatch", d => d.is_new && current_data[0] && (current_data[1] || current_data[2]))
                     .attr("transform", d => `translate(${offset_bars + scale_bar_horizontal(num_max - d.sum_negative - d.sum_neutral / 2)},0)`)
                     .attr("height", scales_bar_vertical[0].bandwidth())
                     .attr("width", d => scale_bar_horizontal(d.sum)),
-                update => update.call(u => u.transition()
+                update => update.call(u => u
+                    .classed("hatch", d => d.is_new && current_data[0] && (current_data[1] || current_data[2]))
+                    .transition()
+                    .attr("width", d => scale_bar_horizontal(d.sum))
                     .attr("transform", d => `translate(${offset_bars + scale_bar_horizontal(num_max - d.sum_negative - d.sum_neutral / 2)},0)`)));
 
             // update text label
@@ -615,13 +624,28 @@ async function main() {
                 let bar_width = [].slice.call(start_x)
                     .map((d, i, a) => a[i + 1] - d).slice(0, -1);
                 return d3.zip(start_x, bar_width, colors);
-            }).join(enter => enter.append("rect")
-                .attr("height", scale_bar_vertical.bandwidth())
-                .attr("width", d => d[1])
-                .attr("x", d => d[0])
-                .style("fill", d => d[2]), update => update.call(u => u.transition()
-                .attr("width", d => d[1])
-                .attr("x", d => d[0])));
+            }).join(
+                enter => enter.append("rect")
+                    .attr("height", scale_bar_vertical.bandwidth())
+                    .attr("width", d => d[1])
+                    .attr("x", d => d[0])
+                    .style("fill", d => d[2]),
+                update => update.call(u => u.transition()
+                    .attr("width", d => d[1])
+                    .attr("x", d => d[0])));
+
+            // hatching of new questions
+            bar_container.selectAll("rect.overlay").data(d => [d[1]]).join(enter => enter.append("rect")
+                    .classed("overlay", true)
+                    .classed("hatch", d => d.is_new && current_data[0] && (current_data[1] || current_data[2]))
+                    .attr("transform", d => `translate(${offset_bars + scale_bar_horizontal(num_max - d.sum_negative - d.sum_neutral / 2)},0)`)
+                    .attr("height", scale_bar_vertical.bandwidth())
+                    .attr("width", d => scale_bar_horizontal(d.sum)),
+                update => update.call(u => u
+                    .classed("hatch", d => d.is_new && current_data[0] && (current_data[1] || current_data[2]))
+                    .transition()
+                    .attr("width", d => scale_bar_horizontal(d.sum))
+                    .attr("transform", d => `translate(${offset_bars + scale_bar_horizontal(num_max - d.sum_negative - d.sum_neutral / 2)},0)`)));
 
             // update text label
             bar_container.selectAll("text").data(d => [d[0]]).join("text")
