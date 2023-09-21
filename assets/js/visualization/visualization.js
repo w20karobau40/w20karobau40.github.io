@@ -35,7 +35,7 @@ async function main() {
     const main_svg = d3.select("div#karobau_viz").append("svg")
         // .attr("height", 850)
         .attr("width", "100%")
-        .attr("viewBox", `0 0 ${width_categories + width_questions} ${show_limesurvey_buttons ? 890: 850}`)
+        .attr("viewBox", `0 0 ${width_categories + width_questions} ${show_limesurvey_buttons ? 890 : 850}`)
         .attr("preserveAspectRatio", "xMidYMin meet")
         .attr("id", "karobau_viz_svg");
 
@@ -199,7 +199,9 @@ async function main() {
                     sum_negative: d3.sum(question.negative, j => a[j]),
                     sum_neutral: d3.sum(question.neutral, j => a[j]),
                     sum_positive: d3.sum(question.positive, j => a[j])
-                })); else
+                }))
+                .map(a => ({...a, sum: a.sum_negative + a.sum_neutral + a.sum_positive}));
+        else
             // count answers
             return answers_transposed.map(subquestion => values.map(v => subquestion.filter(i => i === v).length));
     }
@@ -476,7 +478,10 @@ async function main() {
         // TODO: This causes code duplication for creating the bars, but this is the quickest method to get presentable results
         // check if question has categories
         if (question.hasOwnProperty("categories")) {
-            const question_categories = question.categories;
+            const question_categories = question.categories.map(category => {
+                const filtered_values = category.values.filter(index => answers[index].sum > 0);
+                return {...category, values: filtered_values};
+            });
             // array containing true/false whether category is active and should be shown
             const is_active_category = question_categories.map((d, i) => active_question_categories[active_question].indexOf(i) > -1);
             const scales_bar_vertical = question_categories.map(d => d3.scaleBand()
@@ -566,7 +571,7 @@ async function main() {
                     .classed("hatch", false)
                     .attr("transform", d => `translate(${offset_bars + scale_bar_horizontal(num_max - d.sum_negative - d.sum_neutral / 2)},0)`)
                     .attr("height", scales_bar_vertical[0].bandwidth())
-                    .attr("width", d => scale_bar_horizontal(d.sum_negative + d.sum_neutral + d.sum_positive)),
+                    .attr("width", d => scale_bar_horizontal(d.sum)),
                 update => update.call(u => u.transition()
                     .attr("transform", d => `translate(${offset_bars + scale_bar_horizontal(num_max - d.sum_negative - d.sum_neutral / 2)},0)`)));
 
