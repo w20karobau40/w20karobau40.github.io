@@ -67,7 +67,7 @@ async function main() {
     let show_categories = false;
 
     update_categories();
-    update_question();
+    update_question(true);
 
     // if needed, add buttons for limesurvey
     const limesurvey_buttons = main_g.append(() => create_limesurvey_toggle(width_categories, 0));
@@ -257,7 +257,7 @@ async function main() {
                 // redraw tabs with new colors
                 update_tabs();
                 // redraw question
-                update_question();
+                update_question(true);
             })
             .classed("hover_shadow", true);
         // create a colored rectangle
@@ -359,7 +359,7 @@ async function main() {
                 // redraw category selection
                 update_categories();
                 // redraw question
-                update_question();
+                update_question(false);
             });
 
         // draw the smaller circles
@@ -387,7 +387,7 @@ async function main() {
                     // redraw category selection
                     update_categories();
                     // redraw question
-                    update_question();
+                    update_question(false);
                 })
                 .call(e => e.transition().attr("r", d => d.r)), update => update
                 .call(u => u.transition()
@@ -430,11 +430,11 @@ async function main() {
         });
     }
 
-    function update_question() {
+    function update_question(static_transition) {
         if (questions[active_question].type === "sentiment") {
             structure_sentiment.attr("display", null);
             structure_yesno.attr("display", "none");
-            update_sentiment_scale();
+            update_sentiment_scale(static_transition);
         } else {
             structure_sentiment.attr("display", "none");
             structure_yesno.attr("display", null);
@@ -443,7 +443,7 @@ async function main() {
         set_svg_size();
     }
 
-    function update_sentiment_scale() {
+    function update_sentiment_scale(static_transition) {
         const height_bar = 40, width_bar = 300;
         const height_category = 40;
         const offset_bars = 250;
@@ -527,7 +527,7 @@ async function main() {
                         active_question_categories[active_question].push(d[1])
                     }
                     // redraw question
-                    update_question();
+                    update_question(false);
                 });
             // update rect
             category_bar.selectAll("rect").data(d => [d[0]]).join("rect")
@@ -544,7 +544,7 @@ async function main() {
             const bar_container = category_container.selectAll("g.bar_container")
                 .data((d, i) => is_active_category[i] ? d.values.map(j => [local_data[j], i]) : [], d => `${active_question}_${d[0]}`)
                 .join(enter => enter.append("g")
-                    .attr("transform", `translate(0, ${height_bar})`))
+                    .attr("transform", (d, i) => `translate(0, ${!static_transition ? height_bar : height_bar + scales_bar_vertical[d[1]](i)})`))
                 .classed("bar_container", true)
                 .call(e => e.transition()
                     .attr("transform", (d, i) => `translate(0, ${height_bar + scales_bar_vertical[d[1]](i)})`));
@@ -606,10 +606,14 @@ async function main() {
             // remove category selectors
             root_bars.selectAll("g.question_category_container").remove();
             // update bar containers
-            const bar_container = root_bars.selectAll("g.bar_container").data(filtered_data, d => `${active_question}_${d[0]}`).join("g")
-                .classed("bar_container", true)
-                .classed("no_category", true)
-                .attr("transform", (d, i) => `translate(0, ${scale_bar_vertical(i)})`);
+            const bar_container = root_bars.selectAll("g.bar_container")
+                .data(filtered_data, d => `${active_question}_${d[0]}`)
+                .join(enter => enter.append("g")
+                        .classed("bar_container", true)
+                        .classed("no_category", true)
+                        .attr("transform", (d, i) => `translate(0, ${scale_bar_vertical(i)})`),
+                    update => update.call(u => u.transition().duration(2000)
+                        .attr("transform", (d, i) => `translate(0, ${scale_bar_vertical(i)})`)));
 
             // update individual bars
             const bar_origin = bar_container.selectAll("g.bar_origin").data(d => [d[1]]).join("g")
@@ -801,7 +805,6 @@ async function main() {
             .attr("id", "survey_toggles");
         if (!show_limesurvey_buttons) return root.node();
         // position buttons next to toggle button for mobile view
-        // TODO: Translate
         const labels = [translation.survey.old_results, translation.survey.new_results, translation.survey.conference];
         if (media_query.matches) pos_x += width_button;
         const tab = root.selectAll("g").data(labels).join("g")
@@ -814,7 +817,7 @@ async function main() {
                 }
                 // redraw everything
                 update_categories();
-                update_question();
+                update_question(false);
                 update_limesurvey_toggle();
             })
             .classed("hover_shadow", true);
