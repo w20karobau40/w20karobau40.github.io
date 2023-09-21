@@ -669,7 +669,7 @@ async function main() {
         const height_bar = 40, width_bar = 300;
 
         const question = questions[active_question], answers = accumulate_answers(active_question);
-        const local_data = d3.zip(question.subquestions, answers);
+        const local_data = d3.zip(question.subquestions, answers).filter(x => x[1][0] + x[1][1] > 0);
         const num_questions = local_data.length, num_answers = d3.max(answers, d => d[0] + d[1]);
 
         const scale_bar_horizontal = d3.scaleLinear()
