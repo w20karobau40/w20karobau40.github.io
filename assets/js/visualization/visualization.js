@@ -362,6 +362,22 @@ async function main() {
                 update_question(false);
             });
 
+        let smallcircle_onclick = function (d) {
+            let category = d.data.category, subcategory = d.data.subcategory;
+            // handling changing categories
+            let index = active_categories[category].indexOf(subcategory);
+            if (index > -1) {
+                // category.subcategory is currently active, remove from array
+                active_categories[category].splice(index, 1);
+            } else {
+                // category.subcategory is currently inactive, add to array
+                active_categories[category].push(subcategory);
+            }
+            // redraw category selection
+            update_categories();
+            // redraw question
+            update_question(false);
+        };
         // draw the smaller circles
         // the big circle has depth 0, each child (and therefore the smaller ones) has depth 1 in the hierarchy
         bigcircle_origin
@@ -373,22 +389,7 @@ async function main() {
                 .attr("cx", d => d.x)
                 .attr("cy", d => d.y)
                 .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[d.data.category](i) : colors_disabled[d.data.category](i))
-                .on("click", function (d) {
-                    let category = d.data.category, subcategory = d.data.subcategory;
-                    // handling changing categories
-                    let index = active_categories[category].indexOf(subcategory);
-                    if (index > -1) {
-                        // category.subcategory is currently active, remove from array
-                        active_categories[category].splice(index, 1);
-                    } else {
-                        // category.subcategory is currently inactive, add to array
-                        active_categories[category].push(subcategory);
-                    }
-                    // redraw category selection
-                    update_categories();
-                    // redraw question
-                    update_question(false);
-                })
+                .on("click", smallcircle_onclick)
                 .call(e => e.transition().attr("r", d => d.r)), update => update
                 .call(u => u.transition()
                     .attr("r", d => d.r)
@@ -400,7 +401,8 @@ async function main() {
         bigcircle_origin.selectAll("g.legend").data(d => d.descendants().filter(x => x.depth === 1), d => `${d.data.category}_${d.data.subcategory}`).join(function (enter) {
             const origin = enter.append("g")
                 .classed("legend", true)
-                .attr("transform", (d, i, a) => `translate(${scale_bigcircle.bandwidth() + 25}, ${scale_bigcircle.bandwidth() / 2 - 15 * a.length + 10 + 30 * i})`);
+                .attr("transform", (d, i, a) => `translate(${scale_bigcircle.bandwidth() + 25}, ${scale_bigcircle.bandwidth() / 2 - 15 * a.length + 10 + 30 * i})`)
+                .on("click", smallcircle_onclick);
 
             // add small colored square
             origin.append("rect")
