@@ -2,6 +2,7 @@ import base64
 import json
 import os
 import re
+import random
 import time
 from typing import List, Dict, Optional
 
@@ -13,29 +14,6 @@ URL = ""
 SESSION_KEY = ""
 USERNAME = ""
 PASSWORD = ""
-#
-
-
-def levenshtein_distance(s1: str, s2: str) -> int:
-    if s1 == s2:
-        return 0
-    # https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Python
-    if len(s1) < len(s2):
-        return levenshtein_distance(s2, s1)
-    # len(s1) >= len(s2)
-    if len(s2) == 0:
-        return len(s1)
-
-    previous_row = range(len(s2) + 1)
-    for i, c1 in enumerate(s1):
-        current_row = [i + 1]
-        for j, c2 in enumerate(s2):
-            insertions = previous_row[j + 1] + 1  # j+1 instead of j since previous_row and current_row are one character longer
-            deletions = current_row[j] + 1  # than s2
-            substitutions = previous_row[j] + (c1 != c2)
-            current_row.append(min(insertions, deletions, substitutions))
-        previous_row = current_row
-    return previous_row[-1]
 
 
 def call_method(method: str, params: list, id_: int = 1) -> dict:
@@ -161,12 +139,12 @@ def get_questions_with_answers(survey_id):
 
 
 @logger.catch(reraise=True)
-def convert_limesurvey(data: dict, survey_id: int):
+def convert_limesurvey(data: dict, survey_id: int, debug: bool = False):
     try:
-        with open('question_and_answers.json') as file:
+        with open(f'question_and_answers_{survey_id}.json') as file:
             question_and_answers = json.load(file)
     except:
-        with open('question_and_answers.json', 'w') as file:
+        with open(f'question_and_answers_{survey_id}.json', 'w') as file:
             question_and_answers = get_questions_with_answers(survey_id)
             json.dump(question_and_answers, file)
     questions = []
@@ -185,28 +163,53 @@ def convert_limesurvey(data: dict, survey_id: int):
     for answer in data['responses']:
         current_answer = next(a for a in answer.values())
         # skip sample answer
-        if current_answer['id'] == '1':
+        if current_answer['id'] == '1' or not current_answer['id']:
             continue
         current_result = {'categories': [], 'questions': []}
         for code in structure['categories']:
-            answercode = current_answer[code]
-            index, opt_code = min(enumerate(answeroptions[code]), key=lambda t: levenshtein_distance(t[1]['code'], answercode))
-            if levenshtein_distance(opt_code['code'], answercode) < 2:
-                current_result['categories'].append(index)
-            else:
+            if code not in current_answer:
                 current_result['categories'].append(-1)
+                continue
+            answercode = current_answer[code]
+            index = next((i for i, c in enumerate(answeroptions[code]) if c['code'] == answercode), -1)
+            current_result['categories'].append(index)
         for question in structure['questions']:
             current_question = []
             for code in question:
-                answercode = current_answer[code]
-                index, opt_code = min(enumerate(answeroptions[code]), key=lambda t: levenshtein_distance(t[1]['code'], answercode))
-                if levenshtein_distance(opt_code['code'], answercode) < 2:
-                    current_question.append(index)
-                else:
+                if code not in current_answer:
                     current_question.append(-1)
+                    continue
+                answercode = current_answer[code]
+                index = next((i for i, c in enumerate(answeroptions[code]) if c['code'] == answercode), -1)
+                current_question.append(index)
             current_result['questions'].append(current_question)
 
         result.append(current_result)
+    if debug and not result:
+        logger.debug("Could not find any valid answers for survey {}, generating some random answers", survey_id)
+        # fixed seed so that we don't spam the git history
+        random.seed(survey_id)
+        for _ in range(30):
+            current_result = {'categories': [], 'questions': []}
+            for code in structure['categories']:
+                index = random.randrange(len(answeroptions[code]))
+                # 5% chance that user did not answer this specific question
+                if random.random() > 0.05:
+                    current_result['categories'].append(index)
+                else:
+                    current_result['categories'].append(-1)
+            for question in structure['questions']:
+                current_question = []
+                for code in question:
+                    index = random.randrange(len(answeroptions[code]))
+                    # 3% chance that user did not answer this specific question
+                    if random.random() > 0.03:
+                        current_question.append(index)
+                    else:
+                        current_question.append(-1)
+                current_result['questions'].append(current_question)
+            result.append(current_result)
+
     return result
 
 
@@ -245,21 +248,40 @@ def setup_args():
     SESSION_KEY = get_session_key()
 
 
-def main():
+def download_multiple(survey_ids: list[int], debug: bool = False):
     setup_args()
-    survey_id = 197925
-    with open('question_and_answers.json', 'w') as file:
-        json.dump(get_questions_with_answers(survey_id), file)
-
-
-def new_main():
-    setup_args()
-    survey_id = 197925
-    data = export_responses(survey_id, 'json')
-    answers_string = str(convert_limesurvey(data, survey_id)).replace("'categories'", "categories").replace("'questions'", "questions")
     with open('limesurvey_data.js', 'w') as file:
-        file.write(f"export const limesurvey_answers = {answers_string};")
+        file.write("export const limesurvey_answers = {\n")
+        for survey_id in survey_ids:
+            responses = export_responses(survey_id, 'json')
+            data = convert_limesurvey(responses, survey_id, debug)
+            answers = re.sub(r"'(\w+)'", r"\1", str(data))
+            file.write(f"    {survey_id}: {answers},\n")
+            logger.debug("Successfully exported limesurvey data for survey {}", survey_id)
+        file.write("};")
+    logger.info("Successfully exported limesurvey data")
+
+
+def detect_repo():
+    """
+    Detects if it is run via GitHub action, and checks repo owner
+    :return: 0 if not GitHub, 1 if any GitHub repo, 2 if main GitHub repo
+    """
+    env = os.getenv("GITHUB_REPOSITORY_OWNER")
+    logger.debug("Github repository owner: {}", env)
+    if env is None:
+        return 0
+    if env.strip().lower() == "w20karobau40":
+        return 2
+    return 1
 
 
 if __name__ == '__main__':
-    new_main()
+    repo_status = detect_repo()
+    if repo_status == 0:
+        download_multiple([197925, 765683, 616349], debug=True)
+    elif repo_status == 1:
+        # TODO: Set debug to false
+        download_multiple([197925, 765683, 616349], debug=True)
+    elif repo_status == 2:
+        download_multiple([197925], debug=False)

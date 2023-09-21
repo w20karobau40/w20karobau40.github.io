@@ -47,9 +47,25 @@ rect.question_category {
 }
 
 rect.category_toggle {
-    fill: papayawhip;
+  fill: papayawhip;
+}
+
+rect.survey_toggle.active {
+  fill: moccasin;
+}
+
+rect.survey_toggle.inactive {
+  fill: papayawhip;
 }
 
 svg text.header {
     font-size: 18px;
+}
+
+rect.overlay.hatch {
+  fill: url(#simple_hatch);
+}
+
+rect.overlay:not(.hatch) {
+  fill: none;
 }

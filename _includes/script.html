@@ -1,3 +1,5 @@
+---
+---
 <!--  Scripts-->
 <script src="{{ "/assets/lib/jquery/jquery.min.js" | prepend: site.baseurl_root }}"></script>
 <script src="{{ "/assets/lib/materialize/js/materialize.min.js" | prepend: site.baseurl_root }}"></script>
@@ -8,7 +10,8 @@
 <script src="{{ "/assets/shariff/shariff.min.js" | prepend: site.baseurl_root }}"></script>
 
 <script>
-  var jekyll_lang = "{{ site.lang }}";
+  const jekyll_lang = "{{ site.lang }}";
+  const translation = {{ site.translations[site.lang].javascript | jsonify }};
 </script>
 
 {% for js in page.jsarr %}

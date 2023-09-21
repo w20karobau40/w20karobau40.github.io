@@ -21,9 +21,10 @@
           {% for lang in site.languageNames %}
           {% unless lang[0] == site.lang %}
           {% if page.namespace %}
-          <li><a href="{% tl {{ page.namespace }} {{ lang[0] }} %}">{{ lang[1] }}</a></li>
+          <!-- TODO: move padding left to last element before lang toggle as padding right, in case of 3 languages -->
+          <li><a href="{% tl {{ page.namespace }} {{ lang[0] }} %}" style="padding-left: 45px">{{ lang[1] }}</a></li>
           {% else %}
-          <li><a href="{{ site.baseurl_root }}/{{ lang[0] }}/">{{ lang[1] }}</a></li>
+          <li><a href="{{ site.baseurl_root }}/{{ lang[0] }}/" style="padding-left: 45px">{{ lang[1] }}</a></li>
           {% endif %}
           {% endunless %}
           {% endfor %}
@@ -62,6 +63,9 @@
       {% endif %}
 	  <li><a target="_blank" rel="noopener noreferrer" href="{% t survey %}">{% t titles.survey %}</a></li>
     <!-- language toggle -->
+    <li>
+      <div class="divider"></div>
+    </li>
     {% for lang in site.languageNames %}
     {% unless lang[0] == site.lang %}
     {% if page.namespace %}
