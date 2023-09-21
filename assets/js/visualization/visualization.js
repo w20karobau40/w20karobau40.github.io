@@ -445,7 +445,8 @@ async function main() {
 
         const question = questions[active_question], answers = accumulate_answers(active_question);
         const local_data = d3.zip(question.subquestions, answers);
-        const num_questions = local_data.length, num_values = question.values.length;
+        const filtered_data = local_data.filter(x => x[1].sum > 0);
+        const num_questions = filtered_data.length, num_values = question.values.length;
 
         // colors
         const color_very_negative = "#5f9ed1", color_slightly_negative = "#a2c8ec", color_neutral = "#cfcfcf",
@@ -596,7 +597,7 @@ async function main() {
             // remove category selectors
             root_bars.selectAll("g.question_category_container").remove();
             // update bar containers
-            const bar_container = root_bars.selectAll("g.bar_container").data(local_data, d => `${active_question}_${d[0]}`).join("g")
+            const bar_container = root_bars.selectAll("g.bar_container").data(filtered_data, d => `${active_question}_${d[0]}`).join("g")
                 .classed("bar_container", true)
                 .classed("no_category", true)
                 .attr("transform", (d, i) => `translate(0, ${scale_bar_vertical(i)})`);
