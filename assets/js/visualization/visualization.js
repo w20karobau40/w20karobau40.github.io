@@ -614,7 +614,7 @@ async function main() {
                         .classed("bar_container", true)
                         .classed("no_category", true)
                         .attr("transform", (d, i) => `translate(0, ${scale_bar_vertical(i)})`),
-                    update => update.call(u => u.transition().duration(2000)
+                    update => update.call(u => u.transition()
                         .attr("transform", (d, i) => `translate(0, ${scale_bar_vertical(i)})`)));
 
             // update individual bars
