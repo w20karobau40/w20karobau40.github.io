@@ -55,6 +55,12 @@ jobs:
     # keep this scheduled action alive. A commit every 60 days is required.
     # This adds a dummy commit if there has been no activity for 50 days
     - uses: gautamkrishnar/keepalive-workflow@v1
+
+  debug:
+    runs-on: ubuntu-latest
+    needs: fetch
+    steps:
+      - run: echo ${{ needs.fetch.outputs.changes }}
     
   # Build job
   build:
