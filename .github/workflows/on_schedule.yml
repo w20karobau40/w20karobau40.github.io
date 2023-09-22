@@ -43,7 +43,7 @@ jobs:
     - name: Auto committing limesurvey results
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        repository: 'assets/js'
+        file_pattern: 'assets/js/*.js'
         commit_message: "Github Action: Auto Limesurvey results"
         branch: ${{ github.ref }}
     # keep this scheduled action alive. A commit every 60 days is required.
