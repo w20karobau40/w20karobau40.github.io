@@ -10,6 +10,10 @@ name: OnSchedule
 on:
   schedule:
     - cron: '30 5-17/2 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      manual_trigger:
+        description: 'Manually trigger the workflow'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -37,13 +41,13 @@ jobs:
         LIMESURVEY_USERNAME: ${{ secrets.LIMESURVEY_USERNAME }}
       run: |
         python get_limesurvey_results.py
-        mv limesurvey_data.js ../assets/js/visualization/limesurvey_data.js
+        mv -v limesurvey_data.js ../assets/js/visualization/limesurvey_data.js
 
     # Auto commits files to the repository
     - name: Auto committing limesurvey results
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        file_pattern: 'assets/js/*.js'
+        file_pattern: 'assets/*.js python/*.json'
         commit_message: "Github Action: Auto Limesurvey results"
         branch: ${{ github.ref }}
     # keep this scheduled action alive. A commit every 60 days is required.

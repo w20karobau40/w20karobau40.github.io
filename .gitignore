@@ -327,3 +327,4 @@ SESSION_KEY
 python/*.json
 python/*.js
 *.ps1
+!python/question_and_answers*.json
