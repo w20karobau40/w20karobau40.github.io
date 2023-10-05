@@ -59,7 +59,7 @@ export const questions = [{
     type: "yesno",
     values: ["not quoted", "quoted"],
     subquestions: ["R&D cooperation", "Cross-industry exchange of experience", "Public funding of R&D efforts", "Exchange with industry members at\nconferences and workshops", "Regular training courses", "Support from external\nconsulting companies", "Software service providers\nfor data evaluation"],
-    label: "Support needs"
+    label: "Utilized Support"
 }, {
     question: "In addition to the existing offerings, we are interested in other support options you may need to successfully\naddress the future issues facing automotive body shop.\n\nWhat other support options does your company need in order to successfully address\nthe future issues of automotive body shop?",
     type: "sentiment",
