@@ -6,11 +6,12 @@ async function main() {
     const ls_new_id = 765683;
     const ls_autoform_id = 616349;
     const old_answers = answers.concat(limesurvey_answers[ls_old_id] || []);
-    const new_answers = limesurvey_answers[ls_new_id] || [];
-    const conference_answers = limesurvey_answers[ls_autoform_id] || [];
+    const new_answers = mode > 2 ? (limesurvey_answers[ls_new_id] || []) : [];
+    const conference_answers = mode > 1 ? (limesurvey_answers[ls_autoform_id] || []) : [];
     const new_questions_highlight = {0: [8], 1: [], 2: [], 3: [], 4: [11, 12]};
     // enable buttons when ready
     const show_limesurvey_buttons = new_answers.length > 0 || conference_answers.length > 0;
+    const visible_limesurvey_buttons = [true, mode === 3, mode > 1];
     // indices: old, new, conference
     let current_data = [true, false, false];
 
@@ -362,6 +363,15 @@ async function main() {
                 update_question(false);
             });
 
+        if (mode === 3) {
+            // add numbers in secret detail overview
+            bigcircle_origin.selectAll("text.detail_label").data(d => [d.value]).join("text")
+                .text(d => d)
+                .attr("x", size_bigcircle - 20)
+                .attr("y", "1em")
+                .classed("detail_label", true);
+        }
+
         let smallcircle_onclick = function (d) {
             let category = d.data.category, subcategory = d.data.subcategory;
             // handling changing categories
@@ -384,18 +394,21 @@ async function main() {
             .selectAll("circle.smallcircle")
             .data(d => d.descendants().filter(x => x.depth === 1), d => `${d.data.category}_${d.data.subcategory}`)
             .join(enter => enter.append("circle")
-                .classed("smallcircle", true)
-                .classed("hover_shadow", true)
-                .attr("cx", d => d.x)
-                .attr("cy", d => d.y)
-                .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[d.data.category](i) : colors_disabled[d.data.category](i))
-                .on("click", smallcircle_onclick)
-                .call(e => e.transition().attr("r", d => d.r)), update => update
-                .call(u => u.transition()
-                    .attr("r", d => d.r)
+                    .classed("smallcircle", true)
+                    .classed("hover_shadow", true)
                     .attr("cx", d => d.x)
                     .attr("cy", d => d.y)
-                    .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[d.data.category](i) : colors_disabled[d.data.category](i))), exit => exit.call(e => e.transition().attr("r", 0).remove()));
+                    .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[d.data.category](i) : colors_disabled[d.data.category](i))
+                    .on("click", smallcircle_onclick)
+                    .call(e => e.transition().attr("r", d => d.r)), update => update
+                    .call(u => u.transition()
+                        .attr("r", d => d.r)
+                        .attr("cx", d => d.x)
+                        .attr("cy", d => d.y)
+                        .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[d.data.category](i) : colors_disabled[d.data.category](i))),
+                exit => exit.call(e => e.transition().attr("r", 0).remove()));
+
+
 
         // origins for legend, using the same data as for the smaller circles
         bigcircle_origin.selectAll("g.legend").data(d => d.descendants().filter(x => x.depth === 1), d => `${d.data.category}_${d.data.subcategory}`).join(function (enter) {
@@ -412,7 +425,7 @@ async function main() {
 
             // add label
             origin.append("text")
-                .text(d => d.data.name)
+                .text(d => mode === 3 ? `(${d.value}) ${d.data.name}` : d.data.name)
                 .attr("x", 15)
                 .attr("y", 5)
                 .attr("dominant-baseline", "central")
@@ -427,7 +440,9 @@ async function main() {
             update.transition()
                 .attr("transform", (d, i, a) => `translate(${scale_bigcircle.bandwidth() + 25}, ${scale_bigcircle.bandwidth() / 2 - 15 * a.length + 10 + 30 * i})`);
             // update text emphasis
-            update.select("text").classed("category_active", d => is_active(d.data.category, d.data.subcategory));
+            update.select("text")
+                .text(d => mode === 3 ? `(${d.value}) ${d.data.name}` : d.data.name)
+                .classed("category_active", d => is_active(d.data.category, d.data.subcategory));
             return update;
         });
     }
@@ -809,13 +824,19 @@ async function main() {
         // position buttons next to toggle button for mobile view
         const labels = [translation.survey.old_results, translation.survey.new_results, translation.survey.conference];
         if (media_query.matches) pos_x += width_button;
-        const tab = root.selectAll("g").data(labels).join("g")
+        const zipped_data = d3.zip(labels, visible_limesurvey_buttons, d3.range(0, 3)).filter(d => d[1]);
+        const visible_data = zipped_data.map(d => current_data[d[2]]);
+        if (visible_data.length < 2) return root.node();
+        const tab = root.selectAll("g")
+            .data(zipped_data)
+            .join("g")
             .attr("transform", (d, i) => `translate(${i * width_button}, 0)`)
-            .on("click", function (d, i) {
-                current_data[i] = !current_data[i];
+            .on("click", function (d) {
+                const index = d[2];
+                current_data[index] = !current_data[index];
                 // keep at least one dataset
                 if (current_data.every(x => x === false)) {
-                    current_data[i] = true;
+                    current_data[index] = true;
                 }
                 // redraw everything
                 update_categories();
@@ -827,14 +848,14 @@ async function main() {
         tab.append("rect")
             .attr("width", width_button)
             .attr("height", height_button)
-            .attr("class", (d, i) => current_data[i] ? "survey_toggle active" : "survey_toggle inactive");
+            .attr("class", d => current_data[d[2]] ? "survey_toggle active" : "survey_toggle inactive");
         // add text
         tab.append("text")
             .attr("x", width_button / 2)
             .attr("y", height_button / 2)
             .attr("dominant-baseline", "middle")
             .attr("text-anchor", "middle")
-            .text(d => d);
+            .text(d => d[0]);
         return root.node();
     }
 
@@ -842,7 +863,7 @@ async function main() {
         const root = main_g.select("g#survey_toggles");
         // recolor rectangles
         root.selectAll("rect.survey_toggle")
-            .attr("class", (d, i) => current_data[i] ? "survey_toggle active" : "survey_toggle inactive");
+            .attr("class", d => current_data[d[2]] ? "survey_toggle active" : "survey_toggle inactive");
     }
 
     function event_listener(query) {

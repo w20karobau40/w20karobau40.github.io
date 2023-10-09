@@ -1,12 +1,11 @@
 ---
 layout: page
 title: titles.results
-namespace: results
-permalink: /visualisierung/
-permalink_en: /results/
-nav: true
+namespace: results_details
+permalink: /visualisierung/details/
+permalink_en: /results/details/
 jsvars:
-  mode: 1
+  mode: 3
 jsarr:
 - visualization/visualization.js
 - visualization/compatibility.js

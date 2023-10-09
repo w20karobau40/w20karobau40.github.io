@@ -1,12 +1,11 @@
 ---
 layout: page
 title: titles.results
-namespace: results
-permalink: /visualisierung/
-permalink_en: /results/
-nav: true
+namespace: results_cbms
+permalink: /visualisierung/CBMS/
+permalink_en: /results/CBMS/
 jsvars:
-  mode: 1
+  mode: 2
 jsarr:
 - visualization/visualization.js
 - visualization/compatibility.js
