@@ -2,19 +2,16 @@ async function main() {
     const {categories, questions} = await import("./questions_" + jekyll_lang + ".js");
     const {answers} = await import("./answers.js");
     const {limesurvey_answers} = await import("./limesurvey_data.js");
-    const old_answers = answers.concat(limesurvey_answers);
-    // TODO: Load actual answers instead of debug values
-    const new_answers = [{
-        categories: [0, 0, 0, 0],
-        questions: [[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]]
-    }];
-    const conference_answers = [{
-        categories: [4, 2, 3, 5],
-        questions: [[0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0], [0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1], [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0], [0, 1, 0, 1, 0, 1, 0, 1], [0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0]]
-    }];
-    const {translation} = await import("./translation.js");
+    const ls_old_id = 197925;
+    const ls_new_id = 765683;
+    const ls_autoform_id = 616349;
+    const old_answers = answers.concat(limesurvey_answers[ls_old_id] || []);
+    const new_answers = mode > 2 ? (limesurvey_answers[ls_new_id] || []) : [];
+    const conference_answers = mode > 1 ? (limesurvey_answers[ls_autoform_id] || []) : [];
+    const new_questions_highlight = {0: [8], 1: [], 2: [], 3: [], 4: [11, 12]};
     // enable buttons when ready
-    const show_limesurvey_buttons = false;
+    const show_limesurvey_buttons = new_answers.length > 0 || conference_answers.length > 0;
+    const visible_limesurvey_buttons = [true, mode === 3, mode > 1];
     // indices: old, new, conference
     let current_data = [true, false, false];
 
@@ -40,9 +37,20 @@ async function main() {
     const main_svg = d3.select("div#karobau_viz").append("svg")
         // .attr("height", 850)
         .attr("width", "100%")
-        .attr("viewBox", `0 0 ${width_categories + width_questions} 850`)
+        .attr("viewBox", `0 0 ${width_categories + width_questions} ${show_limesurvey_buttons ? 890 : 850}`)
         .attr("preserveAspectRatio", "xMidYMin meet")
         .attr("id", "karobau_viz_svg");
+
+    const pattern_size = 10;
+
+    const pattern = main_svg.append("pattern")
+        .attr("id", "simple_hatch")
+        .attr("width", pattern_size)
+        .attr("height", pattern_size)
+        .attr("patternUnits", "userSpaceOnUse");
+    pattern.append("path")
+        .attr("d", `M-1,1 l2,-2 M0,${pattern_size} l${pattern_size},${-pattern_size} M${pattern_size - 1},${pattern_size + 1} l2,-2`)
+        .attr("style", "stroke:white; stroke-width:1");
 
     const main_g = main_svg.append("g")
         .classed("viz_root", true);
@@ -60,7 +68,7 @@ async function main() {
     let show_categories = false;
 
     update_categories();
-    update_question();
+    update_question(true);
 
     // if needed, add buttons for limesurvey
     const limesurvey_buttons = main_g.append(() => create_limesurvey_toggle(width_categories, 0));
@@ -91,7 +99,7 @@ async function main() {
 
         root.append("text")
             .classed("header", true)
-            .text(translation.overview[jekyll_lang])
+            .text(translation.overview)
             .attr("x", width_categories / 2)
             .attr("y", 20)
             .attr("dominant-baseline", "central")
@@ -193,7 +201,13 @@ async function main() {
                     sum_negative: d3.sum(question.negative, j => a[j]),
                     sum_neutral: d3.sum(question.neutral, j => a[j]),
                     sum_positive: d3.sum(question.positive, j => a[j])
-                })); else
+                }))
+                .map((a, index) => ({
+                    ...a,
+                    sum: a.sum_negative + a.sum_neutral + a.sum_positive,
+                    is_new: new_questions_highlight[i].indexOf(index) >= 0
+                }));
+        else
             // count answers
             return answers_transposed.map(subquestion => values.map(v => subquestion.filter(i => i === v).length));
     }
@@ -244,7 +258,7 @@ async function main() {
                 // redraw tabs with new colors
                 update_tabs();
                 // redraw question
-                update_question();
+                update_question(true);
             })
             .classed("hover_shadow", true);
         // create a colored rectangle
@@ -346,48 +360,62 @@ async function main() {
                 // redraw category selection
                 update_categories();
                 // redraw question
-                update_question();
+                update_question(false);
             });
 
+        if (mode === 3) {
+            // add numbers in secret detail overview
+            bigcircle_origin.selectAll("text.detail_label").data(d => [d.value]).join("text")
+                .text(d => d)
+                .attr("x", size_bigcircle - 20)
+                .attr("y", "1em")
+                .classed("detail_label", true);
+        }
+
+        let smallcircle_onclick = function (d) {
+            let category = d.data.category, subcategory = d.data.subcategory;
+            // handling changing categories
+            let index = active_categories[category].indexOf(subcategory);
+            if (index > -1) {
+                // category.subcategory is currently active, remove from array
+                active_categories[category].splice(index, 1);
+            } else {
+                // category.subcategory is currently inactive, add to array
+                active_categories[category].push(subcategory);
+            }
+            // redraw category selection
+            update_categories();
+            // redraw question
+            update_question(false);
+        };
         // draw the smaller circles
         // the big circle has depth 0, each child (and therefore the smaller ones) has depth 1 in the hierarchy
         bigcircle_origin
             .selectAll("circle.smallcircle")
             .data(d => d.descendants().filter(x => x.depth === 1), d => `${d.data.category}_${d.data.subcategory}`)
             .join(enter => enter.append("circle")
-                .classed("smallcircle", true)
-                .classed("hover_shadow", true)
-                .attr("cx", d => d.x)
-                .attr("cy", d => d.y)
-                .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[d.data.category](i) : colors_disabled[d.data.category](i))
-                .on("click", function (d) {
-                    let category = d.data.category, subcategory = d.data.subcategory;
-                    // handling changing categories
-                    let index = active_categories[category].indexOf(subcategory);
-                    if (index > -1) {
-                        // category.subcategory is currently active, remove from array
-                        active_categories[category].splice(index, 1);
-                    } else {
-                        // category.subcategory is currently inactive, add to array
-                        active_categories[category].push(subcategory);
-                    }
-                    // redraw category selection
-                    update_categories();
-                    // redraw question
-                    update_question();
-                })
-                .call(e => e.transition().attr("r", d => d.r)), update => update
-                .call(u => u.transition()
-                    .attr("r", d => d.r)
+                    .classed("smallcircle", true)
+                    .classed("hover_shadow", true)
                     .attr("cx", d => d.x)
                     .attr("cy", d => d.y)
-                    .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[d.data.category](i) : colors_disabled[d.data.category](i))), exit => exit.call(e => e.transition().attr("r", 0).remove()));
+                    .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[d.data.category](i) : colors_disabled[d.data.category](i))
+                    .on("click", smallcircle_onclick)
+                    .call(e => e.transition().attr("r", d => d.r)), update => update
+                    .call(u => u.transition()
+                        .attr("r", d => d.r)
+                        .attr("cx", d => d.x)
+                        .attr("cy", d => d.y)
+                        .attr("fill", (d, i) => is_active(d.data.category, d.data.subcategory) ? colors_enabled[d.data.category](i) : colors_disabled[d.data.category](i))),
+                exit => exit.call(e => e.transition().attr("r", 0).remove()));
+
+
 
         // origins for legend, using the same data as for the smaller circles
         bigcircle_origin.selectAll("g.legend").data(d => d.descendants().filter(x => x.depth === 1), d => `${d.data.category}_${d.data.subcategory}`).join(function (enter) {
             const origin = enter.append("g")
                 .classed("legend", true)
-                .attr("transform", (d, i, a) => `translate(${scale_bigcircle.bandwidth() + 25}, ${scale_bigcircle.bandwidth() / 2 - 15 * a.length + 10 + 30 * i})`);
+                .attr("transform", (d, i, a) => `translate(${scale_bigcircle.bandwidth() + 25}, ${scale_bigcircle.bandwidth() / 2 - 15 * a.length + 10 + 30 * i})`)
+                .on("click", smallcircle_onclick);
 
             // add small colored square
             origin.append("rect")
@@ -397,7 +425,7 @@ async function main() {
 
             // add label
             origin.append("text")
-                .text(d => d.data.name)
+                .text(d => mode === 3 ? `(${d.value}) ${d.data.name}` : d.data.name)
                 .attr("x", 15)
                 .attr("y", 5)
                 .attr("dominant-baseline", "central")
@@ -412,16 +440,18 @@ async function main() {
             update.transition()
                 .attr("transform", (d, i, a) => `translate(${scale_bigcircle.bandwidth() + 25}, ${scale_bigcircle.bandwidth() / 2 - 15 * a.length + 10 + 30 * i})`);
             // update text emphasis
-            update.select("text").classed("category_active", d => is_active(d.data.category, d.data.subcategory));
+            update.select("text")
+                .text(d => mode === 3 ? `(${d.value}) ${d.data.name}` : d.data.name)
+                .classed("category_active", d => is_active(d.data.category, d.data.subcategory));
             return update;
         });
     }
 
-    function update_question() {
+    function update_question(static_transition) {
         if (questions[active_question].type === "sentiment") {
             structure_sentiment.attr("display", null);
             structure_yesno.attr("display", "none");
-            update_sentiment_scale();
+            update_sentiment_scale(static_transition);
         } else {
             structure_sentiment.attr("display", "none");
             structure_yesno.attr("display", null);
@@ -430,14 +460,15 @@ async function main() {
         set_svg_size();
     }
 
-    function update_sentiment_scale() {
+    function update_sentiment_scale(static_transition) {
         const height_bar = 40, width_bar = 300;
         const height_category = 40;
         const offset_bars = 250;
 
         const question = questions[active_question], answers = accumulate_answers(active_question);
         const local_data = d3.zip(question.subquestions, answers);
-        const num_questions = local_data.length, num_values = question.values.length;
+        const filtered_data = local_data.filter(x => x[1].sum > 0);
+        const num_questions = filtered_data.length, num_values = question.values.length;
 
         // colors
         const color_very_negative = "#5f9ed1", color_slightly_negative = "#a2c8ec", color_neutral = "#cfcfcf",
@@ -470,7 +501,10 @@ async function main() {
         // TODO: This causes code duplication for creating the bars, but this is the quickest method to get presentable results
         // check if question has categories
         if (question.hasOwnProperty("categories")) {
-            const question_categories = question.categories;
+            const question_categories = question.categories.map(category => {
+                const filtered_values = category.values.filter(index => answers[index].sum > 0);
+                return {...category, values: filtered_values};
+            });
             // array containing true/false whether category is active and should be shown
             const is_active_category = question_categories.map((d, i) => active_question_categories[active_question].indexOf(i) > -1);
             const scales_bar_vertical = question_categories.map(d => d3.scaleBand()
@@ -490,10 +524,12 @@ async function main() {
             // add category container
             const category_container = root_bars.selectAll("g.question_category_container")
                 .data(question_categories, d => `${active_question}_${d.name}`)
-                .join(enter => enter.append("g")
+                .join(
+                    enter => enter.append("g")
                         .classed("question_category_container", true)
                         .attr("transform", (d, i) => `translate(0, ${vertical_offsets[i]})`),
-                    update => update.call(u => u.transition().attr("transform", (d, i) => `translate(0, ${vertical_offsets[i]})`))
+                    update => update.call(u => u.transition()
+                        .attr("transform", (d, i) => `translate(0, ${vertical_offsets[i]})`))
                 );
             // update toggleable bars
             const category_bar = category_container.selectAll("g.question_category_bar").data((d, i) => [[d, i]]).join("g")
@@ -508,7 +544,7 @@ async function main() {
                         active_question_categories[active_question].push(d[1])
                     }
                     // redraw question
-                    update_question();
+                    update_question(false);
                 });
             // update rect
             category_bar.selectAll("rect").data(d => [d[0]]).join("rect")
@@ -525,7 +561,7 @@ async function main() {
             const bar_container = category_container.selectAll("g.bar_container")
                 .data((d, i) => is_active_category[i] ? d.values.map(j => [local_data[j], i]) : [], d => `${active_question}_${d[0]}`)
                 .join(enter => enter.append("g")
-                    .attr("transform", `translate(0, ${height_bar})`))
+                    .attr("transform", (d, i) => `translate(0, ${!static_transition ? height_bar : height_bar + scales_bar_vertical[d[1]](i)})`))
                 .classed("bar_container", true)
                 .call(e => e.transition()
                     .attr("transform", (d, i) => `translate(0, ${height_bar + scales_bar_vertical[d[1]](i)})`));
@@ -544,13 +580,27 @@ async function main() {
                     .map((d, i, a) => a[i + 1] - d).slice(0, -1);
                 return d3.zip(start_x, bar_width, colors);
             }).join(enter => enter.append("rect")
-                // TODO: use correct scale, i. e. replace index 0 with current question category?
-                .attr("height", scales_bar_vertical[0].bandwidth())
-                .attr("width", d => d[1])
-                .attr("x", d => d[0])
-                .style("fill", d => d[2]), update => update.call(u => u.transition()
-                .attr("width", d => d[1])
-                .attr("x", d => d[0])));
+                    // TODO: use correct scale, i. e. replace index 0 with current question category?
+                    .attr("height", scales_bar_vertical[0].bandwidth())
+                    .attr("width", d => d[1])
+                    .attr("x", d => d[0])
+                    .style("fill", d => d[2]),
+                update => update.call(u => u.transition()
+                    .attr("width", d => d[1])
+                    .attr("x", d => d[0])));
+
+            // hatching of new questions
+            bar_container.selectAll("rect.overlay").data(d => [d[0][1]]).join(enter => enter.append("rect")
+                    .classed("overlay", true)
+                    .classed("hatch", d => d.is_new && current_data[0] && (current_data[1] || current_data[2]))
+                    .attr("transform", d => `translate(${offset_bars + scale_bar_horizontal(num_max - d.sum_negative - d.sum_neutral / 2)},0)`)
+                    .attr("height", scales_bar_vertical[0].bandwidth())
+                    .attr("width", d => scale_bar_horizontal(d.sum)),
+                update => update.call(u => u
+                    .classed("hatch", d => d.is_new && current_data[0] && (current_data[1] || current_data[2]))
+                    .transition()
+                    .attr("width", d => scale_bar_horizontal(d.sum))
+                    .attr("transform", d => `translate(${offset_bars + scale_bar_horizontal(num_max - d.sum_negative - d.sum_neutral / 2)},0)`)));
 
             // update text label
             bar_container.selectAll("text").data(d => [d[0][0]]).join("text")
@@ -573,10 +623,14 @@ async function main() {
             // remove category selectors
             root_bars.selectAll("g.question_category_container").remove();
             // update bar containers
-            const bar_container = root_bars.selectAll("g.bar_container").data(local_data, d => `${active_question}_${d[0]}`).join("g")
-                .classed("bar_container", true)
-                .classed("no_category", true)
-                .attr("transform", (d, i) => `translate(0, ${scale_bar_vertical(i)})`);
+            const bar_container = root_bars.selectAll("g.bar_container")
+                .data(filtered_data, d => `${active_question}_${d[0]}`)
+                .join(enter => enter.append("g")
+                        .classed("bar_container", true)
+                        .classed("no_category", true)
+                        .attr("transform", (d, i) => `translate(0, ${scale_bar_vertical(i)})`),
+                    update => update.call(u => u.transition()
+                        .attr("transform", (d, i) => `translate(0, ${scale_bar_vertical(i)})`)));
 
             // update individual bars
             const bar_origin = bar_container.selectAll("g.bar_origin").data(d => [d[1]]).join("g")
@@ -591,13 +645,28 @@ async function main() {
                 let bar_width = [].slice.call(start_x)
                     .map((d, i, a) => a[i + 1] - d).slice(0, -1);
                 return d3.zip(start_x, bar_width, colors);
-            }).join(enter => enter.append("rect")
-                .attr("height", scale_bar_vertical.bandwidth())
-                .attr("width", d => d[1])
-                .attr("x", d => d[0])
-                .style("fill", d => d[2]), update => update.call(u => u.transition()
-                .attr("width", d => d[1])
-                .attr("x", d => d[0])));
+            }).join(
+                enter => enter.append("rect")
+                    .attr("height", scale_bar_vertical.bandwidth())
+                    .attr("width", d => d[1])
+                    .attr("x", d => d[0])
+                    .style("fill", d => d[2]),
+                update => update.call(u => u.transition()
+                    .attr("width", d => d[1])
+                    .attr("x", d => d[0])));
+
+            // hatching of new questions
+            bar_container.selectAll("rect.overlay").data(d => [d[1]]).join(enter => enter.append("rect")
+                    .classed("overlay", true)
+                    .classed("hatch", d => d.is_new && current_data[0] && (current_data[1] || current_data[2]))
+                    .attr("transform", d => `translate(${offset_bars + scale_bar_horizontal(num_max - d.sum_negative - d.sum_neutral / 2)},0)`)
+                    .attr("height", scale_bar_vertical.bandwidth())
+                    .attr("width", d => scale_bar_horizontal(d.sum)),
+                update => update.call(u => u
+                    .classed("hatch", d => d.is_new && current_data[0] && (current_data[1] || current_data[2]))
+                    .transition()
+                    .attr("width", d => scale_bar_horizontal(d.sum))
+                    .attr("transform", d => `translate(${offset_bars + scale_bar_horizontal(num_max - d.sum_negative - d.sum_neutral / 2)},0)`)));
 
             // update text label
             bar_container.selectAll("text").data(d => [d[0]]).join("text")
@@ -645,7 +714,7 @@ async function main() {
         const height_bar = 40, width_bar = 300;
 
         const question = questions[active_question], answers = accumulate_answers(active_question);
-        const local_data = d3.zip(question.subquestions, answers);
+        const local_data = d3.zip(question.subquestions, answers).filter(x => x[1][0] + x[1][1] > 0);
         const num_questions = local_data.length, num_answers = d3.max(answers, d => d[0] + d[1]);
 
         const scale_bar_horizontal = d3.scaleLinear()
@@ -720,6 +789,7 @@ async function main() {
     function set_svg_size() {
         let required_height = Math.max(y_question + height_question, y_categories + height_categories);
         if (media_query.matches) required_height += height_button;
+        if (show_limesurvey_buttons) required_height += height_button;
         main_svg
             .attr("viewBox", `0 0 ${viewBox_width} ${required_height}`);
     }
@@ -749,38 +819,51 @@ async function main() {
     function create_limesurvey_toggle(pos_x, pos_y) {
         const root = d3.create("svg:g")
             .attr("transform", `translate(${pos_x}, ${pos_y})`)
-            .attr("id", "tabs");
+            .attr("id", "survey_toggles");
         if (!show_limesurvey_buttons) return root.node();
         // position buttons next to toggle button for mobile view
-        // TODO: Translate
-        const labels = [translation.old_results[jekyll_lang], translation.new_results[jekyll_lang], translation.conference[jekyll_lang]];
+        const labels = [translation.survey.old_results, translation.survey.new_results, translation.survey.conference];
         if (media_query.matches) pos_x += width_button;
-        const tab = root.selectAll("g").data(labels).join("g")
+        const zipped_data = d3.zip(labels, visible_limesurvey_buttons, d3.range(0, 3)).filter(d => d[1]);
+        const visible_data = zipped_data.map(d => current_data[d[2]]);
+        if (visible_data.length < 2) return root.node();
+        const tab = root.selectAll("g")
+            .data(zipped_data)
+            .join("g")
             .attr("transform", (d, i) => `translate(${i * width_button}, 0)`)
-            .on("click", function (d, i) {
-                current_data[i] = !current_data[i];
+            .on("click", function (d) {
+                const index = d[2];
+                current_data[index] = !current_data[index];
                 // keep at least one dataset
                 if (current_data.every(x => x === false)) {
-                    current_data[i] = true;
+                    current_data[index] = true;
                 }
                 // redraw everything
                 update_categories();
-                update_question();
+                update_question(false);
+                update_limesurvey_toggle();
             })
             .classed("hover_shadow", true);
         // create colored rectangle
         tab.append("rect")
             .attr("width", width_button)
             .attr("height", height_button)
-            .classed("category_toggle", true);
+            .attr("class", d => current_data[d[2]] ? "survey_toggle active" : "survey_toggle inactive");
         // add text
         tab.append("text")
             .attr("x", width_button / 2)
             .attr("y", height_button / 2)
             .attr("dominant-baseline", "middle")
             .attr("text-anchor", "middle")
-            .text(d => d);
+            .text(d => d[0]);
         return root.node();
+    }
+
+    function update_limesurvey_toggle() {
+        const root = main_g.select("g#survey_toggles");
+        // recolor rectangles
+        root.selectAll("rect.survey_toggle")
+            .attr("class", d => current_data[d[2]] ? "survey_toggle active" : "survey_toggle inactive");
     }
 
     function event_listener(query) {

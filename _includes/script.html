@@ -8,7 +8,11 @@
 <script src="{{ "/assets/shariff/shariff.min.js" | prepend: site.baseurl_root }}"></script>
 
 <script>
-  var jekyll_lang = "{{ site.lang }}";
+  const jekyll_lang = "{{ site.lang }}";
+  const translation = {{ site.translations[site.lang].javascript | jsonify }};
+  {% for vars in page.jsvars %}
+    const {{ vars[0] }} = {{ vars[1] | jsonify}};
+  {% endfor %}
 </script>
 
 {% for js in page.jsarr %}
