@@ -281,7 +281,6 @@ if __name__ == '__main__':
     if repo_status == 0:
         download_multiple([197925, 765683, 616349], debug=True)
     elif repo_status == 1:
-        # TODO: Set debug to false
-        download_multiple([197925, 765683, 616349], debug=True)
+        download_multiple([197925, 765683, 616349], debug=False)
     elif repo_status == 2:
-        download_multiple([197925], debug=False)
+        download_multiple([197925, 765683, 616349], debug=False)

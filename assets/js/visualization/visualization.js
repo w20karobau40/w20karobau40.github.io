@@ -156,7 +156,7 @@ async function main() {
 
         // create axis label
         root_bars.append("text")
-            .text("Zustimmung in Prozent")
+            .text(translation.agreement)
             .classed("axis_label", true)
             .attr("dominant-baseline", "hanging")
             .attr("text-anchor", "middle");
