@@ -2,16 +2,12 @@
 
 name: OnSchedule
 
-# Examples for different schedules (all times in UTC)
-# every sunday at 20:00             '0 20 * * 0'
-# every day at midnight             '0 0 * * *'
-# every 2 hours during work hours   '30 5-17/2 * * 1-5'
-# every 5 minutes during CBMS       '*/5 4-20 15,16 10 *'
-# there may be some delays due to availability of github runners
+# all times are in UTC
 on:
   schedule:
-    - cron: '30 5-17/2 * * 1-5'
-    - cron: '*/5 4-20 15,16 10 *'
+    - cron: '0 20 * * 0'              # every sunday at 20:00
+    # - cron: '30 5-17/2 * * 1-5'     # every 2 hours during work hours
+    # - cron: '*/5 4-20 15,16 10 *'   # every 5 minutes during CBMS
   workflow_dispatch:
     inputs:
       manual_trigger:
