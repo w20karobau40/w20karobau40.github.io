@@ -6,12 +6,12 @@ async function main() {
     const ls_new_id = 765683;
     const ls_autoform_id = 616349;
     const old_answers = answers.concat(limesurvey_answers[ls_old_id] || []);
-    const new_answers = mode > 2 ? (limesurvey_answers[ls_new_id] || []) : [];
+    const new_answers = mode > 2 ? (limesurvey_answers[ls_new_id] || []) : (mode === 1 ? [...limesurvey_answers[ls_new_id], ...limesurvey_answers[ls_autoform_id]] : []);
     const conference_answers = mode > 1 ? (limesurvey_answers[ls_autoform_id] || []) : [];
     const new_questions_highlight = {0: [8], 1: [], 2: [], 3: [], 4: [11, 12]};
     // enable buttons when ready
     const show_limesurvey_buttons = new_answers.length > 0 || conference_answers.length > 0;
-    const visible_limesurvey_buttons = [true, mode === 3, mode > 1];
+    const visible_limesurvey_buttons = [true, mode === 1 || mode === 3, mode > 1];
     // indices: old, new, conference
     let current_data = [true, false, false];
 
