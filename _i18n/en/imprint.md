@@ -29,11 +29,11 @@ Registration no. VR 4461
 
 #### Executive board
 
-Prof. Holger Hanselka | President  
-Prof. Axel Müller-Groeling | Member of the executive board  
-Elisabeth Ewen | Member of the executive board  
-Dr. Sandra Krey | Member of the executive board  
-
+Prof. Dr.-Ing. Holger Hanselka | President  
+Ass. jur. Elisabeth Ewen | Member of the executive board
+Prof. Dr. Constantin Häfner | Member of the executive board
+Dr. Sandra Krey | Member of the executive board
+Prof. Dr. Axel Müller-Groeling | MMember of the executive board
 
 #### Usage rights
 
